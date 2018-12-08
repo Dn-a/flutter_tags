@@ -1,5 +1,5 @@
 name: flutter_tags
-description: An implementation of Selectable or Input tags.
+description: Flutter tags allows you to create a list of selectable tags, or to insert tags dynamically via input.
 version: 0.1.0
 author: Antonino Di Natale <gyorgio88@gmail.com>
 homepage: https://github.com/Dn-a/flutter_tags
