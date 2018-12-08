@@ -15,11 +15,12 @@ dependencies:
 
 
 ## Selectable Tags
-
+Simple Usage
 ```
     import 'package:flutter_tags/flutter_tags.dart';
     .
     .
+    //Widget
     SelectableTags(
         tags: <Tag>[
             Tag(
@@ -52,8 +53,6 @@ DEMO
 Work in Progress...
 
 
-## Flutter
+## Issues
+If you encounter problems, open an issue. Pull request are also welcome.
 
-For help getting started with Flutter, view our online [documentation](https://flutter.io/).
-
-For help on editing package code, view the [documentation](https://flutter.io/developing-packages/).
