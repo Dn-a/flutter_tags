@@ -45,7 +45,7 @@ Simple Usage
 
 
 DEMO
-![Demo 1](https://github.com/Dn-a/flutter_tags/)
+![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example.gif)
 
 
 ## Input Tags
