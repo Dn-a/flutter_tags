@@ -55,7 +55,7 @@ class _SelectableTagsState extends State<SelectableTags>
     List<Tag> _tags = [];
 
     double _width = 20;
-    int _margin = null;
+    int _margin;
 
 
     @override
@@ -104,15 +104,19 @@ class _SelectableTagsState extends State<SelectableTags>
         int columns = widget.columns;
 
         int tagsLength = _tags.length;
-        int rowsLength = _rowsLength(tagsLength: tagsLength);
+        int rowsLength = (tagsLength/widget.columns).ceil();
         double factor = 9*(widget.fontSize/14);
         double width = _width - columns *(_margin ?? 10);
 
-        var start = 0;
+        int start = 0;
+        bool overflow;
+
         for(int i=0 ; i < rowsLength ; i++){
 
             List<Widget> row = [];
             int charsLenght = 0 ;
+
+            overflow = false;
 
             int end = start + columns;
 
@@ -121,9 +125,9 @@ class _SelectableTagsState extends State<SelectableTags>
             int column = 1;
             if(!widget.symmetry){
                 for(int j=start  ; j < end ; j++ ){
-                    charsLenght += _tags[j].length;
+                    charsLenght += _tags[j%tagsLength].length;
                     double a = charsLenght * factor;
-                    if(a>width) break;
+                    if(j>start && a>width) break;
                     column++;
                 }
                 charsLenght = 0;
@@ -132,21 +136,20 @@ class _SelectableTagsState extends State<SelectableTags>
             for(int j=start  ; j < end ; j++ ){
 
                 if(!widget.symmetry){
-                    charsLenght += _tags[j].length;
+                    charsLenght += _tags[j%tagsLength].length;
                     double a = charsLenght * factor;
-                    start = j;
-                    if(a>width && !widget.symmetry){
-                        tagsLength+=columns-column;
-                        //print(tagsLength);
-                        rowsLength = _rowsLength(tagsLength: tagsLength);
+                    if( j>start && a>width ){
+                        start = j;
+                        overflow = true;
+                        rowsLength +=1;
                         break;
                     }
                 }
-
-                start = j+1;
                 row.add( _buildField( index: j%tagsLength, row: i, column: column ) );
             }
 
+            // Check overflow width
+            if(!overflow) start = end;
 
             rows.add(
                 Row(
@@ -171,7 +174,7 @@ class _SelectableTagsState extends State<SelectableTags>
                 child: Container(
                     margin: widget.margin ?? EdgeInsets.symmetric(horizontal:5.0,vertical:5.0),
                     width: (widget.symmetry)? _widthCalc( row: row ) : null,
-                    height: widget.heigth ?? 34.0,
+                    height: widget.heigth ?? 34.0*(widget.fontSize/14),
                     padding: EdgeInsets.all(0.0),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(widget.borderRadius ?? 50.0),
@@ -183,7 +186,9 @@ class _SelectableTagsState extends State<SelectableTags>
                         highlightedBorderColor: Colors.transparent,
                         disabledTextColor: Colors.red,
                         borderSide: BorderSide(color: (widget.activeColor ?? Colors.green)),
-                        child: Text(
+                        child: (tag.icon!=null)?
+                        Icon(tag.icon,size: widget.fontSize,color: tag.active? (widget.textActiveColor ?? Colors.white) : (widget.textColor ?? Colors.black),):
+                        Text(
                             tag.title,
                             maxLines: widget.maxLines ?? 1,
                             overflow: widget.textOverflow ?? TextOverflow.fade,
@@ -208,12 +213,6 @@ class _SelectableTagsState extends State<SelectableTags>
     }
 
 
-    int _rowsLength({int tagsLength})
-    {
-        return (tagsLength/widget.columns).ceil();
-    }
-
-
     double _widthCalc({int row})
     {
         int columns = widget.columns;
@@ -228,7 +227,6 @@ class _SelectableTagsState extends State<SelectableTags>
     }
 
 }
-
 
 
 class Tag
@@ -247,7 +245,7 @@ class Tag
     @override
     String toString()
     {
-        return 'id: ${id};\ntitle: ${title};\nactive: ${active};\ncharsLength: ${length}' ;
+        return '<TAG>\n id: ${id};\n title: ${title};\n active: ${active};\n charsLength: ${length}\n<>' ;
     }
 
 }
