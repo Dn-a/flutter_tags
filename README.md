@@ -7,15 +7,18 @@ An implementation of Selectable or Input tags.
 
 
 ## In your pubspec.yaml
-
 ```
 dependencies:
   flutter_tags: "^0.1.0"
 ```
 
 
-## Selectable Tags
-Simple Usage
+##DEMO
+![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example.gif)
+
+
+## Simple Usage
+Selectable Tags
 ```
     import 'package:flutter_tags/flutter_tags.dart';
     .
@@ -43,14 +46,10 @@ Simple Usage
     )
 ```
 
-
-DEMO
-![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example.gif)
-
-
-## Input Tags
-
+Selectable Tags
+```
 Work in Progress...
+```
 
 
 ## Issues
