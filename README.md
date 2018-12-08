@@ -44,7 +44,6 @@ dependencies:
 
 
 DEMO
----
 ![Demo 1](https://github.com/Dn-a/flutter_tags/)
 
 
@@ -53,6 +52,7 @@ DEMO
 Work in Progress...
 
 
+## Flutter
 
 For help getting started with Flutter, view our online [documentation](https://flutter.io/).
 
