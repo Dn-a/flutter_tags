@@ -46,7 +46,7 @@ Selectable Tags
     )
 ```
 
-Selectable Tags
+Input Tags
 ```
 Work in Progress...
 ```
