@@ -8,7 +8,7 @@ class SelectableTags extends StatefulWidget{
     SelectableTags({
                        @required this.tags,
                        this.columns = 4,
-                       this.heigth,
+                       this.height,
                        this.borderRadius,
                        this.symmetry = false,
                        this.margin,
@@ -26,7 +26,7 @@ class SelectableTags extends StatefulWidget{
 
     final List<Tag> tags;
     final int columns;
-    final double heigth;
+    final double height;
     final double borderRadius;
     final bool symmetry;
     final EdgeInsets margin;
@@ -174,7 +174,7 @@ class _SelectableTagsState extends State<SelectableTags>
                 child: Container(
                     margin: widget.margin ?? EdgeInsets.symmetric(horizontal:5.0,vertical:5.0),
                     width: (widget.symmetry)? _widthCalc( row: row ) : null,
-                    height: widget.heigth ?? 34.0*(widget.fontSize/14),
+                    height: widget.height ?? 34.0*(widget.fontSize/14),
                     padding: EdgeInsets.all(0.0),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(widget.borderRadius ?? 50.0),
