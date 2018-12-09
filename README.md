@@ -3,7 +3,8 @@
 [![pub package](https://img.shields.io/badge/pub-0.1.0-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
 
-Flutter tags let you create a list of selectable tags or tag dynamically with input.
+
+Flutter tags let you create a list of tags or insert them dynamically with the input.
 
 
 ## Install
@@ -30,7 +31,7 @@ Tag(
 )
 ```
 
-### Simple usage (Selectable Tags)
+### Simple usage
 ```
 import 'package:flutter_tags/flutter_selectable_tags.dart';
 
@@ -59,7 +60,7 @@ SelectableTags(
     },
 )
 ```
-### All parameters (Selectable Tags)
+### All parameters
 * tags - *List<Tag>*
 * columns - *max columns (default 4)*
 * height - *custom height of Tag (default auto-resize)*
