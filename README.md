@@ -7,7 +7,7 @@
 Flutter tags let you create a list of tags or insert them dynamically with the input.
 
 
-## Install
+## Installing
 Add this to your package's pubspec.yaml file:
 ```
 dependencies:
@@ -34,21 +34,32 @@ Tag(
 ### Simple usage
 ```
 import 'package:flutter_tags/flutter_selectable_tags.dart';
+.
+.
+.
 
-// List of tag class 
-List<Tag> _tags=[
-    Tag(
-        id: 1,
-        icon: Icon.home,
-        title: 'home', 
-        active: true,
-    ),
-    Tag(
-        id: 2,
-        title: 'Some tag', 
-        active: false,
-    ),
-];
+List<Tag> _tags=[];
+
+@override
+void initState()
+{
+    super.initState();
+    
+    // if you store data on a local database (sqflite), then you could do something like this
+    Model().getItems.then((items){
+        items.forEach((item) =>
+            _tags.add(
+                Tag(
+                    title: item.title, 
+                    active: item.active,
+                    icon: item.icon 
+                )
+            )
+        );  
+    });
+    
+}
+
 
 //Widget
 SelectableTags(
@@ -59,6 +70,17 @@ SelectableTags(
         print(tag);
     },
 )
+
+void _getActiveTags()
+{
+    _tags.where((tag) => tag.active).forEach((tag) => print(tag.title));
+}
+
+void _getDisableTags()
+{
+    _tags.where((tag) => !tag.active).forEach((tag) => print(tag.title));
+}
+
 ```
 ### All parameters
 * tags - *List<Tag>*

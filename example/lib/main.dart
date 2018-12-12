@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_tags/flutter_selectable_tags.dart';
+import 'package:flutter_tags/selectable_tags.dart';
 
 void main() => runApp(MyApp());
 
@@ -64,15 +64,11 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     _tabController = TabController(length: 2, vsync: this);
     _scrollViewController = ScrollController();
 
-
-    //
-    setState(() {
-      _list.forEach((item) =>
-          _tags.add(
-              Tag(title: item, active: true,icon: (item=='0' || item=='1' || item=='2')? _icon[ int.parse(item) ]:null )
-          )
-      );
-    });
+    _list.forEach((item) =>
+        _tags.add(
+            Tag(title: item, active: true,icon: (item=='0' || item=='1' || item=='2')? _icon[ int.parse(item) ]:null )
+        )
+    );
 
   }
 
@@ -128,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                       });
                                     }
                                 ),
-                                Text('Symmetry')
+                                Text('Simmetry')
                               ],
                             ),
                             onTap: (){

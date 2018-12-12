@@ -168,7 +168,7 @@ class _SelectableTagsState extends State<SelectableTags>
         Tag tag = _tags[index];
 
         return Flexible(
-            flex: (widget.symmetry)? null : (_tags[index].length/column+3).ceil(),
+            flex: (widget.symmetry)? null : (_tags[index].length/column+2).ceil(),
             child: Tooltip(
                 message: tag.title.toString(),
                 child: Container(
@@ -232,7 +232,7 @@ class _SelectableTagsState extends State<SelectableTags>
 class Tag
 {
     Tag({this.id, @required this.title, this.icon, this.active=true}){
-        this.length = title.length;
+        this.length =  (icon!=null)? 1 : title.length;
     }
 
     final int id;
