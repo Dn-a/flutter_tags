@@ -16,6 +16,7 @@ dependencies:
 
 ### DEMO
 ![Example](https://github.com/Dn-a/flutter_tags/tree/master/example)
+
 ![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example.gif)
 ![Demo 2](https://github.com/Dn-a/flutter_tags/blob/master/example/example2.gif)
 
@@ -84,7 +85,7 @@ void _getDisableTags()
 
 ```
 ### All parameters
-* tags - *List'Tag'*
+* tags - *List '<Tag>'*
 * columns - *max columns (default 4)*
 * height - *custom height of Tag (default auto-resize)*
 * borderRadius - *custom border radius*
@@ -151,7 +152,7 @@ void _getTags()
 
 ```
 ### All parameters
-* tags - *List'String'*
+* tags - *List '<String>'*
 * columns - *max columns (default 4)*
 * autofocus - *default true*
 * height - *custom height of Tag (default auto-resize)*
