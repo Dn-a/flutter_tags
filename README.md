@@ -14,12 +14,13 @@ dependencies:
 ```
 
 
-## DEMO
+### DEMO
+![Example](https://github.com/Dn-a/flutter_tags/tree/master/example)
 ![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example.gif)
 ![Demo 2](https://github.com/Dn-a/flutter_tags/blob/master/example/example2.gif)
 
 
-## Selectable Tags
+# Selectable Tags
 
 The Tag class has some optional parameters. If you want to insert an icon, the title is not displayed but you can always use it.
 ```
@@ -100,12 +101,13 @@ void _getDisableTags()
 * onPressed - *method*
 
 
-## Input Tags
+# Input Tags
 
-## Note
+### Note
 In the console you will receive some errors.
 InputTags not work properly because textField has some bugs.
-here is one ![Bug 1](https://github.com/flutter/flutter/issues/20893)
+here is one 
+![Bug 1](https://github.com/flutter/flutter/issues/20893)
 
 
 ### Simple usage

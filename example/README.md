@@ -347,7 +347,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
 
 ## DEMO
 ![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example.gif)
-
+![Demo 2](https://github.com/Dn-a/flutter_tags/blob/master/example/example2.gif)
 
 ## Other
 This project is a starting point for a Flutter application.
