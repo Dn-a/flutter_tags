@@ -85,7 +85,7 @@ void _getDisableTags()
 
 ```
 ### All parameters
-* tags - *List '<Tag>'*
+* tags - *List 'Tag'*
 * columns - *max columns (default 4)*
 * height - *custom height of Tag (default auto-resize)*
 * borderRadius - *custom border radius*
@@ -152,7 +152,7 @@ void _getTags()
 
 ```
 ### All parameters
-* tags - *List '<String>'*
+* tags - *List 'String'*
 * columns - *max columns (default 4)*
 * autofocus - *default true*
 * height - *custom height of Tag (default auto-resize)*

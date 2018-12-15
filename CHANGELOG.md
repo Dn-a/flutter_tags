@@ -1,3 +1,7 @@
+## [0.1.2] - 2018-12-15.
+
+* Add InputTags Widget - Improved documentation.
+
 ## [0.1.1] - 2018-12-08.
 
 * Improved documentation.
