@@ -12,8 +12,8 @@ class SelectableTags extends StatefulWidget{
                        this.borderRadius,
                        this.symmetry = false,
                        this.margin,
+                       this.alignment,
                        this.fontSize = 14,
-                       this.maxLines,
                        this.textOverflow,
                        this.textColor,
                        this.textActiveColor,
@@ -30,8 +30,8 @@ class SelectableTags extends StatefulWidget{
     final double borderRadius;
     final bool symmetry;
     final EdgeInsets margin;
+    final MainAxisAlignment alignment;
     final double fontSize;
-    final int maxLines;
     final TextOverflow textOverflow;
     final Color textColor;
     final Color textActiveColor;
@@ -54,7 +54,7 @@ class _SelectableTagsState extends State<SelectableTags>
 
     List<Tag> _tags = [];
 
-    double _width = 20;
+    double _width = 1;
     int _margin;
 
 
@@ -113,13 +113,16 @@ class _SelectableTagsState extends State<SelectableTags>
 
         for(int i=0 ; i < rowsLength ; i++){
 
+            // Single Row
             List<Widget> row = [];
-            int charsLenght = 0 ;
 
+            int charsLenght = 0 ;
             overflow = false;
 
+            // final index of the current column
             int end = start + columns;
 
+            // makes sure that 'end' does not exceed 'tagsLength'
             if(end>=tagsLength) end -= end-tagsLength;
 
             int column = 1;
@@ -148,12 +151,12 @@ class _SelectableTagsState extends State<SelectableTags>
                 row.add( _buildField( index: j%tagsLength, row: i, column: column ) );
             }
 
-            // Check overflow width
+            // check if the width of all the tags is greater
             if(!overflow) start = end;
 
             rows.add(
                 Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: widget.alignment ?? ((widget.symmetry)? MainAxisAlignment.start : MainAxisAlignment.center),
                     children: row,
                 )
             );
@@ -190,7 +193,6 @@ class _SelectableTagsState extends State<SelectableTags>
                         Icon(tag.icon,size: widget.fontSize,color: tag.active? (widget.textActiveColor ?? Colors.white) : (widget.textColor ?? Colors.black),):
                         Text(
                             tag.title,
-                            maxLines: widget.maxLines ?? 1,
                             overflow: widget.textOverflow ?? TextOverflow.fade,
                             softWrap: false,
                             style: TextStyle(

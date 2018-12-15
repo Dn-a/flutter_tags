@@ -1,22 +1,22 @@
 # flutter_tags
 
-[![pub package](https://img.shields.io/badge/pub-0.1.0-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
+[![pub package](https://img.shields.io/badge/pub-0.1.2-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
 
 
 Flutter tags let you create a list of tags or insert them dynamically with the input.
 
-
 ## Installing
 Add this to your package's pubspec.yaml file:
 ```
 dependencies:
-  flutter_tags: "^0.1.1"
+  flutter_tags: "^0.1.2"
 ```
 
 
 ## DEMO
 ![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example.gif)
+![Demo 2](https://github.com/Dn-a/flutter_tags/blob/master/example/example2.gif)
 
 
 ## Selectable Tags
@@ -46,7 +46,7 @@ void initState()
     super.initState();
     
     // if you store data on a local database (sqflite), then you could do something like this
-    Model().getItems.then((items){
+    Model().getItems().then((items){
         items.forEach((item) =>
             _tags.add(
                 Tag(
@@ -83,14 +83,14 @@ void _getDisableTags()
 
 ```
 ### All parameters
-* tags - *List<Tag>*
+* tags - *List'Tag'*
 * columns - *max columns (default 4)*
 * height - *custom height of Tag (default auto-resize)*
 * borderRadius - *custom border radius*
 * symmetry - *bool*
 * margin - *margin between the tags*
+* alignment - *default  MainAxisAlignment.center*
 * fontSize - *default 14*
-* maxLines - *default 1*
 * textOverflow - *ellipsis, clip...(default fade)*
 * textColor - *default black*
 * textActiveColor - *default white*
@@ -101,9 +101,70 @@ void _getDisableTags()
 
 
 ## Input Tags
+
+## Note
+In the console you will receive some errors.
+InputTags not work properly because textField has some bugs.
+here is one ![Bug 1](https://github.com/flutter/flutter/issues/20893)
+
+
+### Simple usage
 ```
-Work in Progress...
+import 'package:flutter_tags/input_tags.dart';
+.
+.
+.
+
+List<String> _tags=[];
+
+@override
+void initState()
+{
+    super.initState();
+    _tags.addAll(
+         [
+             'First Tag',
+             'Android World',
+             'substring',
+             'Last tag',
+             'enable'
+         ]
+    );
+    
+}
+
+
+//Widget
+InputTags(
+    tags: _tags,
+    onDelete: (tag){
+        print(tag);
+    },
+)
+
+void _getTags()
+{
+    _tags.forEach((tag) => print(tag));
+}
+
 ```
+### All parameters
+* tags - *List'String'*
+* columns - *max columns (default 4)*
+* autofocus - *default true*
+* height - *custom height of Tag (default auto-resize)*
+* borderRadius - *custom border radius (default 3)*
+* symmetry - *default false*
+* duplicate - *allows you to insert duplicates (default false)*
+* margin - *margin between the tags*
+* alignment - *default  MainAxisAlignment.center*
+* fontSize - *default 14*
+* iconSize - *default auto-resize*
+* textOverflow - *ellipsis, clip...(default fade)*
+* textColor - *default white*
+* color - *background color of tag (default green)*
+* backgroundContainer - *default white* 
+* onDelete - *method*
 
 
 ## Issues

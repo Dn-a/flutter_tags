@@ -6,17 +6,19 @@ An example of how you could implement it.
 ```
 import 'package:flutter/material.dart';
 
-import 'package:flutter_tags/flutter_selectable_tags.dart';
+import 'package:flutter_tags/input_tags.dart';
+import 'package:flutter_tags/selectable_tags.dart';
 
 void main() => runApp(MyApp());
 
 
 class MyApp extends StatelessWidget
-{  
+{
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Tags Demo',
+      title: 'Flutter Demo',
       theme: ThemeData(
 
         primarySwatch: Colors.blueGrey,
@@ -52,16 +54,17 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   int _column = 4;
   double _fontSize = 14;
 
-  String _onPressed = '';
+  String _selectableOnPressed = '';
+  String _inputOnPressed = '';
 
-  List<Tag> _tags = [];
+  List<Tag> _selectableTags = [];
+  List<String> _inputTags = [];
 
   List _icon=[
     Icons.home,
     Icons.language,
     Icons.headset
   ];
-
 
   @override
   void initState()
@@ -70,15 +73,21 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     _tabController = TabController(length: 2, vsync: this);
     _scrollViewController = ScrollController();
 
+    _list.forEach((item) =>
+        _selectableTags.add(
+            Tag(title: item, active: true,icon: (item=='0' || item=='1' || item=='2')? _icon[ int.parse(item) ]:null )
+        )
+    );
 
-    //
-    setState(() {
-      _list.forEach((item) =>
-          _tags.add(
-              Tag(title: item, active: true,icon: (item=='0' || item=='1' || item=='2')? _icon[ int.parse(item) ]:null )
-          )
-      );
-    });
+    _inputTags.addAll(
+        [
+            'First Tag',
+            'Android World',
+            'substring',
+            'Last tag',
+            'enable'
+        ]
+    );
 
   }
 
@@ -86,141 +95,233 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context)
   {
-
-    return Scaffold(
-
-      body: NestedScrollView(
-          controller: _scrollViewController,
-          headerSliverBuilder: (BuildContext context,bool boxIsScrolled){
-            return <Widget>[
-              SliverAppBar(
-                title: Text("flutter_tags - Test"),
-                centerTitle: true,
-                pinned: true,
-                expandedHeight: 110.0,
-                floating: true,
-                forceElevated: boxIsScrolled,
-                bottom: TabBar(
-                  isScrollable: true,
-                  indicatorSize: TabBarIndicatorSize.label,
-                  labelStyle: TextStyle(fontSize: 18.0),
-                  tabs: [
-                    Tab(text: "Selectable"),
-                    Tab(text: "Input"),
-                  ],
-                  controller: _tabController,
-                ),
-              )
-            ];
-          },
-          body: TabBarView(
-            controller: _tabController,
-            children:  [
-              ListView(
-                children: <Widget>[
-                  Column(
+        return Scaffold(
+          body: NestedScrollView(
+              controller: _scrollViewController,
+              headerSliverBuilder: (BuildContext context,bool boxIsScrolled){
+                return <Widget>[
+                  SliverAppBar(
+                    title: Text("flutter_tags - Test"),
+                    centerTitle: true,
+                    pinned: true,
+                    expandedHeight: 110.0,
+                    floating: true,
+                    forceElevated: boxIsScrolled,
+                    bottom: TabBar(
+                      isScrollable: true,
+                      indicatorSize: TabBarIndicatorSize.label,
+                      labelStyle: TextStyle(fontSize: 18.0),
+                      tabs: [
+                        Tab(text: "Selectable"),
+                        Tab(text: "Input"),
+                      ],
+                      controller: _tabController,
+                    ),
+                  )
+                ];
+              },
+              body: TabBarView(
+                controller: _tabController,
+                children:  [
+                  ListView(
                     children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          GestureDetector(
-                            child: Row(
-                              children: <Widget>[
-                                Checkbox(
-                                    value: _simmetry,
-                                    onChanged: (a){
-                                      setState(() {
-                                        _simmetry = !_simmetry;
-                                      });
-                                    }
-                                ),
-                                Text('Symmetry')
-                              ],
-                            ),
-                            onTap: (){
-                              setState(() {
-                                _simmetry = !_simmetry;
-                              });
-                            },
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(20),
-                          ),
-                          DropdownButton(
-                            hint: Text(_column.toString()),
-                            items: _buildItems(),
-                            onChanged: (a) {
-                              setState(() {
-                                _column = a;
-                              });
-                            },
-                          ),
-                          Text("Columns")
-                        ],
-                      ),
                       Column(
                         children: <Widget>[
-                          Text('Font Size'),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Slider(
-                                value: _fontSize,
-                                min: 6,
-                                max: 30,
-                                onChanged: (a){
+                              GestureDetector(
+                                child: Row(
+                                  children: <Widget>[
+                                    Checkbox(
+                                        value: _simmetry,
+                                        onChanged: (a){
+                                          setState(() {
+                                            _simmetry = !_simmetry;
+                                          });
+                                        }
+                                    ),
+                                    Text('Simmetry')
+                                  ],
+                                ),
+                                onTap: (){
                                   setState(() {
-                                    _fontSize = (a.round()).toDouble();
+                                    _simmetry = !_simmetry;
                                   });
                                 },
                               ),
-                              Text(_fontSize.toString()),
+                              Padding(
+                                padding: EdgeInsets.all(20),
+                              ),
+                              DropdownButton(
+                                hint: Text(_column.toString()),
+                                items: _buildItems(),
+                                onChanged: (a) {
+                                  setState(() {
+                                    _column = a;
+                                  });
+                                },
+                              ),
+                              Text("Columns")
                             ],
                           ),
+                          Column(
+                            children: <Widget>[
+                              Text('Font Size'),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Slider(
+                                    value: _fontSize,
+                                    min: 6,
+                                    max: 30,
+                                    onChanged: (a){
+                                      setState(() {
+                                        _fontSize = (a.round()).toDouble();
+                                      });
+                                    },
+                                  ),
+                                  Text(_fontSize.toString()),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                          ),
+                          Container(
+                            child: SelectableTags(
+                              tags: _selectableTags,
+                              columns: _column,
+                              fontSize: _fontSize,
+                              symmetry: _simmetry,
+                              onPressed: (tag){
+                                setState(() {
+                                  _selectableOnPressed = tag.toString();
+                                });
+                              },
+                            ),
+                          ),
+                          Container(
+                              padding: EdgeInsets.all(10),
+                              child: Divider(color: Colors.blueGrey,)
+                          ),
+                          Container(
+                              padding: EdgeInsets.only(left: 10),
+                              alignment: Alignment.topLeft,
+                              child: Text("OnPressed",style: TextStyle(fontSize: 18),)),
+                          Container(
+                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                              alignment: Alignment.topLeft,
+                              child: Text(_selectableOnPressed)
+                          )
                         ],
                       ),
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                      ),
-                      Container(
-                        child: SelectableTags(
-                          tags: _tags,
-                          columns: _column,
-                          fontSize: _fontSize,
-                          symmetry: _simmetry,
-                          onPressed: (tag){
-                            setState(() {
-                              _onPressed = tag.toString();
-                            });
-                          },
-                        ),
-                      ),
-                      Container(
-                          padding: EdgeInsets.all(10),
-                          child: Divider(color: Colors.blueGrey,)
-                      ),
-                      Container(
-                          padding: EdgeInsets.only(left: 10),
-                          alignment: Alignment.topLeft,
-                          child: Text("OnPressed",style: TextStyle(fontSize: 18),)),
-                      Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                          alignment: Alignment.topLeft,
-                          child: Text(_onPressed)
-                      )
                     ],
                   ),
-                ],
-              ),
-              ListView(
-                children: <Widget>[
-                  Center(child: Text("Coming Soon...",style: TextStyle(fontSize: 18),))
+                  ListView(
+                      children: <Widget>[
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                  GestureDetector(
+                                      child: Row(
+                                          children: <Widget>[
+                                              Checkbox(
+                                                  value: _simmetry,
+                                                  onChanged: (a){
+                                                      setState(() {
+                                                          _simmetry = !_simmetry;
+                                                      });
+                                                  }
+                                              ),
+                                              Text('Simmetry')
+                                          ],
+                                      ),
+                                      onTap: (){
+                                          setState(() {
+                                              _simmetry = !_simmetry;
+                                          });
+                                      },
+                                  ),
+                                  Padding(
+                                      padding: EdgeInsets.all(20),
+                                  ),
+                                  DropdownButton(
+                                      hint: Text(_column.toString()),
+                                      items: _buildItems(),
+                                      onChanged: (a) {
+                                          setState(() {
+                                              _column = a;
+                                          });
+                                      },
+                                  ),
+                                  Text("Columns")
+                              ],
+                          ),
+                          Column(
+                              children: <Widget>[
+                                  Text('Font Size'),
+                                  Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                          Slider(
+                                              value: _fontSize,
+                                              min: 6,
+                                              max: 30,
+                                              onChanged: (a){
+                                                  setState(() {
+                                                      _fontSize = (a.round()).toDouble();
+                                                  });
+                                              },
+                                          ),
+                                          Text(_fontSize.toString()),
+                                      ],
+                                  ),
+                              ],
+                          ),
+                          Padding(
+                              padding: EdgeInsets.all(10),
+                          ),
+                          Container(
+                              padding: EdgeInsets.symmetric(horizontal: 15),
+                              child: InputTags(
+                                  tags: _inputTags,
+                                  columns: _column,
+                                  fontSize: _fontSize,
+                                  symmetry: _simmetry,
+                                  onDelete: (tag){
+                                      print(tag);
+                                  },
+                              ),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.all(10),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.all(10),
+                              child: RaisedButton(
+                                  child: Text('Print all Tag'),
+                                  onPressed: (){
+                                      _inputOnPressed ='';
+                                      _inputTags.forEach((tag) =>
+                                          setState(() {
+                                              _inputOnPressed+='${tag},\n';
+                                          })
+                                      );
+                                  }
+                              ),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(_inputOnPressed),
+                          ),
+                      ],
+                  )
                 ],
               )
-            ],
-          )
-      ),
-    );
+          ),
+        );
   }
 
 
@@ -241,6 +342,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     return list;
   }
 }
+
 ```
 
 ## DEMO
