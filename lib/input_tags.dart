@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 typedef void OnDelete(String tags);
 
@@ -14,16 +11,20 @@ class InputTags extends StatefulWidget{
                        this.autofocus,
                        this.height,
                        this.borderRadius,
+                       this.placeholder,
                        this.symmetry = false,
                        this.margin,
                        this.alignment,
+                       this.offset,
                        this.duplicate = false,
                        this.fontSize = 14,
                        this.iconSize,
                        this.textOverflow,
                        this.textColor,
+                       this.lowerCase = false,
                        this.color,
                        this.backgroundContainer,
+                       this.highlightColor,
                        this.onDelete,
                        Key key
                    }) : super(key: key);
@@ -33,16 +34,20 @@ class InputTags extends StatefulWidget{
     final bool autofocus;
     final double height;
     final double borderRadius;
+    final String placeholder;
     final bool symmetry;
-    final bool duplicate;
     final EdgeInsets margin;
     final MainAxisAlignment alignment;
+    final int offset;
+    final bool duplicate;
     final double fontSize;
     final double iconSize;
     final TextOverflow textOverflow;
     final Color textColor;
+    final bool lowerCase;
     final Color color;
     final Color backgroundContainer;
+    final Color highlightColor;
     final OnDelete onDelete;
 
 
@@ -52,10 +57,8 @@ class InputTags extends StatefulWidget{
 
 }
 
-class _InputTagsState extends State<InputTags> with SingleTickerProviderStateMixin
+class _InputTagsState extends State<InputTags>
 {
-    //AnimationController _aController;
-
     GlobalKey _containerKey = new GlobalKey();
     final _controller = TextEditingController();
     int _check = -1;
@@ -87,15 +90,12 @@ class _InputTagsState extends State<InputTags> with SingleTickerProviderStateMix
                 });
             }
         });
-
-        // Work in progress
-        //_aController = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
-
     }
 
 
     @override
-    void dispose() {
+    void dispose()
+    {
         _controller.dispose();
         super.dispose();
     }
@@ -123,8 +123,11 @@ class _InputTagsState extends State<InputTags> with SingleTickerProviderStateMix
 
         int tagsLength = _tags.length+1;
         int rowsLength = (tagsLength/widget.columns).ceil();
-        double factor = 9.4*((widget.fontSize)/15);
-        double width = _width - columns *(_margin ?? 10);
+        double factor = 9.4*((widget.fontSize)/14);
+        double width = _width;//- columns *(_margin ?? 4);
+
+        //compensates for the length of the string characters
+        int offset = widget.offset ?? 2;
 
         int start = 0;
         bool overflow;
@@ -140,12 +143,17 @@ class _InputTagsState extends State<InputTags> with SingleTickerProviderStateMix
 
             if(end>=tagsLength) end -= end-tagsLength;
 
+            // Number of columns for each row
             int column = 1;
-            if(!widget.symmetry){
+            if(!widget.symmetry && _tags.isNotEmpty){
                 for(int j=start  ; j < end ; j++ ){
-                    charsLenght += _tags[j%(tagsLength-1)].length;
+                    charsLenght += _tags[j%(tagsLength-1)].length + offset;
                     double a = charsLenght * factor;
+
+                    //total calculation of the margin of each field
+                    width=_width- column *(_margin ?? 4);
                     if(j>start && a>width) break;
+
                     column++;
                 }
                 charsLenght = 0;
@@ -153,8 +161,8 @@ class _InputTagsState extends State<InputTags> with SingleTickerProviderStateMix
 
             for(int j=start  ; j < end ; j++ ){
 
-                if(!widget.symmetry){
-                    charsLenght += _tags[j%(tagsLength-1)].length;
+                if(!widget.symmetry && _tags.isNotEmpty){
+                    charsLenght += _tags[j%(tagsLength-1)].length + offset;
                     double a = charsLenght * factor;
                     if( j>start && a>width ){
                         start = j;
@@ -164,7 +172,7 @@ class _InputTagsState extends State<InputTags> with SingleTickerProviderStateMix
                     }
                 }
 
-                row.add( _buildField( index: j%(tagsLength-1), column: column, last: (j+1 == tagsLength) ) );
+                row.add( _buildField( index: _tags.isNotEmpty ? j%(tagsLength-1) : null, column: column, last: (j+1 == tagsLength) ) );
             }
 
             // Check overflow width
@@ -184,33 +192,17 @@ class _InputTagsState extends State<InputTags> with SingleTickerProviderStateMix
 
     Widget _buildField({int index, int column, bool last=false})
     {
-        String tag = _tags[index];
+        String tag = (index!=null)?_tags[index]:null;
 
         // Currently they are indispensable for the correct functioning of TextField
         int c =0;
         String current = '';
 
-        Color colorTag = widget.color ?? Colors.green;
-
-        // Work in progress
-        /*if(_check==index && !widget.duplicate){
-            colorTag =
-                ColorTween(begin: Colors.red, end: Colors.green).animate(CurvedAnimation(
-                    parent: _aController,
-                    curve: Interval(
-                        0, 1,
-                        curve: Curves.ease,
-                    ),
-                ),
-                ).value;
-            _aController.forward();
-        }*/
-
         Widget textField = Flexible(
-            flex: (widget.symmetry)? null : (18/column).ceil(),
+            flex: (widget.symmetry)? 1 : (18/column).ceil(),
             child: Container(
-                padding: widget.margin ?? EdgeInsets.symmetric(horizontal:10,vertical:5.0),
-                width: (widget.symmetry)? _widthCalc( ) : 200,
+                margin: widget.margin ?? EdgeInsets.symmetric(horizontal:2,vertical:2),
+                width: 200,
                 child: TextField(
                     autofocus: widget.autofocus ?? true,
                     controller: _controller,
@@ -219,20 +211,18 @@ class _InputTagsState extends State<InputTags> with SingleTickerProviderStateMix
                         color: Colors.black
                     ),
                     decoration: InputDecoration(
-                        hintText: 'Add a tag'
+                        hintText: widget.placeholder ?? 'Add a tag'
                     ),
                     onChanged: (str) {
-                        str = str.trim();
-
                         //temporary; textfield is not stable at the moment
+                        str = (widget.lowerCase)? str.trim().toLowerCase(): str.trim();
                         setState(() {
+
                             if(c==1 && current==str && str!=''){
                                 c++;
                                 _check = -1;
-                                if(_tags.contains(str))
+                                if( _tags.contains(str) && !widget.duplicate )
                                     _check = _tags.indexWhere((st) => st==str);
-                                else if (widget.duplicate)
-                                    _tags.add(str);
                                 else
                                     _tags.add(str);
 
@@ -245,18 +235,16 @@ class _InputTagsState extends State<InputTags> with SingleTickerProviderStateMix
                                 c++;
 
                             current = str;
-
                         });
+
                     },
                     onSubmitted: (str){
-                        str = str.trim();
+                        str = (widget.lowerCase)? str.trim().toLowerCase(): str.trim();
                         if(str!='')
                             setState(() {
                                 _check = -1;
-                                if(_tags.contains(str) )
+                                if(_tags.contains(str) && !widget.duplicate )
                                     _check = _tags.indexWhere((st) => st==str);
-                                else if (widget.duplicate)
-                                    _tags.add(str);
                                 else
                                 _tags.add(str);
                             });
@@ -266,21 +254,22 @@ class _InputTagsState extends State<InputTags> with SingleTickerProviderStateMix
             )
         );
 
-        if(last)
+        if(last || tag==null)
             return textField;
         else
             return Flexible(
-                flex: (widget.symmetry)? 1 : ((_tags[index].length+3)/column+3).ceil(),
+                flex: (widget.symmetry)? 1 : ((_tags[index].length)/column+2).ceil(),
                 child: Tooltip(
                     message: tag.toString(),
-                    child: Container(
+                    child: AnimatedContainer(
+                        duration: _check==index? Duration(milliseconds: 50) : Duration(microseconds: 0),
                         margin: widget.margin ?? EdgeInsets.symmetric(horizontal:2,vertical:2),
                         padding: EdgeInsets.only(left: 15),
                         width: (widget.symmetry)? _widthCalc( ) : null,
                         height: widget.height ?? 34.0*(widget.fontSize/14),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(widget.borderRadius ?? 3),
-                            color: colorTag,
+                            color: _check==index? (widget.highlightColor ?? Colors.green[700]) : (widget.color ?? Colors.green),
                         ),
                         child: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -289,16 +278,16 @@ class _InputTagsState extends State<InputTags> with SingleTickerProviderStateMix
                                 Flexible(
                                     fit: FlexFit.loose,
                                     flex: 1,
-                                  child: Text(
-                                      tag,
-                                      overflow: widget.textOverflow ?? TextOverflow.fade,
-                                      softWrap: false,
-                                      style: TextStyle(
-                                          fontSize: widget.fontSize ?? null,
-                                          color: widget.textColor ?? Colors.white,
-                                          fontWeight: FontWeight.normal
-                                      ),
-                                  ),
+                                    child: Text(
+                                        tag,
+                                        overflow: widget.textOverflow ?? TextOverflow.fade,
+                                        softWrap: false,
+                                        style: TextStyle(
+                                            fontSize: widget.fontSize ?? null,
+                                            color: widget.textColor ?? Colors.white,
+                                            fontWeight: FontWeight.normal
+                                        ),
+                                    ),
                                 ),
                                 FittedBox(
                                     fit: BoxFit.contain,
@@ -308,7 +297,7 @@ class _InputTagsState extends State<InputTags> with SingleTickerProviderStateMix
                                             splashColor: Colors.transparent,
                                             highlightColor: Colors.transparent,
                                             icon: Icon(Icons.clear),
-                                            color: Colors.white,
+                                            color: widget.textColor ?? Colors.white,
                                             iconSize:  widget.iconSize ?? ((widget.fontSize!=null)? 18 +(widget.fontSize-18) : 18),
                                             onPressed: (){
                                                 widget.onDelete(tag);
@@ -321,7 +310,7 @@ class _InputTagsState extends State<InputTags> with SingleTickerProviderStateMix
                                 )
                             ],
                         ),
-                    ),
+                    )
                 )
             );
     }

@@ -1,6 +1,6 @@
 # flutter_tags
 
-[![pub package](https://img.shields.io/badge/pub-0.1.2-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
+[![pub package](https://img.shields.io/badge/pub-0.1.3-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
 
 
@@ -10,7 +10,7 @@ Flutter tags let you create a list of tags or insert them dynamically with the i
 Add this to your package's pubspec.yaml file:
 ```
 dependencies:
-  flutter_tags: "^0.1.2"
+  flutter_tags: "^0.1.3"
 ```
 
 
@@ -28,7 +28,7 @@ The Tag class has some optional parameters. If you want to insert an icon, the t
 Tag(
     id: 1,// optional
     icon: Icon.home, // optional
-    title: First Tag, // required
+    title: 'First Tag', // required
     active: true, // optional
 )
 ```
@@ -52,9 +52,9 @@ void initState()
         items.forEach((item) =>
             _tags.add(
                 Tag(
+                    id: imte.id,
                     title: item.title, 
-                    active: item.active,
-                    icon: item.icon 
+                    active: item.active
                 )
             )
         );  
@@ -67,7 +67,7 @@ void initState()
 SelectableTags(
     tags: _tags,
     columns: 3, // default 4
-    simmetry: true, // default false
+    symmetry: true, // default false
     onPressed: (tag){
         print(tag);
     },
@@ -92,6 +92,7 @@ void _getDisableTags()
 * symmetry - *bool*
 * margin - *margin between the tags*
 * alignment - *default  MainAxisAlignment.center*
+* offset - *default 2*
 * fontSize - *default 14*
 * textOverflow - *ellipsis, clip...(default fade)*
 * textColor - *default black*
@@ -126,10 +127,10 @@ void initState()
     super.initState();
     _tags.addAll(
          [
-             'First Tag',
-             'Android World',
+             'first tag',
+             'android world',
              'substring',
-             'Last tag',
+             'last tag',
              'enable'
          ]
     );
@@ -158,15 +159,18 @@ void _getTags()
 * height - *custom height of Tag (default auto-resize)*
 * borderRadius - *custom border radius (default 3)*
 * symmetry - *default false*
-* duplicate - *allows you to insert duplicates (default false)*
 * margin - *margin between the tags*
 * alignment - *default  MainAxisAlignment.center*
+* offset - *default  3*
+* duplicate - *allows you to insert duplicates (default false)*
 * fontSize - *default 14*
 * iconSize - *default auto-resize*
 * textOverflow - *ellipsis, clip...(default fade)*
 * textColor - *default white*
+* lowerCase - *default false*
 * color - *background color of tag (default green)*
-* backgroundContainer - *default white* 
+* backgroundContainer - *default white*
+* highlightColor - *default green'700'* 
 * onDelete - *method*
 
 

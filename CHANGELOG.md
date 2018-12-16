@@ -1,3 +1,7 @@
+## [0.1.3] - 2018-12-16.
+
+* Added new highlight feature (InputTags) - general improvement of the code.
+
 ## [0.1.2] - 2018-12-15.
 
 * Add InputTags Widget - Improved documentation.

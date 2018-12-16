@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     'Star','Flutter Selectable Tags','1','Hubble','2','Input flutter tags','A B C','Android Studio developer','welcome to the jungle','very large text',
   ];
 
-  bool _simmetry = false;
+  bool _symmetry = false;
   int _column = 4;
   double _fontSize = 14;
 
@@ -81,10 +81,10 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
 
     _inputTags.addAll(
         [
-            'First Tag',
-            'Android World',
+            'first tag',
+            'android world',
             'substring',
-            'Last tag',
+            'last tag',
             'enable'
         ]
     );
@@ -134,19 +134,19 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                 child: Row(
                                   children: <Widget>[
                                     Checkbox(
-                                        value: _simmetry,
+                                        value: _symmetry,
                                         onChanged: (a){
                                           setState(() {
-                                            _simmetry = !_simmetry;
+                                            _symmetry = !_symmetry;
                                           });
                                         }
                                     ),
-                                    Text('Simmetry')
+                                    Text('Symmetry')
                                   ],
                                 ),
                                 onTap: (){
                                   setState(() {
-                                    _simmetry = !_simmetry;
+                                    _symmetry = !_symmetry;
                                   });
                                 },
                               ),
@@ -194,7 +194,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                               tags: _selectableTags,
                               columns: _column,
                               fontSize: _fontSize,
-                              symmetry: _simmetry,
+                              symmetry: _symmetry,
                               onPressed: (tag){
                                 setState(() {
                                   _selectableOnPressed = tag.toString();
@@ -228,19 +228,19 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                       child: Row(
                                           children: <Widget>[
                                               Checkbox(
-                                                  value: _simmetry,
+                                                  value: _symmetry,
                                                   onChanged: (a){
                                                       setState(() {
-                                                          _simmetry = !_simmetry;
+                                                          _symmetry = !_symmetry;
                                                       });
                                                   }
                                               ),
-                                              Text('Simmetry')
+                                              Text('Symmetry')
                                           ],
                                       ),
                                       onTap: (){
                                           setState(() {
-                                              _simmetry = !_simmetry;
+                                              _symmetry = !_symmetry;
                                           });
                                       },
                                   ),
@@ -289,7 +289,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                   tags: _inputTags,
                                   columns: _column,
                                   fontSize: _fontSize,
-                                  symmetry: _simmetry,
+                                  symmetry: _symmetry,
+                                  lowerCase: true,
                                   onDelete: (tag){
                                       print(tag);
                                   },

@@ -13,6 +13,7 @@ class SelectableTags extends StatefulWidget{
                        this.symmetry = false,
                        this.margin,
                        this.alignment,
+                       this.offset,
                        this.fontSize = 14,
                        this.textOverflow,
                        this.textColor,
@@ -31,6 +32,7 @@ class SelectableTags extends StatefulWidget{
     final bool symmetry;
     final EdgeInsets margin;
     final MainAxisAlignment alignment;
+    final int offset;
     final double fontSize;
     final TextOverflow textOverflow;
     final Color textColor;
@@ -79,7 +81,6 @@ class _SelectableTagsState extends State<SelectableTags>
                 });
             }
         });
-
     }
 
 
@@ -106,7 +107,10 @@ class _SelectableTagsState extends State<SelectableTags>
         int tagsLength = _tags.length;
         int rowsLength = (tagsLength/widget.columns).ceil();
         double factor = 9*(widget.fontSize/14);
-        double width = _width - columns *(_margin ?? 10);
+        double width = _width;// - columns *(_margin ?? 10);
+
+        //compensates for the length of the string characters
+        int offset = widget.offset ?? 2;
 
         int start = 0;
         bool overflow;
@@ -128,8 +132,11 @@ class _SelectableTagsState extends State<SelectableTags>
             int column = 1;
             if(!widget.symmetry){
                 for(int j=start  ; j < end ; j++ ){
-                    charsLenght += _tags[j%tagsLength].length;
+                    charsLenght += _tags[j%tagsLength].length+offset;
                     double a = charsLenght * factor;
+
+                    //total calculation of the margin of each field
+                    width=_width - column *(_margin ?? 10);
                     if(j>start && a>width) break;
                     column++;
                 }
@@ -139,7 +146,7 @@ class _SelectableTagsState extends State<SelectableTags>
             for(int j=start  ; j < end ; j++ ){
 
                 if(!widget.symmetry){
-                    charsLenght += _tags[j%tagsLength].length;
+                    charsLenght += _tags[j%tagsLength].length+offset;
                     double a = charsLenght * factor;
                     if( j>start && a>width ){
                         start = j;
@@ -189,18 +196,26 @@ class _SelectableTagsState extends State<SelectableTags>
                         highlightedBorderColor: Colors.transparent,
                         disabledTextColor: Colors.red,
                         borderSide: BorderSide(color: (widget.activeColor ?? Colors.green)),
-                        child: (tag.icon!=null)?
-                        Icon(tag.icon,size: widget.fontSize,color: tag.active? (widget.textActiveColor ?? Colors.white) : (widget.textColor ?? Colors.black),):
-                        Text(
-                            tag.title,
-                            overflow: widget.textOverflow ?? TextOverflow.fade,
-                            softWrap: false,
-                            style: TextStyle(
-                                fontSize: widget.fontSize ?? null,
-                                color: tag.active? (widget.textActiveColor ?? Colors.white) : (widget.textColor ?? Colors.black),
-                                fontWeight: FontWeight.normal
+                        child:
+                        (tag.icon!=null)?
+                            FittedBox(
+                                child: Icon(
+                                    tag.icon,
+                                    size: widget.fontSize,
+                                    color: tag.active? (widget.textActiveColor ?? Colors.white) : (widget.textColor ?? Colors.black),
+                                ),
+                            )
+                        :
+                            Text(
+                                tag.title,
+                                overflow: widget.textOverflow ?? TextOverflow.fade,
+                                softWrap: false,
+                                style: TextStyle(
+                                    fontSize: widget.fontSize ?? null,
+                                    color: tag.active? (widget.textActiveColor ?? Colors.white) : (widget.textColor ?? Colors.black),
+                                    fontWeight: FontWeight.normal
+                                ),
                             ),
-                        ),
                         onPressed: () {
                             setState(() {
                                 tag.active=!tag.active;
