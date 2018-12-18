@@ -144,6 +144,9 @@ InputTags(
     onDelete: (tag){
         print(tag);
     },
+    onInsert: (tag){
+        print(tag);
+    },
 )
 
 void _getTags()
