@@ -10,7 +10,7 @@ Flutter tags let you create a list of tags or insert them dynamically with the i
 Add this to your package's pubspec.yaml file:
 ```
 dependencies:
-  flutter_tags: "^0.1.3"
+  flutter_tags: "^0.1.4"
 ```
 
 
@@ -156,6 +156,8 @@ void _getTags()
 * tags - *List 'String'*
 * columns - *max columns (default 4)*
 * autofocus - *default true*
+* maxLength - *max length of textField (int)*
+* keyboardType - *TextInputType*
 * height - *custom height of Tag (default auto-resize)*
 * borderRadius - *custom border radius (default 3)*
 * symmetry - *default false*
@@ -171,7 +173,8 @@ void _getTags()
 * color - *background color of tag (default green)*
 * backgroundContainer - *default white*
 * highlightColor - *default green'700'* 
-* onDelete - *method*
+* onDelete - *return the tag deleted*
+* onInsert - *return the tag entered*
 
 
 ## Issues

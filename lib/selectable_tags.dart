@@ -57,7 +57,7 @@ class _SelectableTagsState extends State<SelectableTags>
     List<Tag> _tags = [];
 
     double _width = 1;
-    int _margin;
+    double _initMargin = 5;
 
 
     @override
@@ -66,8 +66,6 @@ class _SelectableTagsState extends State<SelectableTags>
         super.initState();
 
         _tags = widget.tags;
-
-        if(widget.margin!=null) _margin = widget.margin.horizontal.round();
 
         //get the current width of the container
         WidgetsBinding.instance.addPostFrameCallback((_){
@@ -104,6 +102,8 @@ class _SelectableTagsState extends State<SelectableTags>
 
         int columns = widget.columns;
 
+        int margin = (widget.margin!=null)? widget.margin.horizontal.round(): _initMargin.round()*2;
+
         int tagsLength = _tags.length;
         int rowsLength = (tagsLength/widget.columns).ceil();
         double factor = 9*(widget.fontSize/14);
@@ -136,7 +136,7 @@ class _SelectableTagsState extends State<SelectableTags>
                     double a = charsLenght * factor;
 
                     //total calculation of the margin of each field
-                    width=_width - column *(_margin ?? 10);
+                    width=_width - column *(margin);
                     if(j>start && a>width) break;
                     column++;
                 }
@@ -182,7 +182,7 @@ class _SelectableTagsState extends State<SelectableTags>
             child: Tooltip(
                 message: tag.title.toString(),
                 child: Container(
-                    margin: widget.margin ?? EdgeInsets.symmetric(horizontal:5.0,vertical:5.0),
+                    margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: _initMargin),
                     width: (widget.symmetry)? _widthCalc( row: row ) : null,
                     height: widget.height ?? 34.0*(widget.fontSize/14),
                     padding: EdgeInsets.all(0.0),
@@ -237,7 +237,9 @@ class _SelectableTagsState extends State<SelectableTags>
         //int fields = _tags.length - (columns*row) + columns;
         //int column = (fields < columns )? fields : columns;
 
-        int subtraction = columns *(_margin ?? 10);
+        int margin = (widget.margin!=null)? widget.margin.horizontal.round() : _initMargin.round()*2;
+
+        int subtraction = columns *(margin);
         double width = ( _width>1 )? (_width-subtraction)/columns : _width;
 
         return width;

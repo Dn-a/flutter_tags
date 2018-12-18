@@ -190,6 +190,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                               columns: _column,
                               fontSize: _fontSize,
                               symmetry: _symmetry,
+                              margin: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
                               onPressed: (tag){
                                 setState(() {
                                   _selectableOnPressed = tag.toString();
@@ -285,8 +286,13 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                   columns: _column,
                                   fontSize: _fontSize,
                                   symmetry: _symmetry,
+                                  //margin: EdgeInsets.all(45),
                                   lowerCase: true,
+                                  autofocus: false,
                                   onDelete: (tag){
+                                      print(tag);
+                                  },
+                                  onInsert: (tag){
                                       print(tag);
                                   },
                               ),

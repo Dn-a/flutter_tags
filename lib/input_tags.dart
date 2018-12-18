@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 typedef void OnDelete(String tags);
+typedef void OnInsert(String tags);
 
 
 class InputTags extends StatefulWidget{
@@ -9,6 +10,8 @@ class InputTags extends StatefulWidget{
                        @required this.tags,
                        this.columns = 4,
                        this.autofocus,
+                       this.maxLength,
+                       this.keyboardType,
                        this.height,
                        this.borderRadius,
                        this.placeholder,
@@ -26,12 +29,15 @@ class InputTags extends StatefulWidget{
                        this.backgroundContainer,
                        this.highlightColor,
                        this.onDelete,
+                       this.onInsert,
                        Key key
                    }) : super(key: key);
 
     final List<String> tags;
     final int columns;
     final bool autofocus;
+    final int maxLength;
+    final TextInputType keyboardType;
     final double height;
     final double borderRadius;
     final String placeholder;
@@ -49,6 +55,7 @@ class InputTags extends StatefulWidget{
     final Color backgroundContainer;
     final Color highlightColor;
     final OnDelete onDelete;
+    final OnInsert onInsert;
 
 
 
@@ -61,12 +68,14 @@ class _InputTagsState extends State<InputTags>
 {
     GlobalKey _containerKey = new GlobalKey();
     final _controller = TextEditingController();
+
+    //duplicate highlighting
     int _check = -1;
 
     List<String> _tags = [];
 
     double _width = 1;
-    int _margin;
+    double _initMargin = 2;
 
 
     @override
@@ -75,8 +84,6 @@ class _InputTagsState extends State<InputTags>
         super.initState();
 
         _tags = widget.tags;
-
-        if(widget.margin!=null) _margin = widget.margin.horizontal.round();
 
         //get the current width of the container
         WidgetsBinding.instance.addPostFrameCallback((_){
@@ -121,6 +128,8 @@ class _InputTagsState extends State<InputTags>
 
         int columns = widget.columns;
 
+        int margin = (widget.margin!=null)? widget.margin.horizontal.round(): _initMargin.round()*2;
+
         int tagsLength = _tags.length+1;
         int rowsLength = (tagsLength/widget.columns).ceil();
         double factor = 9.4*((widget.fontSize)/14);
@@ -151,7 +160,7 @@ class _InputTagsState extends State<InputTags>
                     double a = charsLenght * factor;
 
                     //total calculation of the margin of each field
-                    width=_width- column *(_margin ?? 4);
+                    width=_width- column *(margin);
                     if(j>start && a>width) break;
 
                     column++;
@@ -201,30 +210,38 @@ class _InputTagsState extends State<InputTags>
         Widget textField = Flexible(
             flex: (widget.symmetry)? 1 : (18/column).ceil(),
             child: Container(
-                margin: widget.margin ?? EdgeInsets.symmetric(horizontal:2,vertical:2),
+                margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: _initMargin),
                 width: 200,
                 child: TextField(
-                    autofocus: widget.autofocus ?? true,
                     controller: _controller,
+                    autofocus: widget.autofocus ?? true,
+                    keyboardType: widget.keyboardType ?? null,
+                    maxLength: widget.maxLength ?? null,
                     style: TextStyle(
                         fontSize: widget.fontSize ?? null,
-                        color: Colors.black
+                        color: Colors.black,                        
+                        //height: 1.2 * ((widget.fontSize)/17),
                     ),
                     decoration: InputDecoration(
-                        hintText: widget.placeholder ?? 'Add a tag'
+                        hintText: widget.placeholder ?? 'Add a tag',
                     ),
                     onChanged: (str) {
-                        //temporary; textfield is not stable at the moment
+
+                        //Temporany --> textfield is not stable at the moment
+
                         str = (widget.lowerCase)? str.trim().toLowerCase(): str.trim();
                         setState(() {
 
                             if(c==1 && current==str && str!=''){
                                 c++;
                                 _check = -1;
+
                                 if( _tags.contains(str) && !widget.duplicate )
                                     _check = _tags.indexWhere((st) => st==str);
-                                else
+                                else{
+                                    widget.onInsert(str);
                                     _tags.add(str);
+                                }
 
                                 _controller.clear();
                             }
@@ -245,8 +262,11 @@ class _InputTagsState extends State<InputTags>
                                 _check = -1;
                                 if(_tags.contains(str) && !widget.duplicate )
                                     _check = _tags.indexWhere((st) => st==str);
-                                else
-                                _tags.add(str);
+                                else{
+                                    widget.onInsert(str);
+                                    _tags.add(str);
+                                }
+
                             });
                         _controller.clear();
                     },
@@ -262,8 +282,8 @@ class _InputTagsState extends State<InputTags>
                 child: Tooltip(
                     message: tag.toString(),
                     child: AnimatedContainer(
-                        duration: _check==index? Duration(milliseconds: 50) : Duration(microseconds: 0),
-                        margin: widget.margin ?? EdgeInsets.symmetric(horizontal:2,vertical:2),
+                        duration: _check==index? Duration(milliseconds: 80) : Duration(microseconds: 0),
+                        margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: _initMargin),
                         padding: EdgeInsets.only(left: 15),
                         width: (widget.symmetry)? _widthCalc( ) : null,
                         height: widget.height ?? 34.0*(widget.fontSize/14),
@@ -300,6 +320,7 @@ class _InputTagsState extends State<InputTags>
                                             color: widget.textColor ?? Colors.white,
                                             iconSize:  widget.iconSize ?? ((widget.fontSize!=null)? 18 +(widget.fontSize-18) : 18),
                                             onPressed: (){
+                                                _check = -1;
                                                 widget.onDelete(tag);
                                                 setState(() {
                                                     _tags.remove(tag);
@@ -320,7 +341,9 @@ class _InputTagsState extends State<InputTags>
     {
         int columns = widget.columns;
 
-        int subtraction = columns *(_margin ?? 4);
+        int margin = (widget.margin!=null)? widget.margin.horizontal.round(): _initMargin.round()*2;
+
+        int subtraction = columns *(margin);
         double width = ( _width>1 )? (_width-subtraction)/columns : _width;
 
         return width;
