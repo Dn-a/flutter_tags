@@ -1,6 +1,6 @@
 # flutter_tags
 
-[![pub package](https://img.shields.io/badge/pub-0.1.3-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
+[![pub package](https://img.shields.io/badge/pub-0.1.5-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
 
 
@@ -10,7 +10,7 @@ Flutter tags let you create a list of tags or insert them dynamically with the i
 Add this to your package's pubspec.yaml file:
 ```
 dependencies:
-  flutter_tags: "^0.1.4"
+  flutter_tags: "^0.1.5"
 ```
 
 
@@ -89,6 +89,8 @@ void _getDisableTags()
 * columns - *max columns (default 4)*
 * height - *custom height of Tag (default auto-resize)*
 * borderRadius - *custom border radius*
+* borderSide - *style border Side*
+* boxShadow - *List<BoxShadow> of tag*
 * symmetry - *bool*
 * margin - *margin between the tags*
 * alignment - *default  MainAxisAlignment.center*
@@ -159,10 +161,12 @@ void _getTags()
 * tags - *List 'String'*
 * columns - *max columns (default 4)*
 * autofocus - *default true*
+* inputDecoration - *textInput style*
 * maxLength - *max length of textField (int)*
 * keyboardType - *TextInputType*
 * height - *custom height of Tag (default auto-resize)*
 * borderRadius - *custom border radius (default 3)*
+* boxShadow - *List<BoxShadow> of tag*
 * symmetry - *default false*
 * margin - *margin between the tags*
 * alignment - *default  MainAxisAlignment.center*

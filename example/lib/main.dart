@@ -78,9 +78,15 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         [
             'first tag',
             'android world',
+            'pic',
             'substring',
             'last tag',
-            'enable'
+            'enable',
+            'act',
+            'first',
+            'return',
+            'lollipop',
+            'loop',
         ]
     );
 
@@ -185,12 +191,14 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                             padding: EdgeInsets.all(10),
                           ),
                           Container(
-                            child: SelectableTags(
+                            child:
+                            SelectableTags(
                               tags: _selectableTags,
                               columns: _column,
                               fontSize: _fontSize,
                               symmetry: _symmetry,
-                              margin: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                              //boxShadow: [],
+                              //margin: EdgeInsets.symmetric(horizontal: 3, vertical: 6),
                               onPressed: (tag){
                                 setState(() {
                                   _selectableOnPressed = tag.toString();
@@ -281,14 +289,17 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                           ),
                           Container(
                               padding: EdgeInsets.symmetric(horizontal: 15),
-                              child: InputTags(
+                              child:
+                              InputTags(
                                   tags: _inputTags,
                                   columns: _column,
                                   fontSize: _fontSize,
                                   symmetry: _symmetry,
-                                  //margin: EdgeInsets.all(45),
+                                  //boxShadow: [],
+                                  //color: Colors.red,
+                                  //margin: EdgeInsets.all(15),
                                   lowerCase: true,
-                                  autofocus: false,
+                                  autofocus: true,
                                   onDelete: (tag){
                                       print(tag);
                                   },
@@ -303,7 +314,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                           Padding(
                               padding: EdgeInsets.all(10),
                               child: RaisedButton(
-                                  child: Text('Print all Tag'),
+                                  child: Text('Print all Tags'),
                                   onPressed: (){
                                       _inputOnPressed ='';
                                       _inputTags.forEach((tag) =>

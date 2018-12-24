@@ -10,6 +10,8 @@ class SelectableTags extends StatefulWidget{
                        this.columns = 4,
                        this.height,
                        this.borderRadius,
+                       this.borderSide,
+                       this.boxShadow,
                        this.symmetry = false,
                        this.margin,
                        this.alignment,
@@ -29,6 +31,8 @@ class SelectableTags extends StatefulWidget{
     final int columns;
     final double height;
     final double borderRadius;
+    final BorderSide borderSide;
+    final List<BoxShadow> boxShadow;
     final bool symmetry;
     final EdgeInsets margin;
     final MainAxisAlignment alignment;
@@ -57,7 +61,8 @@ class _SelectableTagsState extends State<SelectableTags>
     List<Tag> _tags = [];
 
     double _width = 1;
-    double _initMargin = 5;
+    double _initMargin = 3;
+    double _initBorderRadius = 50;
 
 
     @override
@@ -89,9 +94,8 @@ class _SelectableTagsState extends State<SelectableTags>
             key:_containerKey,
             margin: EdgeInsets.symmetric(vertical:5.0,horizontal:0.0),
             color: widget.backgroundContainer ?? Colors.white,
-            child: Column(
-                children: _buildRow(),
-            ),
+            //child: _wrap()
+            child: Column( children: _buildRow(), ),
         );
     }
 
@@ -106,7 +110,7 @@ class _SelectableTagsState extends State<SelectableTags>
 
         int tagsLength = _tags.length;
         int rowsLength = (tagsLength/widget.columns).ceil();
-        double factor = 9*(widget.fontSize/14);
+        double factor = 9*(widget.fontSize.clamp(12, 24)/14);
         double width = _width;// - columns *(_margin ?? 10);
 
         //compensates for the length of the string characters
@@ -129,7 +133,7 @@ class _SelectableTagsState extends State<SelectableTags>
             // makes sure that 'end' does not exceed 'tagsLength'
             if(end>=tagsLength) end -= end-tagsLength;
 
-            int column = 1;
+            int column = 0;
             if(!widget.symmetry){
                 for(int j=start  ; j < end ; j++ ){
                     charsLenght += _tags[j%tagsLength].length+offset;
@@ -178,24 +182,32 @@ class _SelectableTagsState extends State<SelectableTags>
         Tag tag = _tags[index];
 
         return Flexible(
-            flex: (widget.symmetry)? null : (_tags[index].length/column+2).ceil(),
+            flex: (widget.symmetry)? null : ((_tags[index].length)/column+1).ceil(),
             child: Tooltip(
                 message: tag.title.toString(),
                 child: Container(
-                    margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: _initMargin),
+                    margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical:6),
                     width: (widget.symmetry)? _widthCalc( row: row ) : null,
-                    height: widget.height ?? 34.0*(widget.fontSize/14),
+                    height: widget.height ?? 31*(widget.fontSize/14),
                     padding: EdgeInsets.all(0.0),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(widget.borderRadius ?? 50.0),
-                        color: tag.active? (widget.activeColor ?? Colors.green): (widget.color ?? Colors.white),
+                        boxShadow: widget.boxShadow ?? [
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                spreadRadius: 0.5,
+                                blurRadius: 4,
+                                offset: Offset(0, 1)
+                            )
+                        ],
+                        borderRadius: BorderRadius.circular(widget.borderRadius ?? _initBorderRadius),
+                        color: tag.active? (widget.activeColor ?? Colors.blueGrey): (widget.color ?? Colors.white),
                     ),
                     child:OutlineButton(
-                        color: widget.activeColor ?? Colors.green,
+                        color: widget.activeColor ?? Colors.blueGrey,
                         highlightColor: Colors.transparent,
                         highlightedBorderColor: Colors.transparent,
-                        disabledTextColor: Colors.red,
-                        borderSide: BorderSide(color: (widget.activeColor ?? Colors.green)),
+                        //disabledTextColor: Colors.red,
+                        borderSide: widget.borderSide ?? BorderSide(color: (widget.activeColor ?? Colors.blueGrey)),
                         child:
                         (tag.icon!=null)?
                             FittedBox(
@@ -222,12 +234,78 @@ class _SelectableTagsState extends State<SelectableTags>
                                 widget.onPressed(tag);
                             });
                         },
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(widget.borderRadius ?? 50.0))
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(widget.borderRadius ?? _initBorderRadius))
                     )
                 ),
             )
         );
     }
+
+
+    Widget _wrap()
+    {
+        List<Widget> list=[];
+
+        _tags.forEach((tag){
+            list.add(
+                Tooltip(
+                    message: tag.title.toString(),
+                    child: Container(
+                        margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: 6),
+                        width: (widget.symmetry)? _widthCalc( ) : null,
+                        height: widget.height ?? 31.0*(widget.fontSize/14),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(widget.borderRadius ?? _initBorderRadius),
+                            color: tag.active? (widget.activeColor ?? Colors.green): (widget.color ?? Colors.white),
+                        ),
+                        child:OutlineButton(
+                            color: widget.activeColor ?? Colors.green,
+                            highlightColor: Colors.transparent,
+                            highlightedBorderColor: Colors.transparent,
+                            disabledTextColor: Colors.red,
+                            borderSide: BorderSide(color: (widget.activeColor ?? Colors.green)),
+                            child:
+                            (tag.icon!=null)?
+                            FittedBox(
+                                child: Icon(
+                                    tag.icon,
+                                    size: widget.fontSize,
+                                    color: tag.active? (widget.textActiveColor ?? Colors.white) : (widget.textColor ?? Colors.black),
+                                ),
+                            )
+                                :
+                            Text(
+                                tag.title,
+                                overflow: widget.textOverflow ?? TextOverflow.fade,
+                                softWrap: false,
+                                style: TextStyle(
+                                    fontSize: widget.fontSize ?? null,
+                                    color: tag.active? (widget.textActiveColor ?? Colors.white) : (widget.textColor ?? Colors.black),
+                                    fontWeight: FontWeight.normal
+                                ),
+                            ),
+                            onPressed: () {
+                                setState(() {
+                                    tag.active=!tag.active;
+                                    widget.onPressed(tag);
+                                });
+                            },
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(widget.borderRadius ?? _initBorderRadius))
+                        )
+                    ),
+                )
+            );
+
+        });
+
+        return Wrap(
+            alignment: WrapAlignment.center,
+            //runSpacing: 8,
+            //spacing: 5,
+            children: list,
+        );
+    }
+
 
 
     double _widthCalc({int row})
