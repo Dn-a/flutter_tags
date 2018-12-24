@@ -17,8 +17,8 @@ dependencies:
 ### DEMO
 ![Example](https://github.com/Dn-a/flutter_tags/tree/master/example)
 
-![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example.gif)
-![Demo 2](https://github.com/Dn-a/flutter_tags/blob/master/example/example3.gif)
+![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example1.1.gif)
+![Demo 2](https://github.com/Dn-a/flutter_tags/blob/master/example/example2.1.gif)
 
 
 # Selectable Tags
