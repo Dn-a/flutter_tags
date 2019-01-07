@@ -1,3 +1,7 @@
+## [0.1.6] - 2019-01-07.
+
+* - Fixed error "Infinity or NaN toInt" on InputTags; - general improvement of the code.
+
 ## [0.1.5] - 2018-12-24.
 
 * Added new features - general improvement of the code.

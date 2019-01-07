@@ -206,14 +206,14 @@ class _InputTagsState extends State<InputTags>
 
     Widget _buildField({int index, int column, bool last=false})
     {
-        String tag = (index!=null)?_tags[index]:null;
+        String tag = (index!=null )?_tags[index]:null;
 
         // Currently they are indispensable for the correct functioning of TextField
         int c =0;
         String current = '';
 
         Widget textField = Flexible(
-            flex: (widget.symmetry)? 1 : (18/column).ceil(),
+            flex: (widget.symmetry)? 1 : (18/ column!=0?column:1).ceil(),
             child: Container(
                 margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: 4),
                 width: 200,

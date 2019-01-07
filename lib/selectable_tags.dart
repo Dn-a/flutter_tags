@@ -241,72 +241,7 @@ class _SelectableTagsState extends State<SelectableTags>
         );
     }
 
-
-    Widget _wrap()
-    {
-        List<Widget> list=[];
-
-        _tags.forEach((tag){
-            list.add(
-                Tooltip(
-                    message: tag.title.toString(),
-                    child: Container(
-                        margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: 6),
-                        width: (widget.symmetry)? _widthCalc( ) : null,
-                        height: widget.height ?? 31.0*(widget.fontSize/14),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(widget.borderRadius ?? _initBorderRadius),
-                            color: tag.active? (widget.activeColor ?? Colors.green): (widget.color ?? Colors.white),
-                        ),
-                        child:OutlineButton(
-                            color: widget.activeColor ?? Colors.green,
-                            highlightColor: Colors.transparent,
-                            highlightedBorderColor: Colors.transparent,
-                            disabledTextColor: Colors.red,
-                            borderSide: BorderSide(color: (widget.activeColor ?? Colors.green)),
-                            child:
-                            (tag.icon!=null)?
-                            FittedBox(
-                                child: Icon(
-                                    tag.icon,
-                                    size: widget.fontSize,
-                                    color: tag.active? (widget.textActiveColor ?? Colors.white) : (widget.textColor ?? Colors.black),
-                                ),
-                            )
-                                :
-                            Text(
-                                tag.title,
-                                overflow: widget.textOverflow ?? TextOverflow.fade,
-                                softWrap: false,
-                                style: TextStyle(
-                                    fontSize: widget.fontSize ?? null,
-                                    color: tag.active? (widget.textActiveColor ?? Colors.white) : (widget.textColor ?? Colors.black),
-                                    fontWeight: FontWeight.normal
-                                ),
-                            ),
-                            onPressed: () {
-                                setState(() {
-                                    tag.active=!tag.active;
-                                    widget.onPressed(tag);
-                                });
-                            },
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(widget.borderRadius ?? _initBorderRadius))
-                        )
-                    ),
-                )
-            );
-
-        });
-
-        return Wrap(
-            alignment: WrapAlignment.center,
-            //runSpacing: 8,
-            //spacing: 5,
-            children: list,
-        );
-    }
-
-
+    
 
     double _widthCalc({int row})
     {
