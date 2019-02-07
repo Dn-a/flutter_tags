@@ -51,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   ];
 
   bool _symmetry = false;
+  bool _singleItem = false;
   int _column = 4;
   double _fontSize = 14;
 
@@ -66,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     Icons.headset
   ];
 
+
   @override
   void initState()
   {
@@ -73,19 +75,35 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     _tabController = TabController(length: 2, vsync: this);
     _scrollViewController = ScrollController();
 
-    _list.forEach((item) =>
-        _selectableTags.add(
-            Tag(title: item, active: true,icon: (item=='0' || item=='1' || item=='2')? _icon[ int.parse(item) ]:null )
-        )
+    int cnt = 0;
+    _list.forEach((item)
+    {
+        _selectableTags.add (
+            Tag (id: cnt,
+                title: item,
+                active: (_singleItem) ? ( cnt==3 ? true:false ) : true,
+                icon: (item == '0' || item == '1' || item == '2') ?
+                _icon[ int.parse (item
+                ) ] : null
+            )
+        );
+        cnt++;
+    }
     );
 
     _inputTags.addAll(
         [
             'first tag',
             'android world',
+            'pic',
             'substring',
             'last tag',
-            'enable'
+            'enable',
+            'act',
+            'first',
+            'return',
+            'lollipop',
+            'loop',
         ]
     );
 
@@ -150,6 +168,26 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                   });
                                 },
                               ),
+                              GestureDetector(
+                                  child: Row(
+                                      children: <Widget>[
+                                          Checkbox(
+                                              value: _singleItem,
+                                              onChanged: (a){
+                                                  setState(() {
+                                                      _singleItem = !_singleItem;
+                                                  });
+                                              }
+                                          ),
+                                          Text('Single Item')
+                                      ],
+                                  ),
+                                  onTap: (){
+                                      setState(() {
+                                          _singleItem = !_singleItem;
+                                      });
+                                  },
+                              ),
                               Padding(
                                 padding: EdgeInsets.all(20),
                               ),
@@ -190,11 +228,16 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                             padding: EdgeInsets.all(10),
                           ),
                           Container(
-                            child: SelectableTags(
+                            child:
+                            SelectableTags(
                               tags: _selectableTags,
                               columns: _column,
                               fontSize: _fontSize,
                               symmetry: _symmetry,
+                              singleItem: _singleItem,
+                              //activeColor: Colors.deepPurple,
+                              //boxShadow: [],
+                              //margin: EdgeInsets.symmetric(horizontal: 3, vertical: 6),
                               onPressed: (tag){
                                 setState(() {
                                   _selectableOnPressed = tag.toString();
@@ -285,13 +328,22 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                           ),
                           Container(
                               padding: EdgeInsets.symmetric(horizontal: 15),
-                              child: InputTags(
+                              child:
+                              InputTags(
                                   tags: _inputTags,
                                   columns: _column,
                                   fontSize: _fontSize,
                                   symmetry: _symmetry,
+                                  iconBackground: Colors.green[800],
+                                  //boxShadow: [],
+                                  //color: Colors.red,
+                                  //margin: EdgeInsets.all(15),
                                   lowerCase: true,
+                                  autofocus: true,
                                   onDelete: (tag){
+                                      print(tag);
+                                  },
+                                  onInsert: (tag){
                                       print(tag);
                                   },
                               ),
@@ -302,7 +354,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                           Padding(
                               padding: EdgeInsets.all(10),
                               child: RaisedButton(
-                                  child: Text('Print all Tag'),
+                                  child: Text('Print all Tags'),
                                   onPressed: (){
                                       _inputOnPressed ='';
                                       _inputTags.forEach((tag) =>
@@ -347,8 +399,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
 ```
 
 ## DEMO
-![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example1.1.gif)
-![Demo 2](https://github.com/Dn-a/flutter_tags/blob/master/example/example2.1.gif)
+![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example1.2.gif)
+![Demo 2](https://github.com/Dn-a/flutter_tags/blob/master/example/example2.2.gif)
 
 ## Other
 This project is a starting point for a Flutter application.

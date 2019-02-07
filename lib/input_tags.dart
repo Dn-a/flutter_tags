@@ -24,6 +24,8 @@ class InputTags extends StatefulWidget{
                        this.duplicate = false,
                        this.fontSize = 14,
                        this.iconSize,
+                       this.iconColor,
+                       this.iconBackground,
                        this.textOverflow,
                        this.textColor,
                        this.lowerCase = false,
@@ -52,6 +54,8 @@ class InputTags extends StatefulWidget{
     final bool duplicate;
     final double fontSize;
     final double iconSize;
+    final Color iconColor;
+    final Color iconBackground;
     final TextOverflow textOverflow;
     final Color textColor;
     final bool lowerCase;
@@ -89,19 +93,6 @@ class _InputTagsState extends State<InputTags>
         super.initState();
 
         _tags = widget.tags;
-
-        //get the current width of the container
-        WidgetsBinding.instance.addPostFrameCallback((_){
-            final keyContext = _containerKey.currentContext;
-            if (keyContext != null) {
-                final RenderBox box = keyContext.findRenderObject ( );
-                final size = box.size;
-
-                setState(() {
-                    _width = size.width;
-                });
-            }
-        });
     }
 
 
@@ -113,9 +104,26 @@ class _InputTagsState extends State<InputTags>
     }
 
 
+    //get the current width of the container
+    void _getwidthContainer()
+    {
+        WidgetsBinding.instance.addPostFrameCallback((_){
+            final keyContext = _containerKey.currentContext;
+            if (keyContext != null) {
+                final RenderBox box = keyContext.findRenderObject ( );
+                final size = box.size;
+                setState(() {
+                    _width = size.width;
+                });
+            }
+        });
+    }
+
+
     @override
     Widget build(BuildContext context)
     {
+        _getwidthContainer();
         return Container(
             key:_containerKey,
             margin: EdgeInsets.symmetric(vertical:5.0,horizontal:0.0),
@@ -137,11 +145,11 @@ class _InputTagsState extends State<InputTags>
 
         int tagsLength = _tags.length+1;
         int rowsLength = (tagsLength/widget.columns).ceil();
-        double factor = 9*((widget.fontSize.clamp(8, 24))/14);
+        double factor = 8.4*((widget.fontSize.clamp(8, 24))/14);
         double width = _width;//- columns *(_margin ?? 4);
 
         //compensates for the length of the string characters
-        int offset = widget.offset ?? 3;
+        int offset = widget.offset ?? 2;
 
         int start = 0;
         bool overflow;
@@ -161,7 +169,8 @@ class _InputTagsState extends State<InputTags>
             int column = 0;
             if(!widget.symmetry && _tags.isNotEmpty){
                 for(int j=start  ; j < end ; j++ ){
-                    charsLenght += _tags[j%(tagsLength-1)].length + offset;
+                    int length = _tags[j%(tagsLength-1)].length;
+                    charsLenght += ( length < 3 ? 3:length) + offset;
                     double a = charsLenght * factor;
 
                     //total calculation of the margin of each field
@@ -176,7 +185,8 @@ class _InputTagsState extends State<InputTags>
             for(int j=start  ; j < end ; j++ ){
 
                 if(!widget.symmetry && _tags.isNotEmpty){
-                    charsLenght += _tags[j%(tagsLength-1)].length + offset;
+                    int length = _tags[j%(tagsLength-1)].length;
+                    charsLenght += ( length < 3 ? 3:length) + offset;
                     double a = charsLenght * factor;
                     if( j>start && a>width ){
                         start = j;
@@ -303,7 +313,7 @@ class _InputTagsState extends State<InputTags>
                     child: AnimatedContainer(
                         duration: _check==index? Duration(milliseconds: 80) : Duration(microseconds: 0),
                         margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: 4),
-                        padding: EdgeInsets.only(left: 15),
+                        padding: EdgeInsets.only(left: widget.symmetry? 15 :12),
                         width: (widget.symmetry)? _widthCalc( ) : null,
                         height: widget.height ?? 31*(widget.fontSize/14),
                         decoration: BoxDecoration(
@@ -338,22 +348,25 @@ class _InputTagsState extends State<InputTags>
                                 ),
                                 FittedBox(
                                     fit: BoxFit.contain,
-                                    child: SizedBox(
-                                        width: 40,
-                                        child: IconButton(
-                                            splashColor: Colors.transparent,
-                                            highlightColor: Colors.transparent,
-                                            icon: Icon(Icons.clear),
-                                            color: widget.textColor ?? Colors.white,
-                                            iconSize:  widget.iconSize ?? ((widget.fontSize!=null)? 18 +(widget.fontSize.clamp(12, 24).toDouble()-18) : 18),
-                                            onPressed: (){
-                                                _check = -1;
-                                                widget.onDelete(tag);
-                                                setState(() {
-                                                    _tags.remove(tag);
-                                                });
-                                            }
+                                    child: GestureDetector(
+                                        child: Container(
+                                            padding: EdgeInsets.all(1),
+                                            margin: EdgeInsets.only(left:5, right: 5),
+                                            decoration: BoxDecoration(
+                                                color: widget.iconBackground ?? Colors.transparent,
+                                                borderRadius: BorderRadius.circular(widget.borderRadius ?? _initBorderRadius),
+                                            ),
+                                            child: Icon(
+                                                Icons.clear,color: widget.iconColor ?? Colors.white,
+                                                size: widget.iconSize ?? ((widget.fontSize!=null)? 15 +(widget.fontSize.clamp(12, 24).toDouble()-18) : 14)),
                                         ),
+                                        onTap: (){
+                                            _check = -1;
+                                            widget.onDelete(tag);
+                                            setState(() {
+                                                _tags.remove(tag);
+                                            });
+                                        },
                                     )
                                 )
                             ],

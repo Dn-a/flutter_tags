@@ -45,6 +45,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   ];
 
   bool _symmetry = false;
+  bool _singleItem = false;
   int _column = 4;
   double _fontSize = 14;
 
@@ -68,10 +69,20 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     _tabController = TabController(length: 2, vsync: this);
     _scrollViewController = ScrollController();
 
-    _list.forEach((item) =>
-        _selectableTags.add(
-            Tag(title: item, active: true,icon: (item=='0' || item=='1' || item=='2')? _icon[ int.parse(item) ]:null )
-        )
+    int cnt = 0;
+    _list.forEach((item)
+    {
+        _selectableTags.add (
+            Tag (id: cnt,
+                title: item,
+                active: (_singleItem) ? ( cnt==3 ? true:false ) : true,
+                icon: (item == '0' || item == '1' || item == '2') ?
+                _icon[ int.parse (item
+                ) ] : null
+            )
+        );
+        cnt++;
+    }
     );
 
     _inputTags.addAll(
@@ -151,6 +162,26 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                   });
                                 },
                               ),
+                              GestureDetector(
+                                  child: Row(
+                                      children: <Widget>[
+                                          Checkbox(
+                                              value: _singleItem,
+                                              onChanged: (a){
+                                                  setState(() {
+                                                      _singleItem = !_singleItem;
+                                                  });
+                                              }
+                                          ),
+                                          Text('Single Item')
+                                      ],
+                                  ),
+                                  onTap: (){
+                                      setState(() {
+                                          _singleItem = !_singleItem;
+                                      });
+                                  },
+                              ),
                               Padding(
                                 padding: EdgeInsets.all(20),
                               ),
@@ -197,6 +228,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                               columns: _column,
                               fontSize: _fontSize,
                               symmetry: _symmetry,
+                              singleItem: _singleItem,
+                              //activeColor: Colors.deepPurple,
                               //boxShadow: [],
                               //margin: EdgeInsets.symmetric(horizontal: 3, vertical: 6),
                               onPressed: (tag){
@@ -295,6 +328,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                   columns: _column,
                                   fontSize: _fontSize,
                                   symmetry: _symmetry,
+                                  iconBackground: Colors.green[800],
                                   //boxShadow: [],
                                   //color: Colors.red,
                                   //margin: EdgeInsets.all(15),

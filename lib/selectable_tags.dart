@@ -13,6 +13,7 @@ class SelectableTags extends StatefulWidget{
                        this.borderSide,
                        this.boxShadow,
                        this.symmetry = false,
+                       this.singleItem = false,
                        this.margin,
                        this.alignment,
                        this.offset,
@@ -34,6 +35,7 @@ class SelectableTags extends StatefulWidget{
     final BorderSide borderSide;
     final List<BoxShadow> boxShadow;
     final bool symmetry;
+    final bool singleItem;
     final EdgeInsets margin;
     final MainAxisAlignment alignment;
     final int offset;
@@ -71,14 +73,17 @@ class _SelectableTagsState extends State<SelectableTags>
         super.initState();
 
         _tags = widget.tags;
+    }
 
-        //get the current width of the container
+
+    //get the current width of the container
+    void _getwidthContainer()
+    {
         WidgetsBinding.instance.addPostFrameCallback((_){
             final keyContext = _containerKey.currentContext;
             if (keyContext != null) {
                 final RenderBox box = keyContext.findRenderObject ( );
                 final size = box.size;
-
                 setState(() {
                     _width = size.width;
                 });
@@ -90,6 +95,7 @@ class _SelectableTagsState extends State<SelectableTags>
     @override
     Widget build(BuildContext context)
     {
+        _getwidthContainer();
         return Container(
             key:_containerKey,
             margin: EdgeInsets.symmetric(vertical:5.0,horizontal:0.0),
@@ -172,7 +178,6 @@ class _SelectableTagsState extends State<SelectableTags>
                 )
             );
         }
-
         return rows;
     }
 
@@ -203,9 +208,9 @@ class _SelectableTagsState extends State<SelectableTags>
                         color: tag.active? (widget.activeColor ?? Colors.blueGrey): (widget.color ?? Colors.white),
                     ),
                     child:OutlineButton(
-                        color: widget.activeColor ?? Colors.blueGrey,
+                        color: tag.active? (widget.activeColor ?? Colors.blueGrey): (widget.color ?? Colors.white),
                         highlightColor: Colors.transparent,
-                        highlightedBorderColor: Colors.transparent,
+                        highlightedBorderColor: widget.activeColor ?? Colors.blueGrey,
                         //disabledTextColor: Colors.red,
                         borderSide: widget.borderSide ?? BorderSide(color: (widget.activeColor ?? Colors.blueGrey)),
                         child:
@@ -229,10 +234,14 @@ class _SelectableTagsState extends State<SelectableTags>
                                 ),
                             ),
                         onPressed: () {
+
+                            if(widget.singleItem) _singleItem();
+
                             setState(() {
-                                tag.active=!tag.active;
+                                (widget.singleItem)? tag.active = true : tag.active=!tag.active;
                                 widget.onPressed(tag);
                             });
+
                         },
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(widget.borderRadius ?? _initBorderRadius))
                     )
@@ -241,8 +250,14 @@ class _SelectableTagsState extends State<SelectableTags>
         );
     }
 
-    
 
+    // Single Selection Item (same Radiobutton group HTML)
+    void _singleItem()
+    {
+        _tags.where((tg) => tg.active).forEach((tg) => tg.active = false);
+    }
+
+    // Single tag calculation
     double _widthCalc({int row})
     {
         int columns = widget.columns;

@@ -1,6 +1,6 @@
 # flutter_tags
 
-[![pub package](https://img.shields.io/badge/pub-0.1.6-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
+[![pub package](https://img.shields.io/badge/pub-0.1.7-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
 
 
@@ -10,15 +10,15 @@ Flutter tags let you create a list of tags or insert them dynamically with the i
 Add this to your package's pubspec.yaml file:
 ```
 dependencies:
-  flutter_tags: "^0.1.6"
+  flutter_tags: "^0.1.7"
 ```
 
 
 ### DEMO
 ![Example](https://github.com/Dn-a/flutter_tags/tree/master/example)
 
-![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example1.1.gif)
-![Demo 2](https://github.com/Dn-a/flutter_tags/blob/master/example/example2.1.gif)
+![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example1.2.gif)
+![Demo 2](https://github.com/Dn-a/flutter_tags/blob/master/example/example2.2.gif)
 
 
 # Selectable Tags
@@ -52,9 +52,9 @@ void initState()
         items.forEach((item) =>
             _tags.add(
                 Tag(
-                    id: imte.id,
+                    id: item.id,
                     title: item.title, 
-                    active: item.active
+                    active: bool.fromEnvironment(item.active) == "true",
                 )
             )
         );  
@@ -92,6 +92,7 @@ void _getDisableTags()
 * borderSide - *style border Side*
 * boxShadow - *List<BoxShadow> of tag*
 * symmetry - *bool*
+* singleItem - *default false - same Radiobutton group HTML*
 * margin - *margin between the tags*
 * alignment - *default  MainAxisAlignment.center*
 * offset - *default 2*
@@ -174,6 +175,8 @@ void _getTags()
 * duplicate - *allows you to insert duplicates (default false)*
 * fontSize - *default 14*
 * iconSize - *default auto-resize*
+* iconColor - *default White*
+* iconBackground - *default transparent*
 * textOverflow - *ellipsis, clip...(default fade)*
 * textColor - *default white*
 * lowerCase - *default false*
