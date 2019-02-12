@@ -1,4 +1,4 @@
-## [0.1.7] - 2019-07-02.
+## [0.1.7] - 2019-02-07.
 
 * - Added new feature SingleItem on SelectableTags; - Possibility to change color/background-color icon on InputTags; - General improvement of the code.
 
