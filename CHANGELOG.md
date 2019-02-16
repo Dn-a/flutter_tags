@@ -1,6 +1,6 @@
 ## [0.1.8] - 2019-02-16.
 
-* Improvement of documentation.
+* Improvement of library documentation.
 
 ## [0.1.7] - 2019-02-07.
 
