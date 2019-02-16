@@ -1,10 +1,14 @@
+## [0.1.8] - 2019-02-16.
+
+* Improvement of documentation.
+
 ## [0.1.7] - 2019-02-07.
 
-* - Added new feature SingleItem on SelectableTags; - Possibility to change color/background-color icon on InputTags; - General improvement of the code.
+* Added new feature SingleItem on SelectableTags; - Possibility to change color/background-color icon on InputTags; - General improvement of the code.
 
 ## [0.1.6] - 2019-01-07.
 
-* - Fixed error "Infinity or NaN toInt" on InputTags; - general improvement of the code.
+* Fixed error "Infinity or NaN toInt" on InputTags; - general improvement of the code.
 
 ## [0.1.5] - 2018-12-24.
 

@@ -26,26 +26,63 @@ class SelectableTags extends StatefulWidget{
                        this.backgroundContainer,
                        this.onPressed,
                        Key key
-                   }) : super(key: key);
+                   }) : assert(tags != null), super(key: key);
 
+    ///List of [Tag] object
     final List<Tag> tags;
+
+    ///specific number of columns
     final int columns;
+
+    ///customize the height of the [Tag]. Default auto-resize
     final double height;
+
+    /// border-radius of [Tag]
     final double borderRadius;
+
+    /// custom border-side of [Tag]
     final BorderSide borderSide;
+
+    /// box-shadow of [Tag]
     final List<BoxShadow> boxShadow;
+
+    /// imposes the same width and the same number of columns for each row
     final bool symmetry;
+
+    /// when you want only one tag selected. same radio-button
     final bool singleItem;
+
+    /// margin between the [Tag]
     final EdgeInsets margin;
+
+    /// type of row alignment
     final MainAxisAlignment alignment;
+
+    /// with a high value, set the line break first
     final int offset;
+
+    /// font size, the height of the [Tag] is proportional to the font size
     final double fontSize;
+
+    /// type of text overflow within the [Tag]
     final TextOverflow textOverflow;
+
+    /// text color of the [Tag]
     final Color textColor;
+
+    /// color of the [Tag] text activated
     final Color textActiveColor;
+
+    /// background color [Tag]
     final Color color;
+
+    /// background color [Tag] activated
     final Color activeColor;
+
+    /// background color container
     final Color backgroundContainer;
+
+    /// callback
     final OnPressed onPressed;
 
 
@@ -292,7 +329,7 @@ class Tag
     @override
     String toString()
     {
-        return '<TAG>\n id: ${id};\n title: ${title};\n active: ${active};\n charsLength: ${length}\n<>' ;
+        return '<TAG>\n id: $id;\n title: $title;\n active: $active;\n charsLength: $length\n<>' ;
     }
 
 }

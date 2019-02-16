@@ -35,34 +35,87 @@ class InputTags extends StatefulWidget{
                        this.onDelete,
                        this.onInsert,
                        Key key
-                   }) : super(key: key);
+                   }) : assert(tags != null), super(key: key);
 
+    ///List of [Tag] object
     final List<String> tags;
+
+    ///specific number of columns
     final int columns;
+
+    ///autofocus InputField
     final bool autofocus;
+
+    ///decoration InputField
     final InputDecoration inputDecoration;
+
+    ///max-length InputField
     final int maxLength;
+
+    ///keyboard InputField
     final TextInputType keyboardType;
+
+    ///customize the height of the [Tag]. Default auto-resize
     final double height;
+
+    /// border-radius of [Tag]
     final double borderRadius;
+
+    /// box-shadow of [Tag]
     final List<BoxShadow> boxShadow;
+
+    ///placeholder InputField
     final String placeholder;
+
+    /// imposes the same width and the same number of columns for each row
     final bool symmetry;
+
+    /// margin between the [Tag]
     final EdgeInsets margin;
+
+    /// type of row alignment
     final MainAxisAlignment alignment;
+
+    /// with a high value, set the line break first
     final int offset;
+
+    /// possibility to insert duplicates in the list
     final bool duplicate;
+
+    /// font size, the height of the [Tag] is proportional to the font size
     final double fontSize;
+
+    /// icon size of Icon close
     final double iconSize;
+
+    /// color of Icon close
     final Color iconColor;
+
+    /// background of Icon close
     final Color iconBackground;
+
+    /// type of text overflow within the [Tag]
     final TextOverflow textOverflow;
+
+    /// text-color of the [Tag]
     final Color textColor;
+
+    /// lower-case text [Tag]
     final bool lowerCase;
+
+    /// background color [Tag]
     final Color color;
+
+    /// background color container
     final Color backgroundContainer;
+
+    ///highlight-color. it is activated when trying to insert a duplicate
     final Color highlightColor;
+
+    /// callback
     final OnDelete onDelete;
+
+    /// callback
     final OnInsert onInsert;
 
 
