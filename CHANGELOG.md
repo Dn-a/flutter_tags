@@ -1,3 +1,7 @@
+## [0.1.9] - 2019-02-23.
+
+* width calculated based on the byte length of the title; - when the orientation changes, a recalculation of the screen width is performed.
+
 ## [0.1.8] - 2019-02-16.
 
 * Improvement of library documentation.

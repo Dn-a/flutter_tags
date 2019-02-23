@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
+/// Callback
 typedef void OnPressed(Tag tags);
 
 
@@ -58,7 +61,8 @@ class SelectableTags extends StatefulWidget{
     /// type of row alignment
     final MainAxisAlignment alignment;
 
-    /// with a high value, set the line break first
+    /// Different characters may have different widths
+    /// With offset you can improve the automatic alignment of tags (default 28)
     final int offset;
 
     /// font size, the height of the [Tag] is proportional to the font size
@@ -96,10 +100,11 @@ class _SelectableTagsState extends State<SelectableTags>
 {
 
     GlobalKey _containerKey = new GlobalKey();
+    Orientation _orientation = Orientation.portrait;
 
     List<Tag> _tags = [];
 
-    double _width = 1;
+    double _width =0;
     double _initMargin = 3;
     double _initBorderRadius = 50;
 
@@ -108,6 +113,7 @@ class _SelectableTagsState extends State<SelectableTags>
     void initState()
     {
         super.initState();
+        _getwidthContainer();
 
         _tags = widget.tags;
     }
@@ -132,7 +138,11 @@ class _SelectableTagsState extends State<SelectableTags>
     @override
     Widget build(BuildContext context)
     {
-        _getwidthContainer();
+        // essential to avoid infinite loop of addPostFrameCallback
+        if(MediaQuery.of(context).orientation != _orientation || _width==0)
+            _getwidthContainer();
+        _orientation = MediaQuery.of(context).orientation;
+
         return Container(
             key:_containerKey,
             margin: EdgeInsets.symmetric(vertical:5.0,horizontal:0.0),
@@ -149,15 +159,15 @@ class _SelectableTagsState extends State<SelectableTags>
 
         int columns = widget.columns;
 
-        int margin = (widget.margin!=null)? widget.margin.horizontal.round(): _initMargin.round()*2;
+        int margin = (widget.margin!=null)? widget.margin.horizontal.round() : _initMargin.round()*2;
 
         int tagsLength = _tags.length;
         int rowsLength = (tagsLength/widget.columns).ceil();
-        double factor = 9*(widget.fontSize.clamp(12, 24)/14);
+        double factor = 8*(widget.fontSize.clamp(7, 32)/15);
         double width = _width;// - columns *(_margin ?? 10);
 
         //compensates for the length of the string characters
-        int offset = widget.offset ?? 2;
+        int offset = widget.offset ?? 28;
 
         int start = 0;
         bool overflow;
@@ -179,12 +189,12 @@ class _SelectableTagsState extends State<SelectableTags>
             int column = 0;
             if(!widget.symmetry){
                 for(int j=start  ; j < end ; j++ ){
-                    charsLenght += _tags[j%tagsLength].length+offset;
+                    charsLenght += _tags[j%tagsLength].length;
                     double a = charsLenght * factor;
 
                     //total calculation of the margin of each field
-                    width=_width - column *(margin);
-                    if(j>start && a>width) break;
+                    width = _width - (column * (margin + offset));
+                    if(j > start && a > width) break;
                     column++;
                 }
                 charsLenght = 0;
@@ -193,9 +203,9 @@ class _SelectableTagsState extends State<SelectableTags>
             for(int j=start  ; j < end ; j++ ){
 
                 if(!widget.symmetry){
-                    charsLenght += _tags[j%tagsLength].length+offset;
+                    charsLenght += _tags[j%tagsLength].length;
                     double a = charsLenght * factor;
-                    if( j>start && a>width ){
+                    if( j > start && a > width ){
                         start = j;
                         overflow = true;
                         rowsLength +=1;
@@ -224,7 +234,7 @@ class _SelectableTagsState extends State<SelectableTags>
         Tag tag = _tags[index];
 
         return Flexible(
-            flex: (widget.symmetry)? null : ((_tags[index].length)/column+1).ceil(),
+            flex: (widget.symmetry)? null : ((tag.length)/(column+1)+1).ceil(),
             child: Tooltip(
                 message: tag.title.toString(),
                 child: Container(
@@ -252,24 +262,24 @@ class _SelectableTagsState extends State<SelectableTags>
                         borderSide: widget.borderSide ?? BorderSide(color: (widget.activeColor ?? Colors.blueGrey)),
                         child:
                         (tag.icon!=null)?
-                            FittedBox(
-                                child: Icon(
-                                    tag.icon,
-                                    size: widget.fontSize,
-                                    color: tag.active? (widget.textActiveColor ?? Colors.white) : (widget.textColor ?? Colors.black),
-                                ),
-                            )
-                        :
-                            Text(
-                                tag.title,
-                                overflow: widget.textOverflow ?? TextOverflow.fade,
-                                softWrap: false,
-                                style: TextStyle(
-                                    fontSize: widget.fontSize ?? null,
-                                    color: tag.active? (widget.textActiveColor ?? Colors.white) : (widget.textColor ?? Colors.black),
-                                    fontWeight: FontWeight.normal
-                                ),
+                        FittedBox(
+                            child: Icon(
+                                tag.icon,
+                                size: widget.fontSize,
+                                color: tag.active? (widget.textActiveColor ?? Colors.white) : (widget.textColor ?? Colors.black),
                             ),
+                        )
+                            :
+                        Text(
+                            tag.title,
+                            overflow: widget.textOverflow ?? TextOverflow.fade,
+                            softWrap: false,
+                            style: TextStyle(
+                                fontSize: widget.fontSize ?? null,
+                                color: tag.active? (widget.textActiveColor ?? Colors.white) : (widget.textColor ?? Colors.black),
+                                fontWeight: FontWeight.normal
+                            ),
+                        ),
                         onPressed: () {
 
                             if(widget.singleItem) _singleItem();
@@ -288,13 +298,13 @@ class _SelectableTagsState extends State<SelectableTags>
     }
 
 
-    // Single Selection Item (same Radiobutton group HTML)
+    /// Single item selection (same Radiobutton group HTML)
     void _singleItem()
     {
         _tags.where((tg) => tg.active).forEach((tg) => tg.active = false);
     }
 
-    // Single tag calculation
+    /// Single tag calculation
     double _widthCalc({int row})
     {
         int columns = widget.columns;
@@ -305,7 +315,7 @@ class _SelectableTagsState extends State<SelectableTags>
         int margin = (widget.margin!=null)? widget.margin.horizontal.round() : _initMargin.round()*2;
 
         int subtraction = columns *(margin);
-        double width = ( _width>1 )? (_width-subtraction)/columns : _width;
+        double width = ( _width > 1 )? (_width-subtraction)/columns : _width;
 
         return width;
     }
@@ -316,7 +326,8 @@ class _SelectableTagsState extends State<SelectableTags>
 class Tag
 {
     Tag({this.id, @required this.title, this.icon, this.active=true}){
-        this.length =  (icon!=null)? 1 : title.length;
+        //When an icon is set, the size is 2. it seemed the most appropriate
+        this.length =  (icon!=null)? 2 : utf8.encode(title).length;
     }
 
     final int id;

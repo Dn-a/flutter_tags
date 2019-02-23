@@ -39,9 +39,13 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   ScrollController _scrollViewController;
 
   final List<String> _list = [
-    '0','SDk','plugin updates','Facebook',
-    'First','Italy','France','Spain','Dart','Foo','Select','lorem ip',
-    'Star','Flutter Selectable Tags','1','Hubble','2','Input flutter tags','A B C','Android Studio developer','welcome to the jungle','very large text',
+    '0','SDk','plugin updates','Facebook','哔了狗了QP又不够了',
+    'Kirchhoff','Italy','France','Spain','Dart','Foo','Select','lorem ip','9',
+    'Star','Flutter Selectable Tags','1','Hubble','2','Input flutter tags','A B C','8','Android Studio developer','welcome to the jungle','Gauss',
+      '美术',
+      '互联网',
+      '炫舞时代',
+      '篝火营地',
   ];
 
   bool _symmetry = false;
@@ -90,10 +94,13 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
             'first tag',
             'android world',
             'pic',
+            '美术',
             'substring',
             'last tag',
             'enable',
             'act',
+            '1',
+            '上上下下左右左右',
             'first',
             'return',
             'lollipop',
@@ -229,6 +236,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                               fontSize: _fontSize,
                               symmetry: _symmetry,
                               singleItem: _singleItem,
+                              //offset: 25,
                               //activeColor: Colors.deepPurple,
                               //boxShadow: [],
                               //margin: EdgeInsets.symmetric(horizontal: 3, vertical: 6),
@@ -321,7 +329,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                               padding: EdgeInsets.all(10),
                           ),
                           Container(
-                              padding: EdgeInsets.symmetric(horizontal: 15),
                               child:
                               InputTags(
                                   tags: _inputTags,

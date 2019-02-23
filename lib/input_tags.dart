@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 typedef void OnDelete(String tags);
@@ -76,7 +78,8 @@ class InputTags extends StatefulWidget{
     /// type of row alignment
     final MainAxisAlignment alignment;
 
-    /// with a high value, set the line break first
+    /// Different characters may have different widths
+    /// With offset you can improve the automatic alignment of tags (default 28)
     final int offset;
 
     /// possibility to insert duplicates in the list
@@ -129,13 +132,14 @@ class _InputTagsState extends State<InputTags>
 {
     GlobalKey _containerKey = new GlobalKey();
     final _controller = TextEditingController();
+    Orientation _orientation = Orientation.portrait;
 
     //duplicate highlighting
     int _check = -1;
 
     List<String> _tags = [];
 
-    double _width = 1;
+    double _width = 0;
     double _initMargin = 3;
     double _initBorderRadius = 50;
 
@@ -176,7 +180,11 @@ class _InputTagsState extends State<InputTags>
     @override
     Widget build(BuildContext context)
     {
-        _getwidthContainer();
+        // essential to avoid infinite loop of addPostFrameCallback
+        if(MediaQuery.of(context).orientation != _orientation || _width==0)
+            _getwidthContainer();
+        _orientation = MediaQuery.of(context).orientation;
+
         return Container(
             key:_containerKey,
             margin: EdgeInsets.symmetric(vertical:5.0,horizontal:0.0),
@@ -198,11 +206,11 @@ class _InputTagsState extends State<InputTags>
 
         int tagsLength = _tags.length+1;
         int rowsLength = (tagsLength/widget.columns).ceil();
-        double factor = 8.4*((widget.fontSize.clamp(8, 24))/14);
+        double factor = 8.8*((widget.fontSize.clamp(7, 32))/15);
         double width = _width;//- columns *(_margin ?? 4);
 
         //compensates for the length of the string characters
-        int offset = widget.offset ?? 2;
+        int offset = widget.offset ?? 28;
 
         int start = 0;
         bool overflow;
@@ -222,12 +230,10 @@ class _InputTagsState extends State<InputTags>
             int column = 0;
             if(!widget.symmetry && _tags.isNotEmpty){
                 for(int j=start  ; j < end ; j++ ){
-                    int length = _tags[j%(tagsLength-1)].length;
-                    charsLenght += ( length < 3 ? 3:length) + offset;
+                    charsLenght += utf8.encode(_tags[j%(tagsLength-1)]).length;
                     double a = charsLenght * factor;
 
-                    //total calculation of the margin of each field
-                    width=_width- column *(margin);
+                    width = _width - (column * (margin + offset));
                     if(j>start && a>width) break;
 
                     column++;
@@ -238,8 +244,7 @@ class _InputTagsState extends State<InputTags>
             for(int j=start  ; j < end ; j++ ){
 
                 if(!widget.symmetry && _tags.isNotEmpty){
-                    int length = _tags[j%(tagsLength-1)].length;
-                    charsLenght += ( length < 3 ? 3:length) + offset;
+                    charsLenght += utf8.encode(_tags[j%(tagsLength-1)]).length;
                     double a = charsLenght * factor;
                     if( j>start && a>width ){
                         start = j;
@@ -360,7 +365,7 @@ class _InputTagsState extends State<InputTags>
             return textField;
         else
             return Flexible(
-                flex: (widget.symmetry)? 1 : ((_tags[index].length)/column+2).ceil(),
+                flex: (widget.symmetry)? 1 : ((utf8.encode(tag).length)/(column+1)+1).ceil(),
                 child: Tooltip(
                     message: tag.toString(),
                     child: AnimatedContainer(

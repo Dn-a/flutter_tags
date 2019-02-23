@@ -1,6 +1,6 @@
 # flutter_tags
 
-[![pub package](https://img.shields.io/badge/pub-0.1.8-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
+[![pub package](https://img.shields.io/badge/pub-0.1.9-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
 
 
@@ -10,7 +10,7 @@ Flutter tags let you create a list of tags or insert them dynamically with the i
 Add this to your package's pubspec.yaml file:
 ```
 dependencies:
-  flutter_tags: "^0.1.8"
+  flutter_tags: "^0.1.9"
 ```
 
 
@@ -95,7 +95,7 @@ void _getDisableTags()
 * singleItem - *default false - same Radiobutton group HTML*
 * margin - *margin between the tags*
 * alignment - *default  MainAxisAlignment.center*
-* offset - *default 2*
+* offset - *Different characters may have different widths(e.g.: chinese character); (default 28)*
 * fontSize - *default 14*
 * textOverflow - *ellipsis, clip...(default fade)*
 * textColor - *default black*
