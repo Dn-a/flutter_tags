@@ -8,7 +8,7 @@ Flutter tags let you create a list of tags or insert them dynamically with the i
 
 ## Installing
 Add this to your package's pubspec.yaml file:
-```
+```dart
 dependencies:
   flutter_tags: "^0.1.9"
 ```
@@ -24,7 +24,7 @@ dependencies:
 # Selectable Tags
 
 The Tag class has some optional parameters. If you want to insert an icon, the title is not displayed but you can always use it.
-```
+```dart
 Tag(
     id: 1,// optional
     icon: Icon.home, // optional
@@ -34,7 +34,7 @@ Tag(
 ```
 
 ### Simple usage
-```
+```dart
 import 'package:flutter_tags/selectable_tags.dart';
 .
 .
@@ -82,8 +82,8 @@ void _getDisableTags()
 {
     _tags.where((tag) => !tag.active).forEach((tag) => print(tag.title));
 }
-
 ```
+
 ### All parameters
 * tags - *List 'Tag'*
 * columns - *max columns (default 4)*
@@ -116,7 +116,7 @@ here is one
 
 
 ### Simple usage
-```
+```dart
 import 'package:flutter_tags/input_tags.dart';
 .
 .
@@ -156,8 +156,8 @@ void _getTags()
 {
     _tags.forEach((tag) => print(tag));
 }
-
 ```
+
 ### All parameters
 * tags - *List 'String'*
 * columns - *max columns (default 4)*
