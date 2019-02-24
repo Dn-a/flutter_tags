@@ -26,6 +26,8 @@ class InputTags extends StatefulWidget{
                        this.duplicate = false,
                        this.fontSize = 14,
                        this.iconSize,
+                       this.iconPadding,
+                       this.iconMargin,
                        this.iconColor,
                        this.iconBackground,
                        this.textOverflow,
@@ -90,6 +92,12 @@ class InputTags extends StatefulWidget{
 
     /// icon size of Icon close
     final double iconSize;
+
+    /// padding of Icon close
+    final EdgeInsets iconPadding;
+
+    /// margin of Icon close
+    final EdgeInsets iconMargin;
 
     /// color of Icon close
     final Color iconColor;
@@ -206,11 +214,11 @@ class _InputTagsState extends State<InputTags>
 
         int tagsLength = _tags.length+1;
         int rowsLength = (tagsLength/widget.columns).ceil();
-        double factor = 8.8*((widget.fontSize.clamp(7, 32))/15);
+        double factor = 6.8*(widget.fontSize.clamp(7, 32)/15);
         double width = _width;//- columns *(_margin ?? 4);
 
         //compensates for the length of the string characters
-        int offset = widget.offset ?? 28;
+        int offset = widget.offset ?? 35;
 
         int start = 0;
         bool overflow;
@@ -227,7 +235,7 @@ class _InputTagsState extends State<InputTags>
             if(end>=tagsLength) end -= end-tagsLength;
 
             // Number of columns for each row
-            int column = 0;
+            int column = 1;
             if(!widget.symmetry && _tags.isNotEmpty){
                 for(int j=start  ; j < end ; j++ ){
                     charsLenght += utf8.encode(_tags[j%(tagsLength-1)]).length;
@@ -235,7 +243,6 @@ class _InputTagsState extends State<InputTags>
 
                     width = _width - (column * (margin + offset));
                     if(j>start && a>width) break;
-
                     column++;
                 }
                 charsLenght = 0;
@@ -281,7 +288,7 @@ class _InputTagsState extends State<InputTags>
         String current = '';
 
         Widget textField = Flexible(
-            flex: (widget.symmetry)? 1 : (18/ column!=0?column:1).ceil(),
+            flex: (widget.symmetry)? 1 : (14/(column+1) ).ceil(),
             child: Container(
                 margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: 4),
                 width: 200,
@@ -365,7 +372,7 @@ class _InputTagsState extends State<InputTags>
             return textField;
         else
             return Flexible(
-                flex: (widget.symmetry)? 1 : ((utf8.encode(tag).length)/(column+1)+1).ceil(),
+                flex: (widget.symmetry)? 1 : ((utf8.encode(tag).length)/(column+0)+2).ceil(),
                 child: Tooltip(
                     message: tag.toString(),
                     child: AnimatedContainer(
@@ -408,8 +415,8 @@ class _InputTagsState extends State<InputTags>
                                     fit: BoxFit.contain,
                                     child: GestureDetector(
                                         child: Container(
-                                            padding: EdgeInsets.all(1),
-                                            margin: EdgeInsets.only(left:5, right: 5),
+                                            padding: widget.iconPadding  ?? EdgeInsets.all(3),
+                                            margin: widget.iconMargin ?? EdgeInsets.only(left:5, right: 5),
                                             decoration: BoxDecoration(
                                                 color: widget.iconBackground ?? Colors.transparent,
                                                 borderRadius: BorderRadius.circular(widget.borderRadius ?? _initBorderRadius),

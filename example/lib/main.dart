@@ -339,8 +339,10 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                   //boxShadow: [],
                                   //color: Colors.red,
                                   //margin: EdgeInsets.all(15),
+                                  //iconPadding: EdgeInsets.all(10),
+                                  //iconMargin: EdgeInsets.all(0),
                                   lowerCase: true,
-                                  autofocus: true,
+                                  autofocus: false,
                                   onDelete: (tag){
                                       print(tag);
                                   },
