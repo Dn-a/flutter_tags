@@ -1,4 +1,4 @@
-#### :star: Star the repo to support the project or [Follow Me](https://github.com/Dn-a)
+#### :star: Star the repo to support the project or [Follow Me](https://github.com/Dn-a) :star:
 
 # flutter_tags
 [![pub package](https://img.shields.io/badge/pub-0.2.1-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
