@@ -1,24 +1,27 @@
-# flutter_tags
+#### Star the repo to support the project or [Follow Me](https://github.com/Dn-a)
 
-[![pub package](https://img.shields.io/badge/pub-0.2.0-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
+# flutter_tags
+[![pub package](https://img.shields.io/badge/pub-0.2.1-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
 
-
-Flutter tags let you create a list of tags or insert them dynamically with the input.
+Flutter tags let you create clickable tags or create new ones using textField, adapting perfectly to the width of the screen.
 
 ## Installing
 Add this to your package's pubspec.yaml file:
 ```dart
 dependencies:
-  flutter_tags: "^0.2.0"
+  flutter_tags: "^0.2.1"
 ```
 
+## Important Update from v0.2.1
+The code has been largely rewritten.
+Now the Tag width calculation is very accurate.
 
 ### DEMO
 ![Example](https://github.com/Dn-a/flutter_tags/tree/master/example)
 
-![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example1.2.gif)
-![Demo 2](https://github.com/Dn-a/flutter_tags/blob/master/example/example2.2.gif)
+![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example1.3.gif)
+![Demo 2](https://github.com/Dn-a/flutter_tags/blob/master/example/example2.3.gif)
 
 
 # Selectable Tags
@@ -93,7 +96,8 @@ void _getDisableTags()
 * boxShadow - *List<BoxShadow> of tag*
 * symmetry - *bool*
 * singleItem - *default false - same Radiobutton group HTML*
-* margin - *margin between the tags*
+* margin - *margin between the tags (default 3)*
+* margin - *padding of the tags (default 8)*
 * alignment - *default  MainAxisAlignment.center*
 * offset - *Different characters may have different widths(e.g.: chinese character); (default 28)*
 * fontSize - *default 14*
@@ -108,10 +112,9 @@ void _getDisableTags()
 
 # Input Tags
 
-### Note
+### Note (version < 1)
 In the console you will receive some errors.
 InputTags not work properly because textField has some bugs.
-here is one 
 ![Bug 1](https://github.com/flutter/flutter/issues/20893)
 
 
@@ -169,14 +172,15 @@ void _getTags()
 * borderRadius - *custom border radius (default 3)*
 * boxShadow - *List<BoxShadow> of tag*
 * symmetry - *default false*
-* margin - *margin between the tags*
+* margin - *margin between the tags (default 3)*
+* padding - *padding of the tags (default left: 10)*
 * alignment - *default  MainAxisAlignment.center*
 * offset - *default  3*
 * duplicate - *allows you to insert duplicates (default false)*
 * fontSize - *default 14*
 * iconSize - *default auto-resize*
 * iconPadding - *padding of Icon close (default 3)*
-* iconMargin - *margin of Icon close (default 5)*
+* iconMargin - *margin of Icon close (default right: 8)*
 * iconColor - *default White*
 * iconBackground - *default transparent*
 * textOverflow - *ellipsis, clip...(default fade)*

@@ -3,9 +3,8 @@
 An example of how you could implement it.
 
 ## Getting Started - Selectable Tags
-```
+```dart
 import 'package:flutter/material.dart';
-
 import 'package:flutter_tags/input_tags.dart';
 import 'package:flutter_tags/selectable_tags.dart';
 
@@ -45,9 +44,13 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   ScrollController _scrollViewController;
 
   final List<String> _list = [
-    '0','SDk','plugin updates','Facebook',
-    'First','Italy','France','Spain','Dart','Foo','Select','lorem ip',
-    'Star','Flutter Selectable Tags','1','Hubble','2','Input flutter tags','A B C','Android Studio developer','welcome to the jungle','very large text',
+    '0','SDk','plugin updates','Facebook','哔了狗了QP又不够了',
+    'Kirchhoff','Italy','France','Spain','美','Dart','Foo','Select','lorem ip','9',
+    'Star','Flutter Selectable Tags','1','Hubble','2','Input flutter tags','A B C','8','Android Studio developer','welcome to the jungle','Gauss',
+      '美术',
+      '互联网',
+      '炫舞时代',
+      '篝火营地',
   ];
 
   bool _symmetry = false;
@@ -96,10 +99,14 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
             'first tag',
             'android world',
             'pic',
+            '美术',
             'substring',
             'last tag',
+            '术',
             'enable',
             'act',
+            '1',
+            '上上下下左右左右',
             'first',
             'return',
             'lollipop',
@@ -235,9 +242,13 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                               fontSize: _fontSize,
                               symmetry: _symmetry,
                               singleItem: _singleItem,
+                              //offset: 0, // to be used in combination with the padding
                               //activeColor: Colors.deepPurple,
                               //boxShadow: [],
-                              //margin: EdgeInsets.symmetric(horizontal: 3, vertical: 6),
+                              //borderRadius:5,
+                              //margin: EdgeInsets.symmetric(horizontal: 50, vertical: 6),
+                              //padding: EdgeInsets.symmetric(horizontal: 18),
+                              //height: 28,
                               onPressed: (tag){
                                 setState(() {
                                   _selectableOnPressed = tag.toString();
@@ -327,7 +338,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                               padding: EdgeInsets.all(10),
                           ),
                           Container(
-                              padding: EdgeInsets.symmetric(horizontal: 15),
                               child:
                               InputTags(
                                   tags: _inputTags,
@@ -336,16 +346,17 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                   symmetry: _symmetry,
                                   iconBackground: Colors.green[800],
                                   //boxShadow: [],
+                                  //offset: 5,
                                   //color: Colors.red,
-                                  //margin: EdgeInsets.all(15),
+                                  //padding: EdgeInsets.only(left: 10),
+                                  //margin: EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+                                  //iconPadding: EdgeInsets.all(5),
+                                  //iconMargin: EdgeInsets.only(right:5,left: 2),
                                   lowerCase: true,
                                   autofocus: true,
-                                  onDelete: (tag){
-                                      print(tag);
-                                  },
-                                  onInsert: (tag){
-                                      print(tag);
-                                  },
+                                  onDelete: (tag) => print(tag),
+                                  onInsert: (tag) => print(tag),
+
                               ),
                           ),
                           Padding(
@@ -382,7 +393,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   {
     List<DropdownMenuItem> list = [];
 
-    int count = 15;
+    int count = 19;
 
     for(int i = 1; i < count; i++)
       list.add(
@@ -399,8 +410,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
 ```
 
 ## DEMO
-![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example1.2.gif)
-![Demo 2](https://github.com/Dn-a/flutter_tags/blob/master/example/example2.2.gif)
+![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example1.3.gif)
+![Demo 2](https://github.com/Dn-a/flutter_tags/blob/master/example/example2.3.gif)
 
 ## Other
 This project is a starting point for a Flutter application.

@@ -1,3 +1,8 @@
+## [0.2.1] - 2019-03-01.
+
+* The code has been largely rewritten.
+* Now the Tag width calculation is very accurate.
+
 ## [0.2.0] - 2019-02-24.
 
 * Improved tag width calculation; 

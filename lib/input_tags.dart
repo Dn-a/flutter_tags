@@ -1,6 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_tags/src/text_util.dart';
 
 typedef void OnDelete(String tags);
 typedef void OnInsert(String tags);
@@ -21,6 +20,7 @@ class InputTags extends StatefulWidget{
                        this.placeholder,
                        this.symmetry = false,
                        this.margin,
+                       this.padding,
                        this.alignment,
                        this.offset,
                        this.duplicate = false,
@@ -36,10 +36,10 @@ class InputTags extends StatefulWidget{
                        this.color,
                        this.backgroundContainer,
                        this.highlightColor,
-                       this.onDelete,
-                       this.onInsert,
+                       @required this.onDelete,
+                       @required this.onInsert,
                        Key key
-                   }) : assert(tags != null), super(key: key);
+                   }) : assert(tags != null), assert(onDelete != null), assert(onInsert != null), super(key: key);
 
     ///List of [Tag] object
     final List<String> tags;
@@ -77,11 +77,13 @@ class InputTags extends StatefulWidget{
     /// margin between the [Tag]
     final EdgeInsets margin;
 
+    /// padding of the [Tag]
+    final EdgeInsets padding;
+
     /// type of row alignment
     final MainAxisAlignment alignment;
 
-    /// Different characters may have different widths
-    /// With offset you can improve the automatic alignment of tags (default 28)
+    /// offset of width (default 0)
     final int offset;
 
     /// possibility to insert duplicates in the list
@@ -148,8 +150,13 @@ class _InputTagsState extends State<InputTags>
     List<String> _tags = [];
 
     double _width = 0;
+    double _initFontSize = 14;
     double _initMargin = 3;
+    double _initPadding = 10;
     double _initBorderRadius = 50;
+
+    double _initPaddingIcon = 3;
+    double _initMarginIcon = 8;
 
 
     @override
@@ -197,9 +204,7 @@ class _InputTagsState extends State<InputTags>
             key:_containerKey,
             margin: EdgeInsets.symmetric(vertical:5.0,horizontal:0.0),
             color: widget.backgroundContainer ?? Colors.white,
-            child: Column(
-                children: _buildRow(),
-            ),
+            child: Column( children: _buildRow(), ),
         );
     }
 
@@ -210,58 +215,71 @@ class _InputTagsState extends State<InputTags>
 
         int columns = widget.columns;
 
-        int margin = (widget.margin!=null)? widget.margin.horizontal.round(): _initMargin.round()*2;
+        //margin of the tag
+        double margin = (widget.margin!=null)? widget.margin.horizontal : _initMargin*2;
+
+        //padding of the tag
+        double padding = widget.padding != null ? widget.padding.horizontal / 2 : _initPadding / 2;
+        //padding = padding + padding / (_initPadding);
 
         int tagsLength = _tags.length+1;
         int rowsLength = (tagsLength/widget.columns).ceil();
-        double factor = 6.8*(widget.fontSize.clamp(7, 32)/15);
-        double width = _width;//- columns *(_margin ?? 4);
+        double fontSize = widget.fontSize ?? _initFontSize;
 
-        //compensates for the length of the string characters
-        int offset = widget.offset ?? 35;
+        //initial width tag
+        double widthTag = 1;
 
         int start = 0;
         bool overflow;
 
         for(int i=0 ; i < rowsLength ; i++){
 
+            // Single Row
             List<Widget> row = [];
-            int charsLenght = 0 ;
 
+            //break row
             overflow = false;
 
+            //width of the Tag
+            double tmpWidth = 0;
+
+            // final index of the current row
             int end = start + columns;
 
+            // makes sure that 'end' does not exceed 'tagsLength'
             if(end>=tagsLength) end -= end-tagsLength;
-
-            // Number of columns for each row
-            int column = 1;
-            if(!widget.symmetry && _tags.isNotEmpty){
-                for(int j=start  ; j < end ; j++ ){
-                    charsLenght += utf8.encode(_tags[j%(tagsLength-1)]).length;
-                    double a = charsLenght * factor;
-
-                    width = _width - (column * (margin + offset));
-                    if(j>start && a>width) break;
-                    column++;
-                }
-                charsLenght = 0;
-            }
 
             for(int j=start  ; j < end ; j++ ){
 
-                if(!widget.symmetry && _tags.isNotEmpty){
-                    charsLenght += utf8.encode(_tags[j%(tagsLength-1)]).length;
-                    double a = charsLenght * factor;
-                    if( j>start && a>width ){
+                if(!widget.symmetry){
+
+                    String tag = _tags[j%(tagsLength-1)];
+
+                    TextSize txtSize = TextSize(
+                        txt: tag,
+                        fontSize: fontSize
+                    );
+
+                    double txtWidth = txtSize.get().width;
+
+                    //sum of the width of each tag
+                    //widget.offset it is optional but in special cases allows you to improve the width of the tags
+                    //tmpWidth += txtWidth + margin + 15*( 1 + widget.fontSize/18) + padding + (widget.offset ?? 0);
+
+                    tmpWidth += txtWidth + margin +  1.4*_widthIcon() + padding + (widget.offset ?? 0);
+
+                    if (j > start && tmpWidth > _width){
                         start = j;
                         overflow = true;
-                        rowsLength +=1;
+                        rowsLength += 1;
                         break;
                     }
+
+                    //for the correct display of the tag with a string of length less than 5, an offset is added
+                    widthTag = txtWidth  + 1.4*_widthIcon() + padding ;
                 }
 
-                row.add( _buildField( index: _tags.isNotEmpty ? j%(tagsLength-1) : null, column: column, last: (j+1 == tagsLength) ) );
+                row.add( _buildField( index: _tags.isNotEmpty ? j%(tagsLength-1) : null, width: widthTag, last: (j+1 == tagsLength) ) );
             }
 
             // Check overflow width
@@ -279,18 +297,21 @@ class _InputTagsState extends State<InputTags>
     }
 
 
-    Widget _buildField({int index, int column, bool last=false})
+
+    Widget _buildField({int index, double width, bool last=false})
     {
         String tag = (index!=null )?_tags[index]:null;
 
+        // for Flutter versions before 1.2
         // Currently they are indispensable for the correct functioning of TextField
+
         int c =0;
         String current = '';
 
         Widget textField = Flexible(
-            flex: (widget.symmetry)? 1 : (14/(column+1) ).ceil(),
+            flex: (widget.symmetry)? 1 : width.ceil(),
             child: Container(
-                margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: 4),
+                margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: 6),
                 width: 200,
                 child: TextField(
                     controller: _controller,
@@ -372,15 +393,14 @@ class _InputTagsState extends State<InputTags>
             return textField;
         else
             return Flexible(
-                flex: (widget.symmetry)? 1 : ((utf8.encode(tag).length)/(column+0)+2).ceil(),
+                flex: (widget.symmetry)? 1 : width.round(),
                 child: Tooltip(
                     message: tag.toString(),
                     child: AnimatedContainer(
                         duration: _check==index? Duration(milliseconds: 80) : Duration(microseconds: 0),
-                        margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: 4),
-                        padding: EdgeInsets.only(left: widget.symmetry? 15 :12),
-                        width: (widget.symmetry)? _widthCalc( ) : null,
-                        height: widget.height ?? 31*(widget.fontSize/14),
+                        margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: 6),
+                        width: (widget.symmetry)? _widthCalc( ) : width,
+                        height: widget.height ?? 4*(widget.fontSize/2),
                         decoration: BoxDecoration(
                             boxShadow: widget.boxShadow ?? [
                                 BoxShadow(
@@ -393,37 +413,44 @@ class _InputTagsState extends State<InputTags>
                             borderRadius: BorderRadius.circular(widget.borderRadius ?? _initBorderRadius),
                             color: _check==index? ((widget.highlightColor ?? widget.color?.withRed(700)) ?? Colors.green.withRed(450)) : (widget.color ?? Colors.green[400]),
                         ),
-                        child: Row(
+                        child:Row(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                                 Flexible(
                                     fit: FlexFit.loose,
                                     flex: 1,
-                                    child: Text(
-                                        tag,
-                                        overflow: widget.textOverflow ?? TextOverflow.fade,
-                                        softWrap: false,
-                                        style: TextStyle(
-                                            fontSize: widget.fontSize ?? null,
-                                            color: widget.textColor ?? Colors.white,
-                                            fontWeight: FontWeight.normal
+                                    child: Padding(
+                                        padding: widget.padding ??  EdgeInsets.only(left: widget.symmetry? 15 :_initPadding),
+                                        child: Text(
+                                            tag,
+                                            overflow: widget.textOverflow ?? TextOverflow.fade,
+                                            softWrap: false,
+                                            style: TextStyle(
+                                                fontSize: widget.fontSize ?? null,
+                                                color: widget.textColor ?? Colors.white,
+                                                fontWeight: FontWeight.normal
+                                            ),
                                         ),
                                     ),
                                 ),
                                 FittedBox(
-                                    fit: BoxFit.contain,
+                                    fit: BoxFit.cover,
                                     child: GestureDetector(
                                         child: Container(
-                                            padding: widget.iconPadding  ?? EdgeInsets.all(3),
-                                            margin: widget.iconMargin ?? EdgeInsets.only(left:5, right: 5),
+                                            padding: widget.iconPadding  ?? EdgeInsets.all(_initPaddingIcon),
+                                            margin: widget.iconMargin ??
+                                                EdgeInsets.only(
+                                                    right: _initMarginIcon *(widget.fontSize!=null? (widget.fontSize/20):1 )
+                                                ),
                                             decoration: BoxDecoration(
                                                 color: widget.iconBackground ?? Colors.transparent,
                                                 borderRadius: BorderRadius.circular(widget.borderRadius ?? _initBorderRadius),
                                             ),
                                             child: Icon(
-                                                Icons.clear,color: widget.iconColor ?? Colors.white,
-                                                size: widget.iconSize ?? ((widget.fontSize!=null)? 15 +(widget.fontSize.clamp(12, 24).toDouble()-18) : 14)),
+                                                Icons.clear,
+                                                color: widget.iconColor ?? Colors.white,
+                                                size: ((widget.fontSize!=null)? 15 +(widget.fontSize.clamp(6, 25).toDouble()-18) : 14)),
                                         ),
                                         onTap: (){
                                             _check = -1;
@@ -441,7 +468,17 @@ class _InputTagsState extends State<InputTags>
             );
     }
 
+    ///total width of the close icon
+    double _widthIcon()
+    {
+        double margin = widget.iconMargin!=null ?  widget.iconMargin.horizontal : _initMarginIcon;
+        double padding = widget.iconPadding!=null ?  widget.iconPadding.horizontal/2 : _initPaddingIcon;
+        double size =  (widget.fontSize!=null)? 15 +(widget.fontSize.clamp(6, 25).toDouble()-18) : 14;
 
+        return margin + padding + size;
+    }
+
+    ///Container width divided by the number of columns when symmetry is active
     double _widthCalc()
     {
         int columns = widget.columns;
