@@ -13,6 +13,8 @@ dependencies:
   flutter_tags: "^0.2.2"
 ```
 
+## v0.2.2
+Created InputSuggestions. Return suggestions in the TextField. Is not complete, soon the list of suggestions will be implemented.
 ## Important Update from v0.2.1
 The code has been largely rewritten.
 Now the Tag width calculation is very accurate.
@@ -113,7 +115,7 @@ void _getDisableTags()
 
 # Input Tags
 
-### Note (version < 1)
+### Note (Flutter version < 1)
 In the console you will receive some errors.
 InputTags not work properly because textField has some bugs.
 ![Bug 1](https://github.com/flutter/flutter/issues/20893)
@@ -148,6 +150,22 @@ void initState()
 //Widget
 InputTags(
     tags: _tags,
+    suggestionsList: 
+    [
+        "One",
+        "two",
+        "android",
+        "Dart",
+        "flutter",
+        "test",
+        "tests",
+        "androids",
+        "Test",
+        "suggest",
+        "suggestions",
+        "last",
+        "lest"
+    ],
     onDelete: (tag){
         print(tag);
     },
