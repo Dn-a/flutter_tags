@@ -1,3 +1,10 @@
+## [0.2.2] - 2019-03-02.
+
+* Added property `textStyle` in InputTags. NOTE: `textColor` has been removed. now it can be set with `textStyle`.
+* added property `textStyle` in SelectableTags. NOTE: if you set `color` in it will be ignored, you must use `textColor` `textActiveColor`.
+* Created InputSuggestions. Return suggestions in the TextField. Is not complete, soon the list of suggestions will be implemented.
+* General improvement of the code.
+
 ## [0.2.1] - 2019-03-01.
 
 * The code has been largely rewritten.

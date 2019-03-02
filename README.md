@@ -1,7 +1,7 @@
 #### :star: Star the repo to support the project or [Follow Me](https://github.com/Dn-a) 
 
 # flutter_tags
-[![pub package](https://img.shields.io/badge/pub-0.2.1-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
+[![pub package](https://img.shields.io/badge/pub-0.2.2-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
 
 Flutter tags let you create clickable tags or create new ones using textField, adapting perfectly to the width of the screen.
@@ -10,7 +10,7 @@ Flutter tags let you create clickable tags or create new ones using textField, a
 Add this to your package's pubspec.yaml file:
 ```dart
 dependencies:
-  flutter_tags: "^0.2.1"
+  flutter_tags: "^0.2.2"
 ```
 
 ## Important Update from v0.2.1
@@ -91,7 +91,7 @@ void _getDisableTags()
 * tags - *List 'Tag'*
 * columns - *max columns (default 4)*
 * height - *custom height of Tag (default auto-resize)*
-* borderRadius - *custom border radius*
+* borderRadius - *custom border radius (default BorderRadius.circular(_initBorderRadius))*
 * borderSide - *style border Side*
 * boxShadow - *List<BoxShadow> of tag*
 * symmetry - *bool*
@@ -101,6 +101,7 @@ void _getDisableTags()
 * alignment - *default  MainAxisAlignment.center*
 * offset - *Different characters may have different widths(e.g.: chinese character); (default 28)*
 * fontSize - *default 14*
+* textStyle - *if use textStyle, you need to set fontSize in it (the external fontSize will be ignored); if you set color in it will be ignored, you must use textColor/textActiveColor*
 * textOverflow - *ellipsis, clip...(default fade)*
 * textColor - *default black*
 * textActiveColor - *default white*
@@ -169,7 +170,7 @@ void _getTags()
 * maxLength - *max length of textField (int)*
 * keyboardType - *TextInputType*
 * height - *custom height of Tag (default auto-resize)*
-* borderRadius - *custom border radius (default 3)*
+* borderRadius - *custom border radius (default BorderRadius.circular(_initBorderRadius))*
 * boxShadow - *List<BoxShadow> of tag*
 * symmetry - *default false*
 * margin - *margin between the tags (default 3)*
@@ -178,19 +179,21 @@ void _getTags()
 * offset - *default  3*
 * duplicate - *allows you to insert duplicates (default false)*
 * fontSize - *default 14*
+* textColor - *Removed. now it can be set with textStyle*
+* lowerCase - *default false*
+* textStyle - *if use textStyle, you need to set fontSize in it (the external fontSize will be ignored)*
+* textOverflow - *ellipsis, clip...(default fade)*
 * iconSize - *default auto-resize*
 * iconPadding - *padding of Icon close (default 3)*
 * iconMargin - *margin of Icon close (default right: 8)*
 * iconColor - *default White*
 * iconBackground - *default transparent*
-* textOverflow - *ellipsis, clip...(default fade)*
-* textColor - *default white*
-* lowerCase - *default false*
 * color - *background color of tag (default green)*
 * backgroundContainer - *default white*
 * highlightColor - *default green'700'* 
 * onDelete - *return the tag deleted*
 * onInsert - *return the tag entered*
+* suggestionsList - *a List of string that force the insertion of specific items*
 
 
 ## Issues

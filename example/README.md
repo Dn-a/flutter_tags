@@ -5,6 +5,7 @@ An example of how you could implement it.
 ## Getting Started - Selectable Tags
 ```dart
 import 'package:flutter/material.dart';
+
 import 'package:flutter_tags/input_tags.dart';
 import 'package:flutter_tags/selectable_tags.dart';
 
@@ -55,7 +56,9 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
 
   bool _symmetry = false;
   bool _singleItem = false;
-  int _column = 4;
+  bool _withSuggesttions = false;
+  int _count = 0;
+  int _column = 8;
   double _fontSize = 14;
 
   String _selectableOnPressed = '';
@@ -227,6 +230,30 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                     },
                                   ),
                                   Text(_fontSize.toString()),
+                                  Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 20),
+                                  ),
+                                  Container(
+                                      height:   30,
+                                      width: 30,
+                                      color: Colors.blueGrey,
+                                      child: IconButton(
+                                          padding: EdgeInsets.all(0),
+                                          color: Colors.white,
+                                          icon: Icon(Icons.add),
+                                          onPressed: (){
+                                              setState(() {
+                                                  _count++;
+                                                  _selectableTags.add(
+                                                      Tag(
+                                                          title:_count.toString(),
+                                                          active: _count%2==0
+                                                      )
+                                                  );
+                                              });
+                                          },
+                                      ),
+                                  ),
                                 ],
                               ),
                             ],
@@ -242,12 +269,13 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                               fontSize: _fontSize,
                               symmetry: _symmetry,
                               singleItem: _singleItem,
-                              //offset: 0, // to be used in combination with the padding
+                              offset: 4, // to be used in combination with the padding
                               //activeColor: Colors.deepPurple,
                               //boxShadow: [],
                               //borderRadius:5,
                               //margin: EdgeInsets.symmetric(horizontal: 50, vertical: 6),
                               //padding: EdgeInsets.symmetric(horizontal: 18),
+                              //borderRadius: BorderRadius.all(Radius.elliptical(20, 5)),
                               //height: 28,
                               onPressed: (tag){
                                 setState(() {
@@ -313,6 +341,31 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                   Text("Columns")
                               ],
                           ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                  GestureDetector(
+                                      child: Row(
+                                          children: <Widget>[
+                                              Checkbox(
+                                                  value: _withSuggesttions,
+                                                  onChanged: (a){
+                                                      setState(() {
+                                                          _withSuggesttions = !_withSuggesttions;
+                                                      });
+                                                  }
+                                              ),
+                                              Text('With suggestions')
+                                          ],
+                                      ),
+                                      onTap: (){
+                                          setState(() {
+                                              _withSuggesttions = !_withSuggesttions;
+                                          });
+                                      },
+                                  ),
+                              ],
+                          ),
                           Column(
                               children: <Widget>[
                                   Text('Font Size'),
@@ -345,13 +398,29 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                   fontSize: _fontSize,
                                   symmetry: _symmetry,
                                   iconBackground: Colors.green[800],
+                                  suggestionsList: !_withSuggesttions ? null :
+                                  [
+                                      "One",
+                                      "two",
+                                      "android",
+                                      "Dart",
+                                      "flutter",
+                                      "test",
+                                      "tests",
+                                      "androids",
+                                      "Test",
+                                      "suggest",
+                                      "suggestions",
+                                      "last",
+                                      "lest"
+                                  ],
                                   //boxShadow: [],
                                   //offset: 5,
-                                  //color: Colors.red,
                                   //padding: EdgeInsets.only(left: 10),
                                   //margin: EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                                   //iconPadding: EdgeInsets.all(5),
                                   //iconMargin: EdgeInsets.only(right:5,left: 2),
+                                  //borderRadius: BorderRadius.all(Radius.elliptical(50, 5)),
                                   lowerCase: true,
                                   autofocus: true,
                                   onDelete: (tag) => print(tag),

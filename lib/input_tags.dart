@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tags/src/suggestions.dart';
 import 'package:flutter_tags/src/text_util.dart';
 
+/// Callback
 typedef void OnDelete(String tags);
 typedef void OnInsert(String tags);
-
 
 class InputTags extends StatefulWidget{
 
@@ -25,21 +26,24 @@ class InputTags extends StatefulWidget{
                        this.offset,
                        this.duplicate = false,
                        this.fontSize = 14,
+                       this.textOverflow,
+                       this.lowerCase = false,
+                       this.textStyle,
+                       this.icon,
                        this.iconSize,
                        this.iconPadding,
                        this.iconMargin,
                        this.iconColor,
                        this.iconBackground,
-                       this.textOverflow,
-                       this.textColor,
-                       this.lowerCase = false,
+                       this.iconBorderRadius,
                        this.color,
                        this.backgroundContainer,
                        this.highlightColor,
+                       this.suggestionsList,
                        @required this.onDelete,
                        @required this.onInsert,
                        Key key
-                   }) : assert(tags != null), assert(onDelete != null), assert(onInsert != null), super(key: key);
+                   }) : assert(tags != null),assert(fontSize != null), assert(onDelete != null), assert(onInsert != null), super(key: key);
 
     ///List of [Tag] object
     final List<String> tags;
@@ -59,13 +63,13 @@ class InputTags extends StatefulWidget{
     ///keyboard InputField
     final TextInputType keyboardType;
 
-    ///customize the height of the [Tag]. Default auto-resize
+    ///customize the height of the tag. Default auto-resize
     final double height;
 
-    /// border-radius of [Tag]
-    final double borderRadius;
+    /// border-radius of tag
+    final BorderRadius borderRadius;
 
-    /// box-shadow of [Tag]
+    /// box-shadow of tag
     final List<BoxShadow> boxShadow;
 
     ///placeholder InputField
@@ -74,10 +78,10 @@ class InputTags extends StatefulWidget{
     /// imposes the same width and the same number of columns for each row
     final bool symmetry;
 
-    /// margin between the [Tag]
+    /// margin between the tag
     final EdgeInsets margin;
 
-    /// padding of the [Tag]
+    /// padding of the tag
     final EdgeInsets padding;
 
     /// type of row alignment
@@ -89,8 +93,14 @@ class InputTags extends StatefulWidget{
     /// possibility to insert duplicates in the list
     final bool duplicate;
 
-    /// font size, the height of the [Tag] is proportional to the font size
+    /// TextStyle of the tag
+    final TextStyle textStyle;
+
+    /// font size, the height of the tag is proportional to the font size
     final double fontSize;
+
+    /// custom Icon close
+    final Icon icon;
 
     /// icon size of Icon close
     final double iconSize;
@@ -107,16 +117,16 @@ class InputTags extends StatefulWidget{
     /// background of Icon close
     final Color iconBackground;
 
-    /// type of text overflow within the [Tag]
+    /// border-radius of Icon Size
+    final BorderRadius iconBorderRadius;
+
+    /// type of text overflow within the tag
     final TextOverflow textOverflow;
 
-    /// text-color of the [Tag]
-    final Color textColor;
-
-    /// lower-case text [Tag]
+    /// lower-case text tag
     final bool lowerCase;
 
-    /// background color [Tag]
+    /// background color tag
     final Color color;
 
     /// background color container
@@ -130,6 +140,10 @@ class InputTags extends StatefulWidget{
 
     /// callback
     final OnInsert onInsert;
+
+
+    /// Suggestions List
+    final List<String> suggestionsList;
 
 
 
@@ -223,7 +237,7 @@ class _InputTagsState extends State<InputTags>
         //padding = padding + padding / (_initPadding);
 
         int tagsLength = _tags.length+1;
-        int rowsLength = (tagsLength/widget.columns).ceil();
+        int rowsLength = (tagsLength/columns).ceil();
         double fontSize = widget.fontSize ?? _initFontSize;
 
         //initial width tag
@@ -251,7 +265,7 @@ class _InputTagsState extends State<InputTags>
 
             for(int j=start  ; j < end ; j++ ){
 
-                if(!widget.symmetry){
+                if(!widget.symmetry && _tags.isNotEmpty){
 
                     String tag = _tags[j%(tagsLength-1)];
 
@@ -297,94 +311,52 @@ class _InputTagsState extends State<InputTags>
     }
 
 
-
     Widget _buildField({int index, double width, bool last=false})
     {
         String tag = (index!=null )?_tags[index]:null;
-
-        // for Flutter versions before 1.2
-        // Currently they are indispensable for the correct functioning of TextField
-
-        int c =0;
-        String current = '';
 
         Widget textField = Flexible(
             flex: (widget.symmetry)? 1 : width.ceil(),
             child: Container(
                 margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: 6),
                 width: 200,
-                child: TextField(
-                    controller: _controller,
+                child: InputSuggestions(
+                    fontSize: widget.fontSize ?? null,
+                    suggestions: widget.suggestionsList ?? null,
                     autofocus: widget.autofocus ?? true,
                     keyboardType: widget.keyboardType ?? null,
                     maxLength: widget.maxLength ?? null,
-                    style: TextStyle(
-                        fontSize: widget.fontSize ?? null,
-                        color: Colors.black,
-                    ),
-                    decoration: widget.inputDecoration ?? InputDecoration(
-                        disabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(vertical: 7 +(widget.fontSize.clamp(10, 24).toDouble()-14),horizontal: 10 +(widget.fontSize.clamp(10, 24).toDouble()-14)),
-                        hintText: widget.placeholder ?? 'Add a tag',
-                        focusedBorder: UnderlineInputBorder(
-                            borderRadius: BorderRadius.circular(widget.borderRadius ?? _initBorderRadius,),
-                            borderSide: BorderSide(color: widget.color ?? Colors.green[400],),
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                            borderRadius: BorderRadius.circular(widget.borderRadius ?? _initBorderRadius,),
-                            borderSide: BorderSide(color: Colors.green.withOpacity(0.5)),
-                        ),
-                        border: UnderlineInputBorder(
-                            borderRadius: BorderRadius.circular(widget.borderRadius ?? _initBorderRadius,),
-                            borderSide: BorderSide(color: Colors.green.withOpacity(0.5)),
-                        )
-                    ),
-                    onChanged: (str) {
-
-                        //Temporany --> textfield is not stable at the moment
-
-                        str = (widget.lowerCase)? str.trim().toLowerCase(): str.trim();
-                        setState(() {
-
-                            if(c==1 && current==str && str!=''){
-                                c++;
-                                _check = -1;
-
-                                if( _tags.contains(str) && !widget.duplicate )
-                                    _check = _tags.indexWhere((st) => st==str);
-                                else{
-                                    widget.onInsert(str);
-                                    _tags.add(str);
-                                }
-
-                                _controller.clear();
-                            }
-                            else if (c>1)
-                                _controller.clear();
-
-                            if(current!=str)
-                                c++;
-
-                            current = str;
-                        });
-
-                    },
+                    lowerCase: widget.lowerCase ?? null,
                     onSubmitted: (str){
-                        str = (widget.lowerCase)? str.trim().toLowerCase(): str.trim();
-                        if(str!='')
-                            setState(() {
-                                _check = -1;
-                                if(_tags.contains(str) && !widget.duplicate )
-                                    _check = _tags.indexWhere((st) => st==str);
-                                else{
-                                    widget.onInsert(str);
-                                    _tags.add(str);
-                                }
-
-                            });
-                        _controller.clear();
+                        setState(() {
+                            _check = -1;
+                            if(_tags.contains(str) && !widget.duplicate )
+                                _check = _tags.indexWhere((st) => st==str);
+                            else{
+                                widget.onInsert(str);
+                                _tags.add(str);
+                            }
+                        });
                     },
+                    style: TextStyle(color: Colors.black),
+                   inputDecoration: InputDecoration(
+                       disabledBorder: InputBorder.none,
+                       errorBorder: InputBorder.none,
+                       contentPadding: EdgeInsets.symmetric(vertical: 7 +(widget.fontSize.clamp(10, 24).toDouble()-14),horizontal: 10 +(widget.fontSize.clamp(10, 24).toDouble()-14)),
+                       hintText: widget.placeholder ?? 'Add a tag',
+                       focusedBorder: UnderlineInputBorder(
+                           borderRadius: BorderRadius.circular(_initBorderRadius,),
+                           borderSide: BorderSide(color: widget.color ?? Colors.green[400],),
+                       ),
+                       enabledBorder: UnderlineInputBorder(
+                           borderRadius: BorderRadius.circular(_initBorderRadius,),
+                           borderSide: BorderSide(color: Colors.green.withOpacity(0.5)),
+                       ),
+                       border: UnderlineInputBorder(
+                           borderRadius: BorderRadius.circular(_initBorderRadius,),
+                           borderSide: BorderSide(color: Colors.green.withOpacity(0.5)),
+                       )
+                   ),
                 )
             )
         );
@@ -410,7 +382,7 @@ class _InputTagsState extends State<InputTags>
                                     offset: Offset(0, 1)
                                 )
                             ],
-                            borderRadius: BorderRadius.circular(widget.borderRadius ?? _initBorderRadius),
+                            borderRadius: widget.borderRadius ?? BorderRadius.circular(_initBorderRadius),
                             color: _check==index? ((widget.highlightColor ?? widget.color?.withRed(700)) ?? Colors.green.withRed(450)) : (widget.color ?? Colors.green[400]),
                         ),
                         child:Row(
@@ -426,11 +398,7 @@ class _InputTagsState extends State<InputTags>
                                             tag,
                                             overflow: widget.textOverflow ?? TextOverflow.fade,
                                             softWrap: false,
-                                            style: TextStyle(
-                                                fontSize: widget.fontSize ?? null,
-                                                color: widget.textColor ?? Colors.white,
-                                                fontWeight: FontWeight.normal
-                                            ),
+                                            style: _textStyle,
                                         ),
                                     ),
                                 ),
@@ -445,10 +413,10 @@ class _InputTagsState extends State<InputTags>
                                                 ),
                                             decoration: BoxDecoration(
                                                 color: widget.iconBackground ?? Colors.transparent,
-                                                borderRadius: BorderRadius.circular(widget.borderRadius ?? _initBorderRadius),
+                                                borderRadius: widget.iconBorderRadius ?? BorderRadius.circular(_initBorderRadius),
                                             ),
                                             child: Icon(
-                                                Icons.clear,
+                                                widget.icon ?? Icons.clear,
                                                 color: widget.iconColor ?? Colors.white,
                                                 size: ((widget.fontSize!=null)? 15 +(widget.fontSize.clamp(6, 25).toDouble()-18) : 14)),
                                         ),
@@ -467,6 +435,22 @@ class _InputTagsState extends State<InputTags>
                 )
             );
     }
+
+    ///TextStyle
+    TextStyle get _textStyle
+    {
+        if(widget.textStyle!=null)
+            return widget.textStyle.apply(
+                color: widget.textStyle.color ?? Colors.white,
+            );
+
+        return  TextStyle (
+            fontSize: widget.fontSize ?? null,
+            color: Colors.white,
+            fontWeight: FontWeight.normal
+        );
+    }
+
 
     ///total width of the close icon
     double _widthIcon()

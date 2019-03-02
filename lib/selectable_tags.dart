@@ -1,10 +1,8 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_tags/src/text_util.dart';
 
 /// Callback
 typedef void OnPressed(Tag tags);
-
 
 class SelectableTags extends StatefulWidget{
 
@@ -22,6 +20,7 @@ class SelectableTags extends StatefulWidget{
                        this.alignment,
                        this.offset,
                        this.fontSize = 14,
+                       this.textStyle,
                        this.textOverflow,
                        this.textColor,
                        this.textActiveColor,
@@ -42,7 +41,7 @@ class SelectableTags extends StatefulWidget{
     final double height;
 
     /// border-radius of [Tag]
-    final double borderRadius;
+    final BorderRadius borderRadius;
 
     /// custom border-side of [Tag]
     final BorderSide borderSide;
@@ -70,6 +69,9 @@ class SelectableTags extends StatefulWidget{
 
     /// font size, the height of the [Tag] is proportional to the font size
     final double fontSize;
+
+    /// TextStyle of the [Tag]
+    final TextStyle textStyle;
 
     /// type of text overflow within the [Tag]
     final TextOverflow textOverflow;
@@ -200,7 +202,7 @@ class _SelectableTagsState extends State<SelectableTags>
 
             for(int j=start  ; j < end ; j++ ){
 
-                if(!widget.symmetry){
+                if(!widget.symmetry && _tags.isNotEmpty){
 
                     Tag tag = _tags[j % tagsLength];
 
@@ -224,7 +226,7 @@ class _SelectableTagsState extends State<SelectableTags>
                     }
 
                     //for the correct display of the tag with a string of length less than 5, an offset is added
-                    widthTag = txtWidth + (tag.length < 4 ? padding*( margin>10? 3:2 + fontSize/(_initFontSize*2) ) : padding*2);
+                    widthTag = txtWidth + (tag.length < 4 ? padding*( margin>10? 3:2 + fontSize/(_initFontSize*2.5) ) : padding*2.3);
                     //widthTag = txt.width + 42;
                 }
 
@@ -268,7 +270,7 @@ class _SelectableTagsState extends State<SelectableTags>
                                 offset: Offset(0, 1)
                             )
                         ],
-                        borderRadius: BorderRadius.circular(widget.borderRadius ?? _initBorderRadius),
+                        borderRadius: widget.borderRadius ?? BorderRadius.circular(_initBorderRadius),
                         color: tag.active? (widget.activeColor ?? Colors.blueGrey): (widget.color ?? Colors.white),
                     ),
                     child:OutlineButton(
@@ -292,11 +294,7 @@ class _SelectableTagsState extends State<SelectableTags>
                             tag.title,
                             overflow: widget.textOverflow ?? TextOverflow.fade,
                             softWrap: false,
-                            style: TextStyle(
-                                fontSize: widget.fontSize ?? null,
-                                color: tag.active? (widget.textActiveColor ?? Colors.white) : (widget.textColor ?? Colors.black),
-                                fontWeight: FontWeight.normal
-                            ),
+                            style: _textStyle(tag),
                         ),
                         onPressed: () {
 
@@ -308,7 +306,7 @@ class _SelectableTagsState extends State<SelectableTags>
                             });
 
                         },
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(widget.borderRadius ?? _initBorderRadius))
+                        shape: RoundedRectangleBorder(borderRadius: widget.borderRadius ?? BorderRadius.circular(_initBorderRadius))
                     )
                 ),
             ),
@@ -316,6 +314,21 @@ class _SelectableTagsState extends State<SelectableTags>
 
     }
 
+
+    ///TextStyle
+    TextStyle _textStyle(Tag tag)
+    {
+        if(widget.textStyle!=null)
+            return widget.textStyle.apply(
+                color: tag.active? (widget.textActiveColor ?? Colors.white) : (widget.textColor ?? Colors.black),
+            );
+
+        return  TextStyle(
+            fontSize: widget.fontSize ?? null,
+            color: tag.active? (widget.textActiveColor ?? Colors.white) : (widget.textColor ?? Colors.black),
+            fontWeight: FontWeight.normal
+        );
+    }
 
     /// Single item selection (same Radiobutton group HTML)
     void _singleItem()
