@@ -15,6 +15,7 @@ class InputSuggestions extends StatefulWidget
         this.lowerCase = false,
         this.style,
         this.suggestions,
+        this.autocorrect,
         this.autofocus,
         this.keyboardType,
         this.maxLength,
@@ -27,6 +28,7 @@ class InputSuggestions extends StatefulWidget
     final TextStyle style;
     final InputDecoration inputDecoration;
     final double fontSize;
+    final bool autocorrect;
     final List<String> suggestions;
     final bool lowerCase;
     final bool autofocus;
@@ -34,6 +36,7 @@ class InputSuggestions extends StatefulWidget
     final int maxLength;
     final OnSubmitted onSubmitted;
     final OnChanged onChanged;
+
 
     @override
     _InputSuggestionsState createState() => _InputSuggestionsState();
@@ -74,6 +77,7 @@ class _InputSuggestionsState extends State<InputSuggestions>
                     keyboardType: widget.keyboardType ?? null,
                     maxLength: widget.maxLength ?? null,
                     maxLines: 1,
+                    autocorrect: widget.autocorrect ??  false,
                     style: widget.style!=null?
                     widget.style.copyWith(
                         fontSize: widget.fontSize

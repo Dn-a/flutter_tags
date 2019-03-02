@@ -29,6 +29,7 @@ class InputTags extends StatefulWidget{
                        this.textOverflow,
                        this.lowerCase = false,
                        this.textStyle,
+                       this.autocorrect,
                        this.icon,
                        this.iconSize,
                        this.iconPadding,
@@ -95,6 +96,9 @@ class InputTags extends StatefulWidget{
 
     /// TextStyle of the tag
     final TextStyle textStyle;
+
+    /// TextStyle of the tag
+    final bool autocorrect;
 
     /// font size, the height of the tag is proportional to the font size
     final double fontSize;
@@ -327,6 +331,7 @@ class _InputTagsState extends State<InputTags>
                     keyboardType: widget.keyboardType ?? null,
                     maxLength: widget.maxLength ?? null,
                     lowerCase: widget.lowerCase ?? null,
+                    autocorrect: widget.autocorrect ?? false,
                     onSubmitted: (str){
                         setState(() {
                             _check = -1;
