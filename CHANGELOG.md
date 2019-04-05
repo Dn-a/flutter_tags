@@ -1,3 +1,8 @@
+## [0.2.3] - 2019-04-05.
+
+* General improvement of the code.
+* OnInsert, onDelete and onPressed are now optional.
+
 ## [0.2.2] - 2019-03-02.
 
 * Added property `textStyle` in InputTags. NOTE: `textColor` has been removed. now it can be set with `textStyle`.

@@ -1,7 +1,7 @@
 #### :star: Star the repo to support the project or [Follow Me](https://github.com/Dn-a) 
 
 # flutter_tags
-[![pub package](https://img.shields.io/badge/pub-0.2.2-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
+[![pub package](https://img.shields.io/badge/pub-0.2.3-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
 
 Flutter tags let you create clickable tags or create new ones using textField, adapting perfectly to the width of the screen.
@@ -10,7 +10,7 @@ Flutter tags let you create clickable tags or create new ones using textField, a
 Add this to your package's pubspec.yaml file:
 ```dart
 dependencies:
-  flutter_tags: "^0.2.2"
+  flutter_tags: "^0.2.3"
 ```
 
 ## v0.2.2

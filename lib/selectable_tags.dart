@@ -27,9 +27,11 @@ class SelectableTags extends StatefulWidget{
                        this.color,
                        this.activeColor,
                        this.backgroundContainer,
-                       @required this.onPressed,
+                       this.onPressed,
                        Key key
-                   }) : assert(tags != null), assert(onPressed != null), super(key: key);
+                   }) : assert(tags != null),
+                        //assert(onPressed != null),
+                        super(key: key);
 
     ///List of [Tag] object
     final List<Tag> tags;
@@ -111,7 +113,7 @@ class _SelectableTagsState extends State<SelectableTags>
     double _width =0;
     double _initFontSize = 14;
     double _initMargin = 3;
-    double _initPadding = 8;
+    double _initPadding = 9;
     double _initBorderRadius = 50;
 
 
@@ -168,8 +170,8 @@ class _SelectableTagsState extends State<SelectableTags>
         double margin = (widget.margin!=null)? widget.margin.horizontal : _initMargin*2;
 
         //padding of the tag
-        double padding = widget.padding != null ? widget.padding.horizontal / 2 : _initPadding;
-        padding = padding + padding / (_initPadding);
+        double padding = widget.padding != null ? widget.padding.horizontal : _initPadding*2;
+        padding = padding*(widget.fontSize.clamp(8, 20)/14);
 
         //double factor = 8*(widget.fontSize.clamp(7, 32)/15);
 
@@ -209,14 +211,15 @@ class _SelectableTagsState extends State<SelectableTags>
                     //for tags with a string less than 2, or if there is an icon, the width is too small so i apply a slightly larger font size
                     TextSize txtSize = TextSize(
                         txt: tag.title,
-                        fontSize: fontSize * (tag.length < 2 || tag.icon != null ? 2 : 1)
+                        fontSize: fontSize * (tag.length < 2 || tag.icon != null ? 1.3 : 1)
                     );
 
-                    double txtWidth = txtSize.get().width;
+                    // Total width of the tag
+                    double txtWidth = 0.93 * txtSize.get().width + margin  + padding;
 
                     //sum of the width of each tag
                     //widget.offset it is optional but in special cases allows you to improve the width of the tags
-                    tmpWidth += txtWidth + margin * 1.5 + padding + (widget.offset ?? 0);
+                    tmpWidth += txtWidth + (widget.offset ?? 0);
 
                     if (j > start && tmpWidth > _width){
                         start = j;
@@ -225,9 +228,8 @@ class _SelectableTagsState extends State<SelectableTags>
                         break;
                     }
 
-                    //for the correct display of the tag with a string of length less than 5, an offset is added
-                    widthTag = txtWidth + (tag.length < 4 ? padding*( margin>10? 3:2 + fontSize/(_initFontSize*2.5) ) : padding*2.3);
-                    //widthTag = txt.width + 42;
+                    widthTag = 1.05 * txtWidth;
+
                 }
 
                 row.add( _buildField( index: j%tagsLength, width: widthTag ) );
@@ -259,8 +261,8 @@ class _SelectableTagsState extends State<SelectableTags>
                 child: Container(
                     margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical:6),
                     width: (widget.symmetry)? _widthCalc( ) : width,
-                    height: widget.height ?? 4*(widget.fontSize/2),
-                    padding: EdgeInsets.all(0.0),
+                    height: widget.height ?? 29*(widget.fontSize/14),
+                    padding: EdgeInsets.symmetric(horizontal:0),
                     decoration: BoxDecoration(
                         boxShadow: widget.boxShadow ?? [
                             BoxShadow(
@@ -274,7 +276,7 @@ class _SelectableTagsState extends State<SelectableTags>
                         color: tag.active? (widget.activeColor ?? Colors.blueGrey): (widget.color ?? Colors.white),
                     ),
                     child:OutlineButton(
-                        padding: widget.padding ?? EdgeInsets.symmetric(horizontal: _initPadding ),
+                        padding: (widget.padding ?? EdgeInsets.symmetric(horizontal: _initPadding)) * (widget.fontSize.clamp(8, 20)/14),
                         color: tag.active? (widget.activeColor ?? Colors.blueGrey): (widget.color ?? Colors.white),
                         highlightColor: Colors.transparent,
                         highlightedBorderColor: widget.activeColor ?? Colors.blueGrey,
@@ -302,7 +304,8 @@ class _SelectableTagsState extends State<SelectableTags>
 
                             setState(() {
                                 (widget.singleItem)? tag.active = true : tag.active=!tag.active;
-                                widget.onPressed(tag);
+                                if(widget.onPressed != null)
+                                    widget.onPressed(tag);
                             });
 
                         },

@@ -41,10 +41,12 @@ class InputTags extends StatefulWidget{
                        this.backgroundContainer,
                        this.highlightColor,
                        this.suggestionsList,
-                       @required this.onDelete,
-                       @required this.onInsert,
+                       this.onDelete,
+                       this.onInsert,
                        Key key
-                   }) : assert(tags != null),assert(fontSize != null), assert(onDelete != null), assert(onInsert != null), super(key: key);
+                   }) : assert(tags != null),
+                        assert(fontSize != null),
+                        super(key: key);
 
     ///List of [Tag] object
     final List<String> tags;
@@ -237,8 +239,8 @@ class _InputTagsState extends State<InputTags>
         double margin = (widget.margin!=null)? widget.margin.horizontal : _initMargin*2;
 
         //padding of the tag
-        double padding = widget.padding != null ? widget.padding.horizontal / 2 : _initPadding / 2;
-        //padding = padding + padding / (_initPadding);
+        double padding = widget.padding != null ? widget.padding.horizontal  : _initPadding ;
+        padding = padding*(widget.fontSize.clamp(8, 20)/14);
 
         int tagsLength = _tags.length+1;
         int rowsLength = (tagsLength/columns).ceil();
@@ -275,16 +277,15 @@ class _InputTagsState extends State<InputTags>
 
                     TextSize txtSize = TextSize(
                         txt: tag,
-                        fontSize: fontSize
+                        fontSize: fontSize * (tag.length < 2 ? 1.2 : 1)
                     );
 
-                    double txtWidth = txtSize.get().width;
+                    // Total width of the tag
+                    double txtWidth = txtSize.get().width + _widthIcon() + padding + margin;
 
                     //sum of the width of each tag
                     //widget.offset it is optional but in special cases allows you to improve the width of the tags
-                    //tmpWidth += txtWidth + margin + 15*( 1 + widget.fontSize/18) + padding + (widget.offset ?? 0);
-
-                    tmpWidth += txtWidth + margin +  1.4*_widthIcon() + padding + (widget.offset ?? 0);
+                    tmpWidth += txtWidth + (widget.offset ?? 0);
 
                     if (j > start && tmpWidth > _width){
                         start = j;
@@ -293,8 +294,7 @@ class _InputTagsState extends State<InputTags>
                         break;
                     }
 
-                    //for the correct display of the tag with a string of length less than 5, an offset is added
-                    widthTag = txtWidth  + 1.4*_widthIcon() + padding ;
+                    widthTag = txtWidth;
                 }
 
                 row.add( _buildField( index: _tags.isNotEmpty ? j%(tagsLength-1) : null, width: widthTag, last: (j+1 == tagsLength) ) );
@@ -338,7 +338,8 @@ class _InputTagsState extends State<InputTags>
                             if(_tags.contains(str) && !widget.duplicate )
                                 _check = _tags.indexWhere((st) => st==str);
                             else{
-                                widget.onInsert(str);
+                                if(widget.onInsert != null)
+                                    widget.onInsert(str);
                                 _tags.add(str);
                             }
                         });
@@ -377,7 +378,7 @@ class _InputTagsState extends State<InputTags>
                         duration: _check==index? Duration(milliseconds: 80) : Duration(microseconds: 0),
                         margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: 6),
                         width: (widget.symmetry)? _widthCalc( ) : width,
-                        height: widget.height ?? 4*(widget.fontSize/2),
+                        height: widget.height ?? 29*(widget.fontSize/14),
                         decoration: BoxDecoration(
                             boxShadow: widget.boxShadow ?? [
                                 BoxShadow(
@@ -398,7 +399,7 @@ class _InputTagsState extends State<InputTags>
                                     fit: FlexFit.loose,
                                     flex: 1,
                                     child: Padding(
-                                        padding: widget.padding ??  EdgeInsets.only(left: widget.symmetry? 15 :_initPadding),
+                                        padding: widget.padding ??  EdgeInsets.only(left: (_initPadding)*(widget.fontSize.clamp(8, 20)/14)),
                                         child: Text(
                                             tag,
                                             overflow: widget.textOverflow ?? TextOverflow.fade,
@@ -414,7 +415,7 @@ class _InputTagsState extends State<InputTags>
                                             padding: widget.iconPadding  ?? EdgeInsets.all(_initPaddingIcon),
                                             margin: widget.iconMargin ??
                                                 EdgeInsets.only(
-                                                    right: _initMarginIcon *(widget.fontSize!=null? (widget.fontSize/20):1 )
+                                                    right: _initMarginIcon *(widget.fontSize!=null? (widget.fontSize.clamp(8, 22)/26):1 )
                                                 ),
                                             decoration: BoxDecoration(
                                                 color: widget.iconBackground ?? Colors.transparent,
@@ -427,7 +428,8 @@ class _InputTagsState extends State<InputTags>
                                         ),
                                         onTap: (){
                                             _check = -1;
-                                            widget.onDelete(tag);
+                                            if(widget.onDelete != null)
+                                                widget.onDelete(tag);
                                             setState(() {
                                                 _tags.remove(tag);
                                             });
