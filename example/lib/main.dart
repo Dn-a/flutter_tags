@@ -263,12 +263,12 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                               fontSize: _fontSize,
                               symmetry: _symmetry,
                               singleItem: _singleItem,
-                              offset: 4, // to be used in combination with the padding
+                              //offset: 4, //
                               //activeColor: Colors.deepPurple,
                               //boxShadow: [],
                               //borderRadius:5,
                               //margin: EdgeInsets.symmetric(horizontal: 60, vertical: 6),
-                              //padding: EdgeInsets.symmetric(horizontal: 9),
+                              //padding: EdgeInsets.symmetric(horizontal: 19),
                               //borderRadius: BorderRadius.all(Radius.elliptical(20, 5)),
                               //height: 28,
                               onPressed: (tag){
@@ -402,6 +402,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                       "test",
                                       "tests",
                                       "androids",
+                                      "androidsaaa",
                                       "Test",
                                       "suggest",
                                       "suggestions",

@@ -269,12 +269,12 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                               fontSize: _fontSize,
                               symmetry: _symmetry,
                               singleItem: _singleItem,
-                              offset: 4, // to be used in combination with the padding
+                              //offset: 4, //
                               //activeColor: Colors.deepPurple,
                               //boxShadow: [],
                               //borderRadius:5,
-                              //margin: EdgeInsets.symmetric(horizontal: 50, vertical: 6),
-                              //padding: EdgeInsets.symmetric(horizontal: 18),
+                              //margin: EdgeInsets.symmetric(horizontal: 60, vertical: 6),
+                              //padding: EdgeInsets.symmetric(horizontal: 19),
                               //borderRadius: BorderRadius.all(Radius.elliptical(20, 5)),
                               //height: 28,
                               onPressed: (tag){
@@ -408,6 +408,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                       "test",
                                       "tests",
                                       "androids",
+                                      "androidsaaa",
                                       "Test",
                                       "suggest",
                                       "suggestions",
@@ -416,15 +417,15 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                   ],
                                   //boxShadow: [],
                                   //offset: 5,
-                                  //padding: EdgeInsets.only(left: 10),
+                                  //padding: EdgeInsets.only(left: 11),
                                   //margin: EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                                   //iconPadding: EdgeInsets.all(5),
                                   //iconMargin: EdgeInsets.only(right:5,left: 2),
                                   //borderRadius: BorderRadius.all(Radius.elliptical(50, 5)),
                                   lowerCase: true,
-                                  autofocus: true,
-                                  onDelete: (tag) => print(tag),
-                                  onInsert: (tag) => print(tag),
+                                  autofocus: false,
+                                  //onDelete: (tag) => print(tag),
+                                  //onInsert: (tag) => print(tag),
 
                               ),
                           ),
@@ -475,6 +476,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     return list;
   }
 }
+
 
 ```
 

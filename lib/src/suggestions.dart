@@ -52,6 +52,7 @@ class _InputSuggestionsState extends State<InputSuggestions>
 
     @override
     Widget build(BuildContext context) {
+
         return Stack(
             children: <Widget>[
                 Visibility(
@@ -64,6 +65,8 @@ class _InputSuggestionsState extends State<InputSuggestions>
                             _matches.isNotEmpty ?  (
                                 _matches.first
                             ) : "",
+                            softWrap: false,
+                            overflow: TextOverflow.fade,
                             style: TextStyle(
                                 fontSize: widget.fontSize ?? null,
                                 color: Colors.red,

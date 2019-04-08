@@ -1,3 +1,7 @@
+## [0.2.4] - 2019-04-08.
+
+* fixed some problem.
+
 ## [0.2.3] - 2019-04-05.
 
 * General improvement of the code.

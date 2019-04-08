@@ -215,7 +215,7 @@ class _SelectableTagsState extends State<SelectableTags>
                     );
 
                     // Total width of the tag
-                    double txtWidth = 0.93 * txtSize.get().width + margin  + padding;
+                    double txtWidth = txtSize.get().width + margin  + padding;
 
                     //sum of the width of each tag
                     //widget.offset it is optional but in special cases allows you to improve the width of the tags
@@ -228,7 +228,7 @@ class _SelectableTagsState extends State<SelectableTags>
                         break;
                     }
 
-                    widthTag = 1.05 * txtWidth;
+                    widthTag = txtWidth;
 
                 }
 

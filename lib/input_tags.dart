@@ -374,8 +374,8 @@ class _InputTagsState extends State<InputTags>
                 flex: (widget.symmetry)? 1 : width.round(),
                 child: Tooltip(
                     message: tag.toString(),
-                    child: AnimatedContainer(
-                        duration: _check==index? Duration(milliseconds: 80) : Duration(microseconds: 0),
+                    child: Container(
+                        //duration: _check==index? Duration(milliseconds: 80) : Duration(microseconds: 0),
                         margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: 6),
                         width: (widget.symmetry)? _widthCalc( ) : width,
                         height: widget.height ?? 29*(widget.fontSize/14),
