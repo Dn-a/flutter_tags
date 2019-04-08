@@ -1,4 +1,4 @@
-### :star: Star the repo to support the project or [Follow Me](https://github.com/Dn-a) 
+#### :star: Star the repo to support the project or [Follow Me](https://github.com/Dn-a) 
 
 # flutter_tags
 [![pub package](https://img.shields.io/badge/pub-0.2.4-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
@@ -15,6 +15,7 @@ dependencies:
 
 ## v0.2.2
 Created InputSuggestions. Return suggestions in the TextField. Is not complete, soon the list of suggestions will be implemented.
+
 ## Important Update from v0.2.1
 The code has been largely rewritten.
 Now the Tag width calculation is very accurate.
