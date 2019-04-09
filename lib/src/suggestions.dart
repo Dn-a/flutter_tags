@@ -121,7 +121,8 @@ class _InputSuggestionsState extends State<InputSuggestions>
 
         if(widget.suggestions!=null){
             if(_matches.isNotEmpty){
-                widget.onSubmitted(str);
+                if(widget.onSubmitted!=null)
+                    widget.onSubmitted(str);
                 setState(() {
                     _matches = [];
                 });
@@ -131,7 +132,8 @@ class _InputSuggestionsState extends State<InputSuggestions>
         }
         else
             if(str!=''){
-                widget.onSubmitted(str);
+                if(widget.onSubmitted!=null)
+                    widget.onSubmitted(str);
                 _controller.clear();
             }
     }
@@ -159,7 +161,8 @@ class _InputSuggestionsState extends State<InputSuggestions>
                 _matches.sort( (a, b) => a.compareTo(b));
             });
 
-            widget.onChanged(str);
+            if(widget.onChanged!=null)
+                widget.onChanged(str);
         }
     }
 

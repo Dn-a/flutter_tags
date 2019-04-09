@@ -1,7 +1,7 @@
 #### :star: Star the repo to support the project or [Follow Me](https://github.com/Dn-a) 
 
 # flutter_tags
-[![pub package](https://img.shields.io/badge/pub-0.2.4-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
+[![pub package](https://img.shields.io/badge/pub-0.3.0-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
 
 Flutter tags let you create clickable tags or create new ones using textField, adapting perfectly to the width of the screen.
@@ -10,21 +10,15 @@ Flutter tags let you create clickable tags or create new ones using textField, a
 Add this to your package's pubspec.yaml file:
 ```dart
 dependencies:
-  flutter_tags: "^0.2.4"
+  flutter_tags: "^0.3.0"
 ```
 
-## v0.2.2
-Created InputSuggestions. Return suggestions in the TextField. Is not complete, soon the list of suggestions will be implemented.
-
-## Important Update from v0.2.1
-The code has been largely rewritten.
-Now the Tag width calculation is very accurate.
 
 ### DEMO
 ![Example](https://github.com/Dn-a/flutter_tags/tree/master/example)
 
-![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example1.3.gif)
-![Demo 2](https://github.com/Dn-a/flutter_tags/blob/master/example/example2.3.gif)
+![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example0.3.0_1.gif)
+![Demo 2](https://github.com/Dn-a/flutter_tags/blob/master/example/example0.3.0_2.gif)
 
 
 # Selectable Tags
@@ -36,6 +30,8 @@ Tag(
     icon: Icon.home, // optional
     title: 'First Tag', // required
     active: true, // optional
+    color: Colors.white, // optional
+    activeColor: Colors.blue // optional
 )
 ```
 
@@ -74,10 +70,40 @@ SelectableTags(
     tags: _tags,
     columns: 3, // default 4
     symmetry: true, // default false
-    onPressed: (tag){
-        print(tag);
+    popupMenuBuilder: _popupMenuBuilder,
+    popupMenuOnSelected: (int id,Tag tag){
+      switch(id){
+          case 1:
+              Clipboard.setData( ClipboardData(text: tag.title));
+              break;
+          case 2:
+              setState(() {
+                  _tags.remove(tag);
+              });
+      }
     },
+    onPressed: (tag) => print(tag),
 )
+
+List<PopupMenuEntry> _popupMenuBuilder (Tag tag)
+{
+    return <PopupMenuEntry>[
+      PopupMenuItem(
+          child: Text(tag.title, style: TextStyle( color: Colors.blueGrey ) ),
+          enabled: false,
+      ),
+      PopupMenuDivider(),
+      PopupMenuItem(
+          value: 1,
+          child: Row(
+              children: <Widget>[
+                  Icon(Icons.content_copy),
+                  Text("Copy text"),
+              ],
+          ),
+      ),      
+    ];
+}
 
 void _getActiveTags()
 {
@@ -111,7 +137,9 @@ void _getDisableTags()
 * color - *background color of tag (default white)*
 * activeColor - *background color of active tag (default green)*
 * backgroundContainer - *default white* 
-* onPressed - *method*
+* popupMenuBuilder - *Popup Menu Items*
+* popupMenuOnSelected - *On Selected Item*
+* onPressed - *Callback*
 
 
 # Input Tags
@@ -167,13 +195,41 @@ InputTags(
         "last",
         "lest"
     ],
-    onDelete: (tag){
-        print(tag);
+    popupMenuBuilder: _popupMenuBuilder,
+    popupMenuOnSelected: (int id,String tag){
+      switch(id){
+          case 1:
+              Clipboard.setData( ClipboardData(text: tag));
+              break;
+          case 2:
+              setState(() {
+                  _tags.remove(tag);
+              });
+      }
     },
-    onInsert: (tag){
-        print(tag);
-    },
+    onDelete: (tag) => print(tag),
+    onInsert: (tag) => print(tag),
 )
+
+List<PopupMenuEntry> _popupMenuBuilder ( String tag)
+{
+    return <PopupMenuEntry>[
+      PopupMenuItem(
+          child: Text(tag, style: TextStyle( color: Colors.blueGrey ) ),
+          enabled: false,
+      ),
+      PopupMenuDivider(),
+      PopupMenuItem(
+          value: 1,
+          child: Row(
+              children: <Widget>[
+                  Icon(Icons.content_copy),
+                  Text("Copy text"),
+              ],
+          ),
+      ),      
+    ];
+}
 
 void _getTags()
 {
@@ -192,6 +248,7 @@ void _getTags()
 * borderRadius - *custom border radius (default BorderRadius.circular(_initBorderRadius))*
 * boxShadow - *List<BoxShadow> of tag*
 * symmetry - *default false*
+* textFieldHidden - *default false*
 * margin - *margin between the tags (default 3)*
 * padding - *padding of the tags (default left: 10)*
 * alignment - *default  MainAxisAlignment.center*
@@ -209,7 +266,9 @@ void _getTags()
 * iconBackground - *default transparent*
 * color - *background color of tag (default green)*
 * backgroundContainer - *default white*
-* highlightColor - *default green'700'* 
+* highlightColor - *default green'700'*
+* popupMenuBuilder - *Popup Menu Items*
+* popupMenuOnSelected - *On Selected Item*
 * onDelete - *return the tag deleted*
 * onInsert - *return the tag entered*
 * suggestionsList - *a List of string that force the insertion of specific items*

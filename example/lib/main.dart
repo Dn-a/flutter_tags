@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_tags/input_tags.dart';
 import 'package:flutter_tags/selectable_tags.dart';
@@ -258,24 +261,98 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                           Container(
                             child:
                             SelectableTags(
-                              tags: _selectableTags,
-                              columns: _column,
-                              fontSize: _fontSize,
-                              symmetry: _symmetry,
-                              singleItem: _singleItem,
-                              //offset: 4, //
-                              //activeColor: Colors.deepPurple,
-                              //boxShadow: [],
-                              //borderRadius:5,
-                              //margin: EdgeInsets.symmetric(horizontal: 60, vertical: 6),
-                              //padding: EdgeInsets.symmetric(horizontal: 19),
-                              //borderRadius: BorderRadius.all(Radius.elliptical(20, 5)),
-                              //height: 28,
-                              onPressed: (tag){
-                                setState(() {
-                                  _selectableOnPressed = tag.toString();
-                                });
-                              },
+                                tags: _selectableTags,
+                                columns: _column,
+                                fontSize: _fontSize,
+                                symmetry: _symmetry,
+                                singleItem: _singleItem,
+                                //offset: -2,
+                                //activeColor: Colors.deepPurple,
+                                //boxShadow: [],
+                                //borderRadius:5,
+                                //margin: EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+                                //padding: EdgeInsets.symmetric(horizontal: 10),
+                                //height: 26,
+                                //borderRadius: BorderRadius.all(Radius.elliptical(20, 5)),
+                                //height: 28,
+                                popupMenuBuilder: (Tag tag){
+                                    return <PopupMenuEntry>[
+                                        PopupMenuItem(
+                                            child: Text(tag.title,
+                                                style: TextStyle(
+                                                    color: Colors.black87,fontWeight: FontWeight.w800
+                                                ),
+                                            ),
+                                            enabled: false,
+                                        ),
+                                        PopupMenuDivider(),
+                                        PopupMenuItem(
+                                            value: 1,
+                                            child: Row(
+                                                children: <Widget>[
+                                                    Icon(Icons.content_copy,size: 18,),
+                                                    Text(" Copy text"),
+                                                ],
+                                            ),
+                                        ),
+                                        PopupMenuItem(
+                                            value: 2,
+                                            child: Row(
+                                                children: <Widget>[
+                                                    Icon(Icons.delete,size: 18,),
+                                                    Text(" Remove"),
+                                                ],
+                                            ),
+                                        ),
+                                        PopupMenuDivider(),
+                                        PopupMenuItem(
+                                            value: 3,
+                                            child: Row(
+                                                children: <Widget>[
+                                                    Icon(Icons.format_color_fill,color:_color,size: 18,),
+                                                    Text("  Randomize"),
+                                                ],
+                                            ),
+                                        ),
+                                        PopupMenuItem(
+                                            value: 4,
+                                            child: Row(
+                                                children: <Widget>[
+                                                    Icon(Icons.format_color_reset,color: Colors.grey,size: 18,),
+                                                    Text(" Reset"),
+                                                ],
+                                            ),
+                                            enabled: tag.activeColor!=null,
+                                        ),
+                                    ];
+                                },
+                                popupMenuOnSelected: (int id,Tag tag){
+                                    switch(id){
+                                        case 1:
+                                            Clipboard.setData( ClipboardData(text: tag.title));
+                                            break;
+                                        case 2:
+                                            setState(() {
+                                                _selectableTags.remove(tag);
+                                            });
+                                            break;
+                                        case 3:
+                                            _randomColors();
+                                            setState(() {
+                                                tag.activeColor = _color;
+                                            });
+                                            break;
+                                        case 4:
+                                            setState(() {
+                                                tag.activeColor = null;
+                                            });
+                                    }
+                                },
+                                onPressed: (tag){
+                                    setState(() {
+                                        _selectableOnPressed = tag.toString();
+                                    });
+                                },
                             ),
                           ),
                           Container(
@@ -392,6 +469,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                   fontSize: _fontSize,
                                   symmetry: _symmetry,
                                   iconBackground: Colors.green[800],
+                                  lowerCase: true,
+                                  autofocus: false,
                                   suggestionsList: !_withSuggesttions ? null :
                                   [
                                       "One",
@@ -409,15 +488,56 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                                       "last",
                                       "lest"
                                   ],
+                                  popupMenuBuilder: (String tag){
+                                      return <PopupMenuEntry>[
+                                          PopupMenuItem(
+                                              child: Text(tag,
+                                                  style: TextStyle(
+                                                      color: Colors.black87,fontWeight: FontWeight.w800
+                                                  ),
+                                              ),
+                                              enabled: false,
+                                          ),
+                                          PopupMenuDivider(),
+                                          PopupMenuItem(
+                                              value: 1,
+                                              child: Row(
+                                                  children: <Widget>[
+                                                      Icon(Icons.content_copy,size: 18,),
+                                                      Text(" Copy text"),
+                                                  ],
+                                              ),
+                                          ),
+                                          PopupMenuItem(
+                                              value: 2,
+                                              child: Row(
+                                                  children: <Widget>[
+                                                      Icon(Icons.delete,size: 18),
+                                                      Text(" Remove"),
+                                                  ],
+                                              ),
+                                          )
+                                      ];
+                                  },
+                                  popupMenuOnSelected: (int id,String tag){
+                                      switch(id){
+                                          case 1:
+                                              Clipboard.setData( ClipboardData(text: tag));
+                                              break;
+                                          case 2:
+                                              setState(() {
+                                                  _inputTags.remove(tag);
+                                              });
+                                      }
+                                  },
+                                  //textFieldHidden: true,
                                   //boxShadow: [],
-                                  //offset: 5,
+                                  //offset: -2,
                                   //padding: EdgeInsets.only(left: 11),
                                   //margin: EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                                   //iconPadding: EdgeInsets.all(5),
                                   //iconMargin: EdgeInsets.only(right:5,left: 2),
                                   //borderRadius: BorderRadius.all(Radius.elliptical(50, 5)),
-                                  lowerCase: true,
-                                  autofocus: false,
                                   //onDelete: (tag) => print(tag),
                                   //onInsert: (tag) => print(tag),
 
@@ -452,6 +572,21 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         );
   }
 
+  ///Random Colors
+  Color _color = Color(0xFFFFFFFF);
+  final Random _random = Random();
+
+  void _randomColors()
+  {
+      setState(() {
+          _color = Color.fromARGB(
+              _random.nextInt(256),
+              _random.nextInt(256),
+              _random.nextInt(256),
+              _random.nextInt(256),
+          );
+      });
+  }
 
   List<DropdownMenuItem> _buildItems()
   {

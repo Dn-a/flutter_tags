@@ -6,6 +6,11 @@ import 'package:flutter_tags/src/text_util.dart';
 typedef void OnDelete(String tags);
 typedef void OnInsert(String tags);
 
+/// PopupMenuBuilder
+typedef List<PopupMenuEntry> PopupMenuBuilder(String tag);
+typedef void PopupMenuOnSelected(int id, String tag);
+
+
 class InputTags extends StatefulWidget{
 
     InputTags({
@@ -20,6 +25,7 @@ class InputTags extends StatefulWidget{
                        this.boxShadow,
                        this.placeholder,
                        this.symmetry = false,
+                       this.textFieldHidden = false,
                        this.margin,
                        this.padding,
                        this.alignment,
@@ -43,9 +49,10 @@ class InputTags extends StatefulWidget{
                        this.suggestionsList,
                        this.onDelete,
                        this.onInsert,
+                       this.popupMenuBuilder,
+                       this.popupMenuOnSelected,
                        Key key
                    }) : assert(tags != null),
-                        assert(fontSize != null),
                         super(key: key);
 
     ///List of [Tag] object
@@ -80,6 +87,9 @@ class InputTags extends StatefulWidget{
 
     /// imposes the same width and the same number of columns for each row
     final bool symmetry;
+
+    /// Sometimes you need to hide the textField
+    final bool textFieldHidden;
 
     /// margin between the tag
     final EdgeInsets margin;
@@ -147,25 +157,32 @@ class InputTags extends StatefulWidget{
     /// callback
     final OnInsert onInsert;
 
-
     /// Suggestions List
     final List<String> suggestionsList;
 
+    /// Popup Menu Items
+    /// (String Tag)
+    final PopupMenuBuilder popupMenuBuilder;
+
+    /// On Selected Item
+    /// (int id, String tag)
+    final PopupMenuOnSelected popupMenuOnSelected;
 
 
     @override
     _InputTagsState createState() => _InputTagsState();
-
 }
 
 class _InputTagsState extends State<InputTags>
 {
-    GlobalKey _containerKey = new GlobalKey();
-    final _controller = TextEditingController();
+    final GlobalKey _containerKey = GlobalKey();
     Orientation _orientation = Orientation.portrait;
 
     //duplicate highlighting
     int _check = -1;
+
+    // Position for popupMenu
+    Offset _tapPosition;
 
     List<String> _tags = [];
 
@@ -191,7 +208,6 @@ class _InputTagsState extends State<InputTags>
     @override
     void dispose()
     {
-        _controller.dispose();
         super.dispose();
     }
 
@@ -224,12 +240,11 @@ class _InputTagsState extends State<InputTags>
             key:_containerKey,
             margin: EdgeInsets.symmetric(vertical:5.0,horizontal:0.0),
             color: widget.backgroundContainer ?? Colors.white,
-            child: Column( children: _buildRow(), ),
+            child: Column( children: _buildRows(), ),
         );
     }
 
-
-    List<Widget> _buildRow()
+    List<Widget> _buildRows()
     {
         List<Widget> rows = [];
 
@@ -242,7 +257,7 @@ class _InputTagsState extends State<InputTags>
         double padding = widget.padding != null ? widget.padding.horizontal  : _initPadding ;
         padding = padding*(widget.fontSize.clamp(8, 20)/14);
 
-        int tagsLength = _tags.length+1;
+        int tagsLength = _tags.length + 1;
         int rowsLength = (tagsLength/columns).ceil();
         double fontSize = widget.fontSize ?? _initFontSize;
 
@@ -314,133 +329,166 @@ class _InputTagsState extends State<InputTags>
         return rows;
     }
 
-
+    /// Build single Tag
     Widget _buildField({int index, double width, bool last=false})
     {
-        String tag = (index!=null )?_tags[index]:null;
+        String tag = (index!=null )?_tags[index]:'';
 
-        Widget textField = Flexible(
-            flex: (widget.symmetry)? 1 : width.ceil(),
-            child: Container(
-                margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: 6),
-                width: 200,
-                child: InputSuggestions(
-                    fontSize: widget.fontSize ?? null,
-                    suggestions: widget.suggestionsList ?? null,
-                    autofocus: widget.autofocus ?? true,
-                    keyboardType: widget.keyboardType ?? null,
-                    maxLength: widget.maxLength ?? null,
-                    lowerCase: widget.lowerCase ?? null,
-                    autocorrect: widget.autocorrect ?? false,
-                    onSubmitted: (str){
-                        setState(() {
-                            _check = -1;
-                            if(_tags.contains(str) && !widget.duplicate )
-                                _check = _tags.indexWhere((st) => st==str);
-                            else{
-                                if(widget.onInsert != null)
-                                    widget.onInsert(str);
-                                _tags.add(str);
-                            }
-                        });
-                    },
-                    style: TextStyle(color: Colors.black),
-                   inputDecoration: InputDecoration(
-                       disabledBorder: InputBorder.none,
-                       errorBorder: InputBorder.none,
-                       contentPadding: EdgeInsets.symmetric(vertical: 7 +(widget.fontSize.clamp(10, 24).toDouble()-14),horizontal: 10 +(widget.fontSize.clamp(10, 24).toDouble()-14)),
-                       hintText: widget.placeholder ?? 'Add a tag',
-                       focusedBorder: UnderlineInputBorder(
-                           borderRadius: BorderRadius.circular(_initBorderRadius,),
-                           borderSide: BorderSide(color: widget.color ?? Colors.green[400],),
-                       ),
-                       enabledBorder: UnderlineInputBorder(
-                           borderRadius: BorderRadius.circular(_initBorderRadius,),
-                           borderSide: BorderSide(color: Colors.green.withOpacity(0.5)),
-                       ),
-                       border: UnderlineInputBorder(
-                           borderRadius: BorderRadius.circular(_initBorderRadius,),
-                           borderSide: BorderSide(color: Colors.green.withOpacity(0.5)),
-                       )
-                   ),
+        final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+
+        Widget textField = Visibility(
+            visible: !widget.textFieldHidden,
+            child: Flexible(
+                flex: (widget.symmetry)? 1 : width.ceil(),
+                child: Container(
+                    margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: 6),
+                    width: 200,
+                    child: _textField()
                 )
-            )
+            ),
         );
 
         if(last || tag==null)
             return textField;
-        else
+        else{
+
+            Widget container = Container(
+                margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: 6),
+                width: (widget.symmetry)? _widthCalc( ) : width,
+                height: widget.height ?? 29*(widget.fontSize/14),
+                decoration: BoxDecoration(
+                    boxShadow: widget.boxShadow ?? [
+                        BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            spreadRadius: 0.5,
+                            blurRadius: 4,
+                            offset: Offset(0, 1)
+                        )
+                    ],
+                    borderRadius: widget.borderRadius ?? BorderRadius.circular(_initBorderRadius),
+                    color: _check==index? ((widget.highlightColor ?? widget.color?.withRed(700)) ?? Colors.green.withRed(450)) : (widget.color ?? Colors.green[400]),
+                ),
+                child:Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                        Flexible(
+                            fit: FlexFit.loose,
+                            flex: 1,
+                            child: Padding(
+                                padding: widget.padding ??  EdgeInsets.only(left: (_initPadding)*(widget.fontSize.clamp(8, 20)/14)),
+                                child: Text(
+                                    tag,
+                                    overflow: widget.textOverflow ?? TextOverflow.fade,
+                                    softWrap: false,
+                                    style: _textStyle,
+                                ),
+                            ),
+                        ),
+                        FittedBox(
+                            fit: BoxFit.cover,
+                            child: GestureDetector(
+                                child: Container(
+                                    padding: widget.iconPadding  ?? EdgeInsets.all(_initPaddingIcon),
+                                    margin: widget.iconMargin ??
+                                        EdgeInsets.only(
+                                            right: _initMarginIcon *(widget.fontSize!=null? (widget.fontSize.clamp(8, 22)/26):1 )
+                                        ),
+                                    decoration: BoxDecoration(
+                                        color: widget.iconBackground ?? Colors.transparent,
+                                        borderRadius: widget.iconBorderRadius ?? BorderRadius.circular(_initBorderRadius),
+                                    ),
+                                    child: Icon(
+                                        widget.icon ?? Icons.clear,
+                                        color: widget.iconColor ?? Colors.white,
+                                        size: ((widget.fontSize!=null)? 15 +(widget.fontSize.clamp(6, 25).toDouble()-18) : 14)),
+                                ),
+                                onTap: (){
+                                    _check = -1;
+                                    if(widget.onDelete != null)
+                                        widget.onDelete(tag);
+                                    setState(() {
+                                        _tags.remove(tag);
+                                    });
+                                },
+                            )
+                        )
+                    ],
+                ),
+            );
+
             return Flexible(
                 flex: (widget.symmetry)? 1 : width.round(),
-                child: Tooltip(
-                    message: tag.toString(),
-                    child: Container(
-                        //duration: _check==index? Duration(milliseconds: 80) : Duration(microseconds: 0),
-                        margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: 6),
-                        width: (widget.symmetry)? _widthCalc( ) : width,
-                        height: widget.height ?? 29*(widget.fontSize/14),
-                        decoration: BoxDecoration(
-                            boxShadow: widget.boxShadow ?? [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.2),
-                                    spreadRadius: 0.5,
-                                    blurRadius: 4,
-                                    offset: Offset(0, 1)
-                                )
-                            ],
-                            borderRadius: widget.borderRadius ?? BorderRadius.circular(_initBorderRadius),
-                            color: _check==index? ((widget.highlightColor ?? widget.color?.withRed(700)) ?? Colors.green.withRed(450)) : (widget.color ?? Colors.green[400]),
-                        ),
-                        child:Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                                Flexible(
-                                    fit: FlexFit.loose,
-                                    flex: 1,
-                                    child: Padding(
-                                        padding: widget.padding ??  EdgeInsets.only(left: (_initPadding)*(widget.fontSize.clamp(8, 20)/14)),
-                                        child: Text(
-                                            tag,
-                                            overflow: widget.textOverflow ?? TextOverflow.fade,
-                                            softWrap: false,
-                                            style: _textStyle,
-                                        ),
-                                    ),
-                                ),
-                                FittedBox(
-                                    fit: BoxFit.cover,
-                                    child: GestureDetector(
-                                        child: Container(
-                                            padding: widget.iconPadding  ?? EdgeInsets.all(_initPaddingIcon),
-                                            margin: widget.iconMargin ??
-                                                EdgeInsets.only(
-                                                    right: _initMarginIcon *(widget.fontSize!=null? (widget.fontSize.clamp(8, 22)/26):1 )
-                                                ),
-                                            decoration: BoxDecoration(
-                                                color: widget.iconBackground ?? Colors.transparent,
-                                                borderRadius: widget.iconBorderRadius ?? BorderRadius.circular(_initBorderRadius),
-                                            ),
-                                            child: Icon(
-                                                widget.icon ?? Icons.clear,
-                                                color: widget.iconColor ?? Colors.white,
-                                                size: ((widget.fontSize!=null)? 15 +(widget.fontSize.clamp(6, 25).toDouble()-18) : 14)),
-                                        ),
-                                        onTap: (){
-                                            _check = -1;
-                                            if(widget.onDelete != null)
-                                                widget.onDelete(tag);
-                                            setState(() {
-                                                _tags.remove(tag);
-                                            });
-                                        },
-                                    )
-                                )
-                            ],
-                        ),
+                child: GestureDetector(
+                    onTapDown: (details){
+                        _tapPosition = details.globalPosition;
+                    },
+                    onLongPress: (){
+                        showMenu(
+                            semanticLabel: tag,
+                            items: widget.popupMenuBuilder(tag) ?? [],
+                            context: context,
+                            position:  RelativeRect.fromRect(_tapPosition & Size(40, 40), Offset.zero & overlay.size)// & RelativeRect.fromLTRB(65.0, 40.0, 0.0, 0.0),
+                        ).then( (value){
+                            if(widget.popupMenuOnSelected!=null)
+                                widget.popupMenuOnSelected(value,tag);
+                        });
+                    },
+                    child: widget.popupMenuBuilder==null ?
+                    Tooltip(
+                        message: tag,
+                        child: container,
                     )
+                    :
+                    container,
                 )
             );
+        }
+    }
+
+    /// TextFiled or CustomTextField
+    Widget _textField()
+    {
+       return InputSuggestions(
+           fontSize: widget.fontSize ?? null,
+           suggestions: widget.suggestionsList ?? null,
+           autofocus: widget.autofocus ?? true,
+           keyboardType: widget.keyboardType ?? null,
+           maxLength: widget.maxLength ?? null,
+           lowerCase: widget.lowerCase ?? null,
+           autocorrect: widget.autocorrect ?? false,
+           onSubmitted: (str){
+               setState(() {
+                   _check = -1;
+                   if(_tags.contains(str) && !widget.duplicate )
+                       _check = _tags.indexWhere((st) => st==str);
+                   else{
+                       if(widget.onInsert != null)
+                           widget.onInsert(str);
+                       _tags.add(str);
+                   }
+               });
+           },
+           style: TextStyle(color: Colors.black),
+           inputDecoration: InputDecoration(
+               disabledBorder: InputBorder.none,
+               errorBorder: InputBorder.none,
+               contentPadding: EdgeInsets.symmetric(vertical: 7 +(widget.fontSize.clamp(10, 24).toDouble()-14),horizontal: 10 +(widget.fontSize.clamp(10, 24).toDouble()-14)),
+               hintText: widget.placeholder ?? 'Add a tag',
+               focusedBorder: UnderlineInputBorder(
+                   borderRadius: BorderRadius.circular(_initBorderRadius,),
+                   borderSide: BorderSide(color: widget.color ?? Colors.green[400],),
+               ),
+               enabledBorder: UnderlineInputBorder(
+                   borderRadius: BorderRadius.circular(_initBorderRadius,),
+                   borderSide: BorderSide(color: Colors.green.withOpacity(0.5)),
+               ),
+               border: UnderlineInputBorder(
+                   borderRadius: BorderRadius.circular(_initBorderRadius,),
+                   borderSide: BorderSide(color: Colors.green.withOpacity(0.5)),
+               )
+           ),
+       );
     }
 
     ///TextStyle
@@ -458,8 +506,7 @@ class _InputTagsState extends State<InputTags>
         );
     }
 
-
-    ///total width of the close icon
+    ///Total width of the close icon
     double _widthIcon()
     {
         double margin = widget.iconMargin!=null ?  widget.iconMargin.horizontal : _initMarginIcon;
@@ -483,3 +530,4 @@ class _InputTagsState extends State<InputTags>
     }
 
 }
+

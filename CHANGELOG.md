@@ -1,3 +1,10 @@
+## [0.3.0] - 2019-04-09.
+
+* **New features**
+* Possibility to create a customizable popupMenu.
+* **SelectableTags**. Possibility to set a color and an activeColor for each tag.
+* **InputTags**. Possibility to hide textField.
+
 ## [0.2.4] - 2019-04-08.
 
 * fixed some problem.

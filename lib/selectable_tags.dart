@@ -4,6 +4,10 @@ import 'package:flutter_tags/src/text_util.dart';
 /// Callback
 typedef void OnPressed(Tag tags);
 
+/// PopupMenuBuilder
+typedef List<PopupMenuEntry> PopupMenuBuilder(Tag tag);
+typedef void PopupMenuOnSelected(int id, Tag tag);
+
 class SelectableTags extends StatefulWidget{
 
     SelectableTags({
@@ -28,9 +32,10 @@ class SelectableTags extends StatefulWidget{
                        this.activeColor,
                        this.backgroundContainer,
                        this.onPressed,
+                       this.popupMenuBuilder,
+                       this.popupMenuOnSelected,
                        Key key
                    }) : assert(tags != null),
-                        //assert(onPressed != null),
                         super(key: key);
 
     ///List of [Tag] object
@@ -96,10 +101,17 @@ class SelectableTags extends StatefulWidget{
     /// callback
     final OnPressed onPressed;
 
+    /// Popup Menu Items
+    /// (Tag Tag)
+    final PopupMenuBuilder popupMenuBuilder;
+
+    /// On Selected Item
+    /// (int id, Tag tag)
+    final PopupMenuOnSelected popupMenuOnSelected;
+
 
     @override
     _SelectableTagsState createState() => _SelectableTagsState();
-
 }
 
 class _SelectableTagsState extends State<SelectableTags>
@@ -108,12 +120,15 @@ class _SelectableTagsState extends State<SelectableTags>
     GlobalKey _containerKey = new GlobalKey();
     Orientation _orientation = Orientation.portrait;
 
+    // Position for popup menu
+    Offset _tapPosition;
+
     List<Tag> _tags = [];
 
     double _width =0;
     double _initFontSize = 14;
     double _initMargin = 3;
-    double _initPadding = 9;
+    double _initPadding = 8;
     double _initBorderRadius = 50;
 
 
@@ -211,7 +226,7 @@ class _SelectableTagsState extends State<SelectableTags>
                     //for tags with a string less than 2, or if there is an icon, the width is too small so i apply a slightly larger font size
                     TextSize txtSize = TextSize(
                         txt: tag.title,
-                        fontSize: fontSize * (tag.length < 2 || tag.icon != null ? 1.3 : 1)
+                        fontSize: fontSize * (tag.length < 2 || tag.icon != null ? 1.4 : 1)
                     );
 
                     // Total width of the tag
@@ -250,69 +265,93 @@ class _SelectableTagsState extends State<SelectableTags>
         return rows;
     }
 
+
     Widget _buildField({int index, double width})
     {
         Tag tag = _tags[index];
 
+        final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+
+        Widget container = Container(
+            margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical:6),
+            width: (widget.symmetry)? _widthCalc( ) : width,
+            height: widget.height ?? 29*(widget.fontSize/14),
+            padding: EdgeInsets.symmetric(horizontal:0),
+            decoration: BoxDecoration(
+                boxShadow: widget.boxShadow ?? [
+                    BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 0.5,
+                        blurRadius: 4,
+                        offset: Offset(0, 1)
+                    )
+                ],
+                borderRadius: widget.borderRadius ?? BorderRadius.circular(_initBorderRadius),
+                color: tag.active? (tag.activeColor ?? widget.activeColor ?? Colors.blueGrey): (tag.color ?? widget.color ?? Colors.white),
+            ),
+            child:OutlineButton(
+                padding: (widget.padding ?? EdgeInsets.symmetric(horizontal: _initPadding)) * (widget.fontSize.clamp(8, 20)/14),
+                color: tag.active? (tag.activeColor ?? widget.activeColor ?? Colors.blueGrey): (tag.color ?? widget.color ?? Colors.white),
+                highlightColor: Colors.transparent,
+                highlightedBorderColor: tag.activeColor ?? widget.activeColor ?? Colors.blueGrey,
+                //disabledTextColor: Colors.red,
+                borderSide: widget.borderSide ?? BorderSide(color: (tag.activeColor ?? widget.activeColor ?? Colors.blueGrey)),
+                child:
+                (tag.icon!=null)?
+                FittedBox(
+                    child: Icon(
+                        tag.icon,
+                        size: widget.fontSize,
+                        color: tag.active? (widget.textActiveColor ?? Colors.white) : (widget.textColor ?? Colors.black),
+                    ),
+                )
+                    :
+                Text(
+                    tag.title,
+                    overflow: widget.textOverflow ?? TextOverflow.fade,
+                    softWrap: false,
+                    style: _textStyle(tag),
+                ),
+                onPressed: () {
+
+                    if(widget.singleItem) _singleItem();
+
+                    setState(() {
+                        (widget.singleItem)? tag.active = true : tag.active=!tag.active;
+                        if(widget.onPressed != null)
+                            widget.onPressed(tag);
+                    });
+
+                },
+                shape: RoundedRectangleBorder(borderRadius: widget.borderRadius ?? BorderRadius.circular(_initBorderRadius))
+            )
+        );
+
         return Flexible(
             flex: (widget.symmetry)? 0 : width.round(),
-            child: Tooltip(
-                message: tag.title.toString(),
-                child: Container(
-                    margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical:6),
-                    width: (widget.symmetry)? _widthCalc( ) : width,
-                    height: widget.height ?? 29*(widget.fontSize/14),
-                    padding: EdgeInsets.symmetric(horizontal:0),
-                    decoration: BoxDecoration(
-                        boxShadow: widget.boxShadow ?? [
-                            BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
-                                spreadRadius: 0.5,
-                                blurRadius: 4,
-                                offset: Offset(0, 1)
-                            )
-                        ],
-                        borderRadius: widget.borderRadius ?? BorderRadius.circular(_initBorderRadius),
-                        color: tag.active? (widget.activeColor ?? Colors.blueGrey): (widget.color ?? Colors.white),
-                    ),
-                    child:OutlineButton(
-                        padding: (widget.padding ?? EdgeInsets.symmetric(horizontal: _initPadding)) * (widget.fontSize.clamp(8, 20)/14),
-                        color: tag.active? (widget.activeColor ?? Colors.blueGrey): (widget.color ?? Colors.white),
-                        highlightColor: Colors.transparent,
-                        highlightedBorderColor: widget.activeColor ?? Colors.blueGrey,
-                        //disabledTextColor: Colors.red,
-                        borderSide: widget.borderSide ?? BorderSide(color: (widget.activeColor ?? Colors.blueGrey)),
-                        child:
-                        (tag.icon!=null)?
-                        FittedBox(
-                            child: Icon(
-                                tag.icon,
-                                size: widget.fontSize,
-                                color: tag.active? (widget.textActiveColor ?? Colors.white) : (widget.textColor ?? Colors.black),
-                            ),
-                        )
-                            :
-                        Text(
-                            tag.title,
-                            overflow: widget.textOverflow ?? TextOverflow.fade,
-                            softWrap: false,
-                            style: _textStyle(tag),
-                        ),
-                        onPressed: () {
-
-                            if(widget.singleItem) _singleItem();
-
-                            setState(() {
-                                (widget.singleItem)? tag.active = true : tag.active=!tag.active;
-                                if(widget.onPressed != null)
-                                    widget.onPressed(tag);
-                            });
-
-                        },
-                        shape: RoundedRectangleBorder(borderRadius: widget.borderRadius ?? BorderRadius.circular(_initBorderRadius))
-                    )
-                ),
-            ),
+            child: GestureDetector(
+                onTapDown: (details){
+                    _tapPosition = details.globalPosition;
+                },
+                onLongPress: (){
+                    showMenu(
+                        semanticLabel: tag.title,
+                        items: widget.popupMenuBuilder(tag) ?? [],
+                        context: context,
+                        position:  RelativeRect.fromRect(_tapPosition & Size(40, 40), Offset.zero & overlay.size)// & RelativeRect.fromLTRB(65.0, 40.0, 0.0, 0.0),
+                    ).then( (value){
+                        if(widget.popupMenuOnSelected!=null)
+                            widget.popupMenuOnSelected(value,tag);
+                    });
+                },
+                child: widget.popupMenuBuilder ==null?
+                Tooltip(
+                    message: tag.title.toString(),
+                    child: container,
+                )
+                :
+                container,
+            )
         );
 
     }
@@ -365,6 +404,8 @@ class Tag
     final int id;
     final IconData icon;
     final String title;
+    Color color;
+    Color activeColor;
     bool active;
     int length;
 
