@@ -470,7 +470,7 @@ class _InputTagsState extends State<InputTags>
                });
            },
            style: TextStyle(color: Colors.black),
-           inputDecoration: InputDecoration(
+           inputDecoration:  widget.inputDecoration ?? InputDecoration(
                disabledBorder: InputBorder.none,
                errorBorder: InputBorder.none,
                contentPadding: EdgeInsets.symmetric(vertical: 7 +(widget.fontSize.clamp(10, 24).toDouble()-14),horizontal: 10 +(widget.fontSize.clamp(10, 24).toDouble()-14)),
