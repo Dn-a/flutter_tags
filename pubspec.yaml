@@ -1,6 +1,6 @@
 name: flutter_tags
 description: Flutter tags let you create clickable tags or create new ones using textField, adapting perfectly to the width of the screen.
-version: 0.3.0
+version: 0.3.1
 author: Antonino Di Natale <gyorgio88@gmail.com>
 homepage: https://github.com/Dn-a/flutter_tags
 

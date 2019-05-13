@@ -1,3 +1,7 @@
+## [0.3.1] - 2019-05-13.
+
+* General improvement of the code.
+
 ## [0.3.0] - 2019-04-09.
 
 * **New features**
