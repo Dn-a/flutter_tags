@@ -127,7 +127,7 @@ void _getDisableTags()
 }
 ```
 
-### All parameters
+### All parameters (SelectableTags)
 * tags - *List 'Tag'*
 * columns - *max columns (default 4)*
 * height - *custom height of Tag (default auto-resize)*
@@ -248,7 +248,7 @@ void _getTags()
 }
 ```
 
-### All parameters
+### All parameters (InputTags)
 * tags - *List 'String'*
 * columns - *max columns (default 4)*
 * autofocus - *default true*
