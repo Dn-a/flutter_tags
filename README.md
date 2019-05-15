@@ -1,5 +1,3 @@
-#### :star: Star the repo to support the project or [Follow Me](https://github.com/Dn-a) 
-
 # flutter_tags
 [![pub package](https://img.shields.io/badge/pub-0.3.1-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
@@ -14,14 +12,27 @@ dependencies:
 ```
 
 
-### DEMO
-![Example](https://github.com/Dn-a/flutter_tags/tree/master/example)
+## DEMO
 
-![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example0.3.0_1.gif)
-![Demo 2](https://github.com/Dn-a/flutter_tags/blob/master/example/example0.3.0_2.gif)
+<div align="center">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><code>SelectableTags</code></th>
+<th style="text-align:center"><code>InputTags</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="https://github.com/Dn-a/flutter_tags/blob/master/example/example0.3.0_1.gif?raw=true" height = "700px"/></td>
+<td style="text-align:center"><img src="https://github.com/Dn-a/flutter_tags/blob/master/example/example0.3.0_2.gif?raw=true" height = "700px"/></td>
+</tr>
+</tbody>
+</table>
+</div>
 
 
-# Selectable Tags
+## Selectable Tags
 
 The Tag class has some optional parameters. If you want to insert an icon, the title is not displayed but you can always use it.
 ```dart
@@ -273,6 +284,9 @@ void _getTags()
 * onInsert - *return the tag entered*
 * suggestionsList - *a List of string that force the insertion of specific items*
 
+## Donate
+If you found this project helpful or you learned something from the source code and want to thank me: 
+- [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
 
 ## Issues
 If you encounter problems, open an issue. Pull request are also welcome.
