@@ -51,6 +51,7 @@ class InputTags extends StatefulWidget{
                        this.onInsert,
                        this.popupMenuBuilder,
                        this.popupMenuOnSelected,
+                       this.suggestionsStyle,
                        Key key
                    }) : assert(tags != null),
                         super(key: key);
@@ -167,6 +168,9 @@ class InputTags extends StatefulWidget{
     /// On Selected Item
     /// (int id, String tag)
     final PopupMenuOnSelected popupMenuOnSelected;
+
+    /// Suggestions Style
+    final TextStyle suggestionsStyle;
 
 
     @override
@@ -469,7 +473,7 @@ class _InputTagsState extends State<InputTags>
                    }
                });
            },
-           style: TextStyle(color: Colors.black),
+           style: widget.suggestionsStyle ?? TextStyle(color: Colors.black),
            inputDecoration:  widget.inputDecoration ?? InputDecoration(
                disabledBorder: InputBorder.none,
                errorBorder: InputBorder.none,
@@ -530,4 +534,3 @@ class _InputTagsState extends State<InputTags>
     }
 
 }
-
