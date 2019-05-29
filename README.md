@@ -16,18 +16,14 @@ dependencies:
 
 <div align="center">
 <table>
-<thead>
 <tr>
-<th style="text-align:center"><code>SelectableTags</code></th>
-<th style="text-align:center"><code>InputTags</code></th>
+<td style="text-align:center">
+ <img width = "250px" src="https://github.com/Dn-a/flutter_tags/blob/master/example/example0.3.0_1.gif?raw=true" />
+ </td>
+<td style="text-align:center">
+  <img width = "250px" src="https://github.com/Dn-a/flutter_tags/blob/master/example/example0.3.0_2.gif?raw=true"/>
+ </td>
 </tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center"><img src="https://github.com/Dn-a/flutter_tags/blob/master/example/example0.3.0_1.gif?raw=true" height = "700px"/></td>
-<td style="text-align:center"><img src="https://github.com/Dn-a/flutter_tags/blob/master/example/example0.3.0_2.gif?raw=true" height = "700px"/></td>
-</tr>
-</tbody>
 </table>
 </div>
 
