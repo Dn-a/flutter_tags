@@ -2,7 +2,7 @@
 [![pub package](https://img.shields.io/badge/pub-0.3.1-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
 
-Flutter tags let you create clickable tags or create new ones using textField, adapting perfectly to the width of the screen.
+Flutter tags simplifies the dynamic creation of selectable tags or input with textField. You will never have to worry about the screen width.
 
 ## Installing
 Add this to your package's pubspec.yaml file:
