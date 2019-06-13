@@ -43,7 +43,7 @@ Tag(
 )
 ```
 
-You can add any custom value in `customData` field, you can retrieve this later. A good example: store and documentId from Firestore.
+You can add any custom value in `customData` field, you can retrieve this later. A good example: store an id from Firestore document.
 
 ### Simple usage
 ```dart
