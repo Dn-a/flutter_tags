@@ -89,6 +89,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     {
         _selectableTags.add (
             Tag (id: cnt,
+                customData: 'custom - ${cnt.toString()}'
                 title: item,
                 active: (_singleItem) ? ( cnt==3 ? true:false ) : true,
                 icon: (item == '0' || item == '1' || item == '2') ?

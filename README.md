@@ -43,6 +43,8 @@ Tag(
 )
 ```
 
+You can add any custom value in `customData` field, you can retrieve this later. A good example: store and documentId from Firestore.
+
 ### Simple usage
 ```dart
 import 'package:flutter_tags/selectable_tags.dart';
