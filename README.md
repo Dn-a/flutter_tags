@@ -39,6 +39,7 @@ Tag(
     active: true, // optional
     color: Colors.white, // optional
     activeColor: Colors.blue // optional
+    customData: 'DocumentId' // optional
 )
 ```
 

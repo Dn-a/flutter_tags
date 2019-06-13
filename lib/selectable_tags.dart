@@ -396,7 +396,7 @@ class _SelectableTagsState extends State<SelectableTags>
 
 class Tag
 {
-    Tag({this.id, @required this.title, this.icon, this.active=true}){
+    Tag({this.id, @required this.title, this.icon, this.active=true, this.customData}){
         //When an icon is set, the size is 2. it seemed the most appropriate
         this.length =  (icon!=null)? 2 : TextSize.utf8Length(title);
     }
@@ -408,12 +408,13 @@ class Tag
     Color activeColor;
     bool active;
     int length;
+    dynamic customData;
 
 
     @override
     String toString()
     {
-        return '<TAG>\n id: $id;\n title: $title;\n active: $active;\n charsLength: $length\n<>' ;
+        return '<TAG>\n id: $id;\n customData: $customData;\n title: $title;\n active: $active;\n charsLength: $length\n<>' ;
     }
 
 }
