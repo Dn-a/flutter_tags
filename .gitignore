@@ -13,3 +13,6 @@ lib/generated/
 res/
 .idea/
 android/
+
+lib/selectable_tags_back.dart
+example/lib/main_back.dart
