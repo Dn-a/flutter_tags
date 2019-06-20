@@ -8,16 +8,13 @@ import 'package:flutter_tags/selectable_tags.dart';
 
 void main() => runApp(MyApp());
 
-
-class MyApp extends StatelessWidget
-{
+class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-
         primarySwatch: Colors.blueGrey,
       ),
       home: MyHomePage(title: 'flutter_tags - Test'),
@@ -25,9 +22,7 @@ class MyApp extends StatelessWidget
   }
 }
 
-
-class MyHomePage extends StatefulWidget
-{
+class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
 
@@ -35,20 +30,42 @@ class MyHomePage extends StatefulWidget
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-
-class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin
-{
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
   TabController _tabController;
   ScrollController _scrollViewController;
 
   final List<String> _list = [
-    '0','SDk','plugin updates','Facebook','哔了狗了QP又不够了',
-    'Kirchhoff','Italy','France','Spain','美','Dart','Foo','Select','lorem ip','9',
-    'Star','Flutter Selectable Tags','1','Hubble','2','Input flutter tags','A B C','8','Android Studio developer','welcome to the jungle','Gauss',
-      '美术',
-      '互联网',
-      '炫舞时代',
-      '篝火营地',
+    '0',
+    'SDk',
+    'plugin updates',
+    'Facebook',
+    '哔了狗了QP又不够了',
+    'Kirchhoff',
+    'Italy',
+    'France',
+    'Spain',
+    '美',
+    'Dart',
+    'Foo',
+    'Select',
+    'lorem ip',
+    '9',
+    'Star',
+    'Flutter Selectable Tags',
+    '1',
+    'Hubble',
+    '2',
+    'Input flutter tags',
+    'A B C',
+    '8',
+    'Android Studio developer',
+    'welcome to the jungle',
+    'Gauss',
+    '美术',
+    '互联网',
+    '炫舞时代',
+    '篝火营地',
   ];
 
   bool _symmetry = false;
@@ -64,540 +81,534 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   List<Tag> _selectableTags = [];
   List<String> _inputTags = [];
 
-  List _icon=[
-    Icons.home,
-    Icons.language,
-    Icons.headset
-  ];
-
+  List _icon = [Icons.home, Icons.language, Icons.headset];
 
   @override
-  void initState()
-  {
+  void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _scrollViewController = ScrollController();
 
     int cnt = 0;
-    _list.forEach((item)
-    {
-        _selectableTags.add (
-            Tag (id: cnt,
-                title: item,
-                active: (_singleItem) ? ( cnt==3 ? true:false ) : true,
-                icon: (item == '0' || item == '1' || item == '2') ?
-                _icon[ int.parse (item
-                ) ] : null
-            )
-        );
-        cnt++;
-    }
-    );
+    _list.forEach((item) {
+      _selectableTags.add(Tag(
+          id: cnt.toString(),
+          title: item,
+          active: (_singleItem) ? (cnt == 3 ? true : false) : true,
+          icon: (item == '0' || item == '1' || item == '2')
+              ? _icon[int.parse(item)]
+              : null));
+      cnt++;
+    });
 
-    _inputTags.addAll(
-        [
-            'first tag',
-            'android world',
-            'pic',
-            '美术',
-            'substring',
-            'last tag',
-            '术',
-            'enable',
-            'act',
-            '1',
-            '上上下下左右左右',
-            'first',
-            'return',
-            'lollipop',
-            'loop',
-        ]
-    );
-
+    _inputTags.addAll([
+      'first tag',
+      'android world',
+      'pic',
+      '美术',
+      'substring',
+      'last tag',
+      '术',
+      'enable',
+      'act',
+      '1',
+      '上上下下左右左右',
+      'first',
+      'return',
+      'lollipop',
+      'loop',
+    ]);
   }
 
-
   @override
-  Widget build(BuildContext context)
-  {
-        return Scaffold(
-          body: NestedScrollView(
-              controller: _scrollViewController,
-              headerSliverBuilder: (BuildContext context,bool boxIsScrolled){
-                return <Widget>[
-                  SliverAppBar(
-                    title: Text("flutter_tags - Test"),
-                    centerTitle: true,
-                    pinned: true,
-                    expandedHeight: 110.0,
-                    floating: true,
-                    forceElevated: boxIsScrolled,
-                    bottom: TabBar(
-                      isScrollable: true,
-                      indicatorSize: TabBarIndicatorSize.label,
-                      labelStyle: TextStyle(fontSize: 18.0),
-                      tabs: [
-                        Tab(text: "Selectable"),
-                        Tab(text: "Input"),
-                      ],
-                      controller: _tabController,
-                    ),
-                  )
-                ];
-              },
-              body: TabBarView(
-                controller: _tabController,
-                children:  [
-                  ListView(
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: NestedScrollView(
+          controller: _scrollViewController,
+          headerSliverBuilder: (BuildContext context, bool boxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                title: Text("flutter_tags - Test"),
+                centerTitle: true,
+                pinned: true,
+                expandedHeight: 110.0,
+                floating: true,
+                forceElevated: boxIsScrolled,
+                bottom: TabBar(
+                  isScrollable: true,
+                  indicatorSize: TabBarIndicatorSize.label,
+                  labelStyle: TextStyle(fontSize: 18.0),
+                  tabs: [
+                    Tab(text: "Selectable"),
+                    Tab(text: "Input"),
+                  ],
+                  controller: _tabController,
+                ),
+              )
+            ];
+          },
+          body: TabBarView(
+            controller: _tabController,
+            children: [
+              ListView(
+                children: <Widget>[
+                  Column(
                     children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          GestureDetector(
+                            child: Row(
+                              children: <Widget>[
+                                Checkbox(
+                                    value: _symmetry,
+                                    onChanged: (a) {
+                                      setState(() {
+                                        _symmetry = !_symmetry;
+                                      });
+                                    }),
+                                Text('Symmetry')
+                              ],
+                            ),
+                            onTap: () {
+                              setState(() {
+                                _symmetry = !_symmetry;
+                              });
+                            },
+                          ),
+                          GestureDetector(
+                            child: Row(
+                              children: <Widget>[
+                                Checkbox(
+                                    value: _singleItem,
+                                    onChanged: (a) {
+                                      setState(() {
+                                        _singleItem = !_singleItem;
+                                      });
+                                    }),
+                                Text('Single Item')
+                              ],
+                            ),
+                            onTap: () {
+                              setState(() {
+                                _singleItem = !_singleItem;
+                              });
+                            },
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(20),
+                          ),
+                          DropdownButton(
+                            hint: Text(_column.toString()),
+                            items: _buildItems(),
+                            onChanged: (a) {
+                              setState(() {
+                                _column = a;
+                              });
+                            },
+                          ),
+                          Text("Columns")
+                        ],
+                      ),
                       Column(
                         children: <Widget>[
+                          Text('Font Size'),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              GestureDetector(
+                              Slider(
+                                value: _fontSize,
+                                min: 6,
+                                max: 30,
+                                onChanged: (a) {
+                                  setState(() {
+                                    _fontSize = (a.round()).toDouble();
+                                  });
+                                },
+                              ),
+                              Text(_fontSize.toString()),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                              ),
+                              Container(
+                                height: 30,
+                                width: 30,
+                                color: Colors.blueGrey,
+                                child: IconButton(
+                                  padding: EdgeInsets.all(0),
+                                  color: Colors.white,
+                                  icon: Icon(Icons.add),
+                                  onPressed: () {
+                                    setState(() {
+                                      _count++;
+                                      _selectableTags.add(Tag(
+                                          title: _count.toString(),
+                                          active: _count % 2 == 0));
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                      ),
+                      Container(
+                        child: SelectableTags(
+                          tags: _selectableTags,
+                          columns: _column,
+                          fontSize: _fontSize,
+                          symmetry: _symmetry,
+                          singleItem: _singleItem,
+                          //offset: -2,
+                          //activeColor: Colors.deepPurple,
+                          //boxShadow: [],
+                          //borderRadius:5,
+                          //margin: EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+                          //padding: EdgeInsets.symmetric(horizontal: 10),
+                          //height: 26,
+                          //borderRadius: BorderRadius.all(Radius.elliptical(20, 5)),
+                          //height: 28,
+                          popupMenuBuilder: (Tag tag) {
+                            return <PopupMenuEntry>[
+                              PopupMenuItem(
+                                child: Text(
+                                  tag.title,
+                                  style: TextStyle(
+                                      color: Colors.black87,
+                                      fontWeight: FontWeight.w800),
+                                ),
+                                enabled: false,
+                              ),
+                              PopupMenuDivider(),
+                              PopupMenuItem(
+                                value: 1,
                                 child: Row(
                                   children: <Widget>[
-                                    Checkbox(
-                                        value: _symmetry,
-                                        onChanged: (a){
-                                          setState(() {
-                                            _symmetry = !_symmetry;
-                                          });
-                                        }
+                                    Icon(
+                                      Icons.content_copy,
+                                      size: 18,
                                     ),
-                                    Text('Symmetry')
+                                    Text(" Copy text"),
                                   ],
                                 ),
-                                onTap: (){
+                              ),
+                              PopupMenuItem(
+                                value: 2,
+                                child: Row(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.delete,
+                                      size: 18,
+                                    ),
+                                    Text(" Remove"),
+                                  ],
+                                ),
+                              ),
+                              PopupMenuDivider(),
+                              PopupMenuItem(
+                                value: 3,
+                                child: Row(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.format_color_fill,
+                                      color: _color,
+                                      size: 18,
+                                    ),
+                                    Text("  Randomize"),
+                                  ],
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 4,
+                                child: Row(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.format_color_reset,
+                                      color: Colors.grey,
+                                      size: 18,
+                                    ),
+                                    Text(" Reset"),
+                                  ],
+                                ),
+                                enabled: tag.activeColor != null,
+                              ),
+                            ];
+                          },
+                          popupMenuOnSelected: (int id, Tag tag) {
+                            switch (id) {
+                              case 1:
+                                Clipboard.setData(
+                                    ClipboardData(text: tag.title));
+                                break;
+                              case 2:
+                                setState(() {
+                                  _selectableTags.remove(tag);
+                                });
+                                break;
+                              case 3:
+                                _randomColors();
+                                setState(() {
+                                  tag.activeColor = _color;
+                                });
+                                break;
+                              case 4:
+                                setState(() {
+                                  tag.activeColor = null;
+                                });
+                            }
+                          },
+                          onPressed: (tag) {
+                            setState(() {
+                              _selectableOnPressed = tag.toString();
+                            });
+                          },
+                        ),
+                      ),
+                      Container(
+                          padding: EdgeInsets.all(10),
+                          child: Divider(
+                            color: Colors.blueGrey,
+                          )),
+                      Container(
+                          padding: EdgeInsets.only(left: 10),
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "OnPressed",
+                            style: TextStyle(fontSize: 18),
+                          )),
+                      Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          alignment: Alignment.topLeft,
+                          child: Text(_selectableOnPressed))
+                    ],
+                  ),
+                ],
+              ),
+              ListView(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      GestureDetector(
+                        child: Row(
+                          children: <Widget>[
+                            Checkbox(
+                                value: _symmetry,
+                                onChanged: (a) {
                                   setState(() {
                                     _symmetry = !_symmetry;
                                   });
-                                },
-                              ),
-                              GestureDetector(
-                                  child: Row(
-                                      children: <Widget>[
-                                          Checkbox(
-                                              value: _singleItem,
-                                              onChanged: (a){
-                                                  setState(() {
-                                                      _singleItem = !_singleItem;
-                                                  });
-                                              }
-                                          ),
-                                          Text('Single Item')
-                                      ],
-                                  ),
-                                  onTap: (){
-                                      setState(() {
-                                          _singleItem = !_singleItem;
-                                      });
-                                  },
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(20),
-                              ),
-                              DropdownButton(
-                                hint: Text(_column.toString()),
-                                items: _buildItems(),
+                                }),
+                            Text('Symmetry')
+                          ],
+                        ),
+                        onTap: () {
+                          setState(() {
+                            _symmetry = !_symmetry;
+                          });
+                        },
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(20),
+                      ),
+                      DropdownButton(
+                        hint: Text(_column.toString()),
+                        items: _buildItems(),
+                        onChanged: (a) {
+                          setState(() {
+                            _column = a;
+                          });
+                        },
+                      ),
+                      Text("Columns")
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      GestureDetector(
+                        child: Row(
+                          children: <Widget>[
+                            Checkbox(
+                                value: _withSuggesttions,
                                 onChanged: (a) {
                                   setState(() {
-                                    _column = a;
+                                    _withSuggesttions = !_withSuggesttions;
                                   });
-                                },
-                              ),
-                              Text("Columns")
-                            ],
+                                }),
+                            Text('With suggestions')
+                          ],
+                        ),
+                        onTap: () {
+                          setState(() {
+                            _withSuggesttions = !_withSuggesttions;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Text('Font Size'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Slider(
+                            value: _fontSize,
+                            min: 6,
+                            max: 30,
+                            onChanged: (a) {
+                              setState(() {
+                                _fontSize = (a.round()).toDouble();
+                              });
+                            },
                           ),
-                          Column(
-                            children: <Widget>[
-                              Text('Font Size'),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Slider(
-                                    value: _fontSize,
-                                    min: 6,
-                                    max: 30,
-                                    onChanged: (a){
-                                      setState(() {
-                                        _fontSize = (a.round()).toDouble();
-                                      });
-                                    },
-                                  ),
-                                  Text(_fontSize.toString()),
-                                  Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 20),
-                                  ),
-                                  Container(
-                                      height:   30,
-                                      width: 30,
-                                      color: Colors.blueGrey,
-                                      child: IconButton(
-                                          padding: EdgeInsets.all(0),
-                                          color: Colors.white,
-                                          icon: Icon(Icons.add),
-                                          onPressed: (){
-                                              setState(() {
-                                                  _count++;
-                                                  _selectableTags.add(
-                                                      Tag(
-                                                          title:_count.toString(),
-                                                          active: _count%2==0
-                                                      )
-                                                  );
-                                              });
-                                          },
-                                      ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(10),
-                          ),
-                          Container(
-                            child:
-                            SelectableTags(
-                                tags: _selectableTags,
-                                columns: _column,
-                                fontSize: _fontSize,
-                                symmetry: _symmetry,
-                                singleItem: _singleItem,
-                                //offset: -2,
-                                //activeColor: Colors.deepPurple,
-                                //boxShadow: [],
-                                //borderRadius:5,
-                                //margin: EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-                                //padding: EdgeInsets.symmetric(horizontal: 10),
-                                //height: 26,
-                                //borderRadius: BorderRadius.all(Radius.elliptical(20, 5)),
-                                //height: 28,
-                                popupMenuBuilder: (Tag tag){
-                                    return <PopupMenuEntry>[
-                                        PopupMenuItem(
-                                            child: Text(tag.title,
-                                                style: TextStyle(
-                                                    color: Colors.black87,fontWeight: FontWeight.w800
-                                                ),
-                                            ),
-                                            enabled: false,
-                                        ),
-                                        PopupMenuDivider(),
-                                        PopupMenuItem(
-                                            value: 1,
-                                            child: Row(
-                                                children: <Widget>[
-                                                    Icon(Icons.content_copy,size: 18,),
-                                                    Text(" Copy text"),
-                                                ],
-                                            ),
-                                        ),
-                                        PopupMenuItem(
-                                            value: 2,
-                                            child: Row(
-                                                children: <Widget>[
-                                                    Icon(Icons.delete,size: 18,),
-                                                    Text(" Remove"),
-                                                ],
-                                            ),
-                                        ),
-                                        PopupMenuDivider(),
-                                        PopupMenuItem(
-                                            value: 3,
-                                            child: Row(
-                                                children: <Widget>[
-                                                    Icon(Icons.format_color_fill,color:_color,size: 18,),
-                                                    Text("  Randomize"),
-                                                ],
-                                            ),
-                                        ),
-                                        PopupMenuItem(
-                                            value: 4,
-                                            child: Row(
-                                                children: <Widget>[
-                                                    Icon(Icons.format_color_reset,color: Colors.grey,size: 18,),
-                                                    Text(" Reset"),
-                                                ],
-                                            ),
-                                            enabled: tag.activeColor!=null,
-                                        ),
-                                    ];
-                                },
-                                popupMenuOnSelected: (int id,Tag tag){
-                                    switch(id){
-                                        case 1:
-                                            Clipboard.setData( ClipboardData(text: tag.title));
-                                            break;
-                                        case 2:
-                                            setState(() {
-                                                _selectableTags.remove(tag);
-                                            });
-                                            break;
-                                        case 3:
-                                            _randomColors();
-                                            setState(() {
-                                                tag.activeColor = _color;
-                                            });
-                                            break;
-                                        case 4:
-                                            setState(() {
-                                                tag.activeColor = null;
-                                            });
-                                    }
-                                },
-                                onPressed: (tag){
-                                    setState(() {
-                                        _selectableOnPressed = tag.toString();
-                                    });
-                                },
-                            ),
-                          ),
-                          Container(
-                              padding: EdgeInsets.all(10),
-                              child: Divider(color: Colors.blueGrey,)
-                          ),
-                          Container(
-                              padding: EdgeInsets.only(left: 10),
-                              alignment: Alignment.topLeft,
-                              child: Text("OnPressed",style: TextStyle(fontSize: 18),)),
-                          Container(
-                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                              alignment: Alignment.topLeft,
-                              child: Text(_selectableOnPressed)
-                          )
+                          Text(_fontSize.toString()),
                         ],
                       ),
                     ],
                   ),
-                  ListView(
-                      children: <Widget>[
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  Container(
+                    child: InputTags(
+                      tags: _inputTags,
+                      columns: _column,
+                      fontSize: _fontSize,
+                      symmetry: _symmetry,
+                      iconBackground: Colors.green[800],
+                      lowerCase: true,
+                      autofocus: false,
+                      suggestionsList: !_withSuggesttions
+                          ? null
+                          : [
+                              "One",
+                              "two",
+                              "android",
+                              "Dart",
+                              "flutter",
+                              "test",
+                              "tests",
+                              "androids",
+                              "androidsaaa",
+                              "Test",
+                              "suggest",
+                              "suggestions",
+                              "last",
+                              "lest"
+                            ],
+                      popupMenuBuilder: (String tag) {
+                        return <PopupMenuEntry>[
+                          PopupMenuItem(
+                            child: Text(
+                              tag,
+                              style: TextStyle(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.w800),
+                            ),
+                            enabled: false,
+                          ),
+                          PopupMenuDivider(),
+                          PopupMenuItem(
+                            value: 1,
+                            child: Row(
                               children: <Widget>[
-                                  GestureDetector(
-                                      child: Row(
-                                          children: <Widget>[
-                                              Checkbox(
-                                                  value: _symmetry,
-                                                  onChanged: (a){
-                                                      setState(() {
-                                                          _symmetry = !_symmetry;
-                                                      });
-                                                  }
-                                              ),
-                                              Text('Symmetry')
-                                          ],
-                                      ),
-                                      onTap: (){
-                                          setState(() {
-                                              _symmetry = !_symmetry;
-                                          });
-                                      },
-                                  ),
-                                  Padding(
-                                      padding: EdgeInsets.all(20),
-                                  ),
-                                  DropdownButton(
-                                      hint: Text(_column.toString()),
-                                      items: _buildItems(),
-                                      onChanged: (a) {
-                                          setState(() {
-                                              _column = a;
-                                          });
-                                      },
-                                  ),
-                                  Text("Columns")
+                                Icon(
+                                  Icons.content_copy,
+                                  size: 18,
+                                ),
+                                Text(" Copy text"),
                               ],
+                            ),
                           ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                          PopupMenuItem(
+                            value: 2,
+                            child: Row(
                               children: <Widget>[
-                                  GestureDetector(
-                                      child: Row(
-                                          children: <Widget>[
-                                              Checkbox(
-                                                  value: _withSuggesttions,
-                                                  onChanged: (a){
-                                                      setState(() {
-                                                          _withSuggesttions = !_withSuggesttions;
-                                                      });
-                                                  }
-                                              ),
-                                              Text('With suggestions')
-                                          ],
-                                      ),
-                                      onTap: (){
-                                          setState(() {
-                                              _withSuggesttions = !_withSuggesttions;
-                                          });
-                                      },
-                                  ),
+                                Icon(Icons.delete, size: 18),
+                                Text(" Remove"),
                               ],
-                          ),
-                          Column(
-                              children: <Widget>[
-                                  Text('Font Size'),
-                                  Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                          Slider(
-                                              value: _fontSize,
-                                              min: 6,
-                                              max: 30,
-                                              onChanged: (a){
-                                                  setState(() {
-                                                      _fontSize = (a.round()).toDouble();
-                                                  });
-                                              },
-                                          ),
-                                          Text(_fontSize.toString()),
-                                      ],
-                                  ),
-                              ],
-                          ),
-                          Padding(
-                              padding: EdgeInsets.all(10),
-                          ),
-                          Container(
-                              child:
-                              InputTags(
-                                  tags: _inputTags,
-                                  columns: _column,
-                                  fontSize: _fontSize,
-                                  symmetry: _symmetry,
-                                  iconBackground: Colors.green[800],
-                                  lowerCase: true,
-                                  autofocus: false,
-                                  suggestionsList: !_withSuggesttions ? null :
-                                  [
-                                      "One",
-                                      "two",
-                                      "android",
-                                      "Dart",
-                                      "flutter",
-                                      "test",
-                                      "tests",
-                                      "androids",
-                                      "androidsaaa",
-                                      "Test",
-                                      "suggest",
-                                      "suggestions",
-                                      "last",
-                                      "lest"
-                                  ],
-                                  popupMenuBuilder: (String tag){
-                                      return <PopupMenuEntry>[
-                                          PopupMenuItem(
-                                              child: Text(tag,
-                                                  style: TextStyle(
-                                                      color: Colors.black87,fontWeight: FontWeight.w800
-                                                  ),
-                                              ),
-                                              enabled: false,
-                                          ),
-                                          PopupMenuDivider(),
-                                          PopupMenuItem(
-                                              value: 1,
-                                              child: Row(
-                                                  children: <Widget>[
-                                                      Icon(Icons.content_copy,size: 18,),
-                                                      Text(" Copy text"),
-                                                  ],
-                                              ),
-                                          ),
-                                          PopupMenuItem(
-                                              value: 2,
-                                              child: Row(
-                                                  children: <Widget>[
-                                                      Icon(Icons.delete,size: 18),
-                                                      Text(" Remove"),
-                                                  ],
-                                              ),
-                                          )
-                                      ];
-                                  },
-                                  popupMenuOnSelected: (int id,String tag){
-                                      switch(id){
-                                          case 1:
-                                              Clipboard.setData( ClipboardData(text: tag));
-                                              break;
-                                          case 2:
-                                              setState(() {
-                                                  _inputTags.remove(tag);
-                                              });
-                                      }
-                                  },
-                                  //textFieldHidden: true,
-                                  //boxShadow: [],
-                                  //offset: -2,
-                                  //padding: EdgeInsets.only(left: 11),
-                                  //margin: EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-                                  //iconPadding: EdgeInsets.all(5),
-                                  //iconMargin: EdgeInsets.only(right:5,left: 2),
-                                  //borderRadius: BorderRadius.all(Radius.elliptical(50, 5)),
-                                  //onDelete: (tag) => print(tag),
-                                  //onInsert: (tag) => print(tag),
-
-                              ),
-                          ),
-                          Padding(
-                              padding: EdgeInsets.all(10),
-                          ),
-                          Padding(
-                              padding: EdgeInsets.all(10),
-                              child: RaisedButton(
-                                  child: Text('Print all Tags'),
-                                  onPressed: (){
-                                      _inputOnPressed ='';
-                                      _inputTags.forEach((tag) =>
-                                          setState(() {
-                                              _inputOnPressed+='${tag},\n';
-                                          })
-                                      );
-                                  }
-                              ),
-                          ),
-                          Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Text(_inputOnPressed),
-                          ),
-                      ],
-                  )
+                            ),
+                          )
+                        ];
+                      },
+                      popupMenuOnSelected: (int id, String tag) {
+                        switch (id) {
+                          case 1:
+                            Clipboard.setData(ClipboardData(text: tag));
+                            break;
+                          case 2:
+                            setState(() {
+                              _inputTags.remove(tag);
+                            });
+                        }
+                      },
+                      //textFieldHidden: true,
+                      //boxShadow: [],
+                      //offset: -2,
+                      //padding: EdgeInsets.only(left: 11),
+                      //margin: EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+                      //iconPadding: EdgeInsets.all(5),
+                      //iconMargin: EdgeInsets.only(right:5,left: 2),
+                      //borderRadius: BorderRadius.all(Radius.elliptical(50, 5)),
+                      //onDelete: (tag) => print(tag),
+                      //onInsert: (tag) => print(tag),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: RaisedButton(
+                        child: Text('Print all Tags'),
+                        onPressed: () {
+                          _inputOnPressed = '';
+                          _inputTags.forEach((tag) => setState(() {
+                                _inputOnPressed += '${tag},\n';
+                              }));
+                        }),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Text(_inputOnPressed),
+                  ),
                 ],
               )
-          ),
-        );
+            ],
+          )),
+    );
   }
 
   ///Random Colors
   Color _color = Color(0xFFFFFFFF);
   final Random _random = Random();
 
-  void _randomColors()
-  {
-      setState(() {
-          _color = Color.fromARGB(
-              _random.nextInt(256),
-              _random.nextInt(256),
-              _random.nextInt(256),
-              _random.nextInt(256),
-          );
-      });
+  void _randomColors() {
+    setState(() {
+      _color = Color.fromARGB(
+        _random.nextInt(256),
+        _random.nextInt(256),
+        _random.nextInt(256),
+        _random.nextInt(256),
+      );
+    });
   }
 
-  List<DropdownMenuItem> _buildItems()
-  {
+  List<DropdownMenuItem> _buildItems() {
     List<DropdownMenuItem> list = [];
 
     int count = 19;
 
-    for(int i = 1; i < count; i++)
+    for (int i = 1; i < count; i++)
       list.add(
         DropdownMenuItem(
-          child: Text(i.toString() ),
+          child: Text(i.toString()),
           value: i,
         ),
       );

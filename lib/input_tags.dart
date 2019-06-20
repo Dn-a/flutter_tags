@@ -10,524 +10,543 @@ typedef void OnInsert(String tags);
 typedef List<PopupMenuEntry> PopupMenuBuilder(String tag);
 typedef void PopupMenuOnSelected(int id, String tag);
 
+class InputTags extends StatefulWidget {
+  InputTags(
+      {@required this.tags,
+      this.columns = 4,
+      this.autofocus,
+      this.inputDecoration,
+      this.maxLength,
+      this.keyboardType,
+      this.height,
+      this.borderRadius,
+      this.boxShadow,
+      this.placeholder,
+      this.symmetry = false,
+      this.textFieldHidden = false,
+      this.margin,
+      this.padding,
+      this.alignment,
+      this.offset,
+      this.duplicate = false,
+      this.fontSize = 14,
+      this.textOverflow,
+      this.lowerCase = false,
+      this.textStyle,
+      this.autocorrect,
+      this.icon,
+      this.iconSize,
+      this.iconPadding,
+      this.iconMargin,
+      this.iconColor,
+      this.iconBackground,
+      this.iconBorderRadius,
+      this.color,
+      this.backgroundContainer,
+      this.highlightColor,
+      this.suggestionsList,
+      this.onDelete,
+      this.onInsert,
+      this.popupMenuBuilder,
+      this.popupMenuOnSelected,
+      Key key})
+      : assert(tags != null),
+        super(key: key);
 
-class InputTags extends StatefulWidget{
+  ///List of [Tag] object
+  final List<String> tags;
 
-    InputTags({
-                       @required this.tags,
-                       this.columns = 4,
-                       this.autofocus,
-                       this.inputDecoration,
-                       this.maxLength,
-                       this.keyboardType,
-                       this.height,
-                       this.borderRadius,
-                       this.boxShadow,
-                       this.placeholder,
-                       this.symmetry = false,
-                       this.textFieldHidden = false,
-                       this.margin,
-                       this.padding,
-                       this.alignment,
-                       this.offset,
-                       this.duplicate = false,
-                       this.fontSize = 14,
-                       this.textOverflow,
-                       this.lowerCase = false,
-                       this.textStyle,
-                       this.autocorrect,
-                       this.icon,
-                       this.iconSize,
-                       this.iconPadding,
-                       this.iconMargin,
-                       this.iconColor,
-                       this.iconBackground,
-                       this.iconBorderRadius,
-                       this.color,
-                       this.backgroundContainer,
-                       this.highlightColor,
-                       this.suggestionsList,
-                       this.onDelete,
-                       this.onInsert,
-                       this.popupMenuBuilder,
-                       this.popupMenuOnSelected,
-                       Key key
-                   }) : assert(tags != null),
-                        super(key: key);
+  ///specific number of columns
+  final int columns;
 
-    ///List of [Tag] object
-    final List<String> tags;
+  ///autofocus InputField
+  final bool autofocus;
 
-    ///specific number of columns
-    final int columns;
+  ///decoration InputField
+  final InputDecoration inputDecoration;
 
-    ///autofocus InputField
-    final bool autofocus;
+  ///max-length InputField
+  final int maxLength;
 
-    ///decoration InputField
-    final InputDecoration inputDecoration;
+  ///keyboard InputField
+  final TextInputType keyboardType;
 
-    ///max-length InputField
-    final int maxLength;
+  ///customize the height of the tag. Default auto-resize
+  final double height;
 
-    ///keyboard InputField
-    final TextInputType keyboardType;
+  /// border-radius of tag
+  final BorderRadius borderRadius;
 
-    ///customize the height of the tag. Default auto-resize
-    final double height;
+  /// box-shadow of tag
+  final List<BoxShadow> boxShadow;
 
-    /// border-radius of tag
-    final BorderRadius borderRadius;
+  ///placeholder InputField
+  final String placeholder;
 
-    /// box-shadow of tag
-    final List<BoxShadow> boxShadow;
+  /// imposes the same width and the same number of columns for each row
+  final bool symmetry;
 
-    ///placeholder InputField
-    final String placeholder;
+  /// Sometimes you need to hide the textField
+  final bool textFieldHidden;
 
-    /// imposes the same width and the same number of columns for each row
-    final bool symmetry;
+  /// margin between the tag
+  final EdgeInsets margin;
 
-    /// Sometimes you need to hide the textField
-    final bool textFieldHidden;
+  /// padding of the tag
+  final EdgeInsets padding;
 
-    /// margin between the tag
-    final EdgeInsets margin;
+  /// type of row alignment
+  final MainAxisAlignment alignment;
 
-    /// padding of the tag
-    final EdgeInsets padding;
+  /// offset of width (default 0)
+  final int offset;
 
-    /// type of row alignment
-    final MainAxisAlignment alignment;
+  /// possibility to insert duplicates in the list
+  final bool duplicate;
 
-    /// offset of width (default 0)
-    final int offset;
+  /// TextStyle of the tag
+  final TextStyle textStyle;
 
-    /// possibility to insert duplicates in the list
-    final bool duplicate;
+  /// TextStyle of the tag
+  final bool autocorrect;
 
-    /// TextStyle of the tag
-    final TextStyle textStyle;
+  /// font size, the height of the tag is proportional to the font size
+  final double fontSize;
 
-    /// TextStyle of the tag
-    final bool autocorrect;
+  /// custom Icon close
+  final Icon icon;
 
-    /// font size, the height of the tag is proportional to the font size
-    final double fontSize;
+  /// icon size of Icon close
+  final double iconSize;
 
-    /// custom Icon close
-    final Icon icon;
+  /// padding of Icon close
+  final EdgeInsets iconPadding;
 
-    /// icon size of Icon close
-    final double iconSize;
+  /// margin of Icon close
+  final EdgeInsets iconMargin;
 
-    /// padding of Icon close
-    final EdgeInsets iconPadding;
+  /// color of Icon close
+  final Color iconColor;
 
-    /// margin of Icon close
-    final EdgeInsets iconMargin;
+  /// background of Icon close
+  final Color iconBackground;
 
-    /// color of Icon close
-    final Color iconColor;
+  /// border-radius of Icon Size
+  final BorderRadius iconBorderRadius;
 
-    /// background of Icon close
-    final Color iconBackground;
+  /// type of text overflow within the tag
+  final TextOverflow textOverflow;
 
-    /// border-radius of Icon Size
-    final BorderRadius iconBorderRadius;
+  /// lower-case text tag
+  final bool lowerCase;
 
-    /// type of text overflow within the tag
-    final TextOverflow textOverflow;
+  /// background color tag
+  final Color color;
 
-    /// lower-case text tag
-    final bool lowerCase;
+  /// background color container
+  final Color backgroundContainer;
 
-    /// background color tag
-    final Color color;
+  ///highlight-color. it is activated when trying to insert a duplicate
+  final Color highlightColor;
 
-    /// background color container
-    final Color backgroundContainer;
+  /// callback
+  final OnDelete onDelete;
 
-    ///highlight-color. it is activated when trying to insert a duplicate
-    final Color highlightColor;
+  /// callback
+  final OnInsert onInsert;
 
-    /// callback
-    final OnDelete onDelete;
+  /// Suggestions List
+  final List<String> suggestionsList;
 
-    /// callback
-    final OnInsert onInsert;
+  /// Popup Menu Items
+  /// (String Tag)
+  final PopupMenuBuilder popupMenuBuilder;
 
-    /// Suggestions List
-    final List<String> suggestionsList;
+  /// On Selected Item
+  /// (int id, String tag)
+  final PopupMenuOnSelected popupMenuOnSelected;
 
-    /// Popup Menu Items
-    /// (String Tag)
-    final PopupMenuBuilder popupMenuBuilder;
-
-    /// On Selected Item
-    /// (int id, String tag)
-    final PopupMenuOnSelected popupMenuOnSelected;
-
-
-    @override
-    _InputTagsState createState() => _InputTagsState();
+  @override
+  _InputTagsState createState() => _InputTagsState();
 }
 
-class _InputTagsState extends State<InputTags>
-{
-    final GlobalKey _containerKey = GlobalKey();
-    Orientation _orientation = Orientation.portrait;
+class _InputTagsState extends State<InputTags> {
+  final GlobalKey _containerKey = GlobalKey();
+  Orientation _orientation = Orientation.portrait;
 
-    //duplicate highlighting
-    int _check = -1;
+  //duplicate highlighting
+  int _check = -1;
 
-    // Position for popupMenu
-    Offset _tapPosition;
+  // Position for popupMenu
+  Offset _tapPosition;
 
-    List<String> _tags = [];
+  List<String> _tags = [];
 
-    double _width = 0;
-    double _initFontSize = 14;
-    double _initMargin = 3;
-    double _initPadding = 10;
-    double _initBorderRadius = 50;
+  double _width = 0;
+  double _initFontSize = 14;
+  double _initMargin = 3;
+  double _initPadding = 10;
+  double _initBorderRadius = 50;
 
-    double _initPaddingIcon = 3;
-    double _initMarginIcon = 8;
+  double _initPaddingIcon = 3;
+  double _initMarginIcon = 8;
 
+  @override
+  void initState() {
+    super.initState();
 
-    @override
-    void initState()
-    {
-        super.initState();
+    _tags = widget.tags;
+  }
 
-        _tags = widget.tags;
-    }
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
-
-    @override
-    void dispose()
-    {
-        super.dispose();
-    }
-
-
-    //get the current width of the container
-    void _getwidthContainer()
-    {
-        WidgetsBinding.instance.addPostFrameCallback((_){
-            final keyContext = _containerKey.currentContext;
-            if (keyContext != null) {
-                final RenderBox box = keyContext.findRenderObject ( );
-                final size = box.size;
-                setState(() {
-                    _width = size.width;
-                });
-            }
+  //get the current width of the container
+  void _getWidthContext() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final keyContext = _containerKey.currentContext;
+      if (keyContext != null) {
+        final RenderBox box = keyContext.findRenderObject();
+        final size = box.size;
+        setState(() {
+          _width = size.width;
         });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // essential to avoid infinite loop of addPostFrameCallback
+    if (MediaQuery.of(context).orientation != _orientation || _width == 0) {
+      _getWidthContext();
+      _orientation = MediaQuery.of(context).orientation;
+
+      //Avoid jitter/jump -> fix issue #14
+      return Container(key: _containerKey);
     }
 
+    return Container(
+      key: _containerKey,
+      margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
+      color: widget.backgroundContainer ?? Colors.white,
+      child: Column(
+        children: _buildRows(),
+      ),
+    );
+  }
 
-    @override
-    Widget build(BuildContext context)
-    {
-        // essential to avoid infinite loop of addPostFrameCallback
-        if(MediaQuery.of(context).orientation != _orientation || _width==0)
-            _getwidthContainer();
-        _orientation = MediaQuery.of(context).orientation;
+  List<Widget> _buildRows() {
+    List<Widget> rows = [];
 
-        return Container(
-            key:_containerKey,
-            margin: EdgeInsets.symmetric(vertical:5.0,horizontal:0.0),
-            color: widget.backgroundContainer ?? Colors.white,
-            child: Column( children: _buildRows(), ),
-        );
-    }
+    int columns = widget.columns;
 
-    List<Widget> _buildRows()
-    {
-        List<Widget> rows = [];
+    //margin of the tag
+    double margin =
+        (widget.margin != null) ? widget.margin.horizontal : _initMargin * 2;
 
-        int columns = widget.columns;
+    //padding of the tag
+    double padding =
+        widget.padding != null ? widget.padding.horizontal : _initPadding;
+    padding = padding * (widget.fontSize.clamp(8, 20) / 14);
 
-        //margin of the tag
-        double margin = (widget.margin!=null)? widget.margin.horizontal : _initMargin*2;
+    int tagsLength = _tags.length + 1;
+    int rowsLength = (tagsLength / columns).ceil();
+    double fontSize = widget.fontSize ?? _initFontSize;
 
-        //padding of the tag
-        double padding = widget.padding != null ? widget.padding.horizontal  : _initPadding ;
-        padding = padding*(widget.fontSize.clamp(8, 20)/14);
+    //initial width tag
+    double widthTag = 1;
 
-        int tagsLength = _tags.length + 1;
-        int rowsLength = (tagsLength/columns).ceil();
-        double fontSize = widget.fontSize ?? _initFontSize;
+    int start = 0;
+    bool overflow;
 
-        //initial width tag
-        double widthTag = 1;
+    for (int i = 0; i < rowsLength; i++) {
+      // Single Row
+      List<Widget> row = [];
 
-        int start = 0;
-        bool overflow;
+      //break row
+      overflow = false;
 
-        for(int i=0 ; i < rowsLength ; i++){
+      //width of the Tag
+      double tmpWidth = 0;
 
-            // Single Row
-            List<Widget> row = [];
+      // final index of the current row
+      int end = start + columns;
 
-            //break row
-            overflow = false;
+      // makes sure that 'end' does not exceed 'tagsLength'
+      if (end >= tagsLength) end -= end - tagsLength;
 
-            //width of the Tag
-            double tmpWidth = 0;
+      for (int j = start; j < end; j++) {
+        if (!widget.symmetry && _tags.isNotEmpty) {
+          String tag = _tags[j % (tagsLength - 1)];
 
-            // final index of the current row
-            int end = start + columns;
+          TextSize txtSize = TextSize(
+              txt: tag, fontSize: fontSize * (tag.length < 2 ? 1.2 : 1));
 
-            // makes sure that 'end' does not exceed 'tagsLength'
-            if(end>=tagsLength) end -= end-tagsLength;
+          // Total width of the tag
+          double txtWidth =
+              txtSize.get().width + _widthIcon() + padding + margin;
 
-            for(int j=start  ; j < end ; j++ ){
+          //sum of the width of each tag
+          //widget.offset it is optional but in special cases allows you to improve the width of the tags
+          tmpWidth += txtWidth + (widget.offset ?? 0);
 
-                if(!widget.symmetry && _tags.isNotEmpty){
+          if (j > start && tmpWidth > _width) {
+            start = j;
+            overflow = true;
+            rowsLength += 1;
+            break;
+          }
 
-                    String tag = _tags[j%(tagsLength-1)];
-
-                    TextSize txtSize = TextSize(
-                        txt: tag,
-                        fontSize: fontSize * (tag.length < 2 ? 1.2 : 1)
-                    );
-
-                    // Total width of the tag
-                    double txtWidth = txtSize.get().width + _widthIcon() + padding + margin;
-
-                    //sum of the width of each tag
-                    //widget.offset it is optional but in special cases allows you to improve the width of the tags
-                    tmpWidth += txtWidth + (widget.offset ?? 0);
-
-                    if (j > start && tmpWidth > _width){
-                        start = j;
-                        overflow = true;
-                        rowsLength += 1;
-                        break;
-                    }
-
-                    widthTag = txtWidth;
-                }
-
-                row.add( _buildField( index: _tags.isNotEmpty ? j%(tagsLength-1) : null, width: widthTag, last: (j+1 == tagsLength) ) );
-            }
-
-            // Check overflow width
-            if(!overflow) start = end;
-
-            rows.add(
-                Row(
-                    mainAxisAlignment: widget.alignment ?? ((widget.symmetry )? MainAxisAlignment.start : MainAxisAlignment.center),
-                    children: row,
-                )
-            );
+          widthTag = txtWidth;
         }
 
-        return rows;
+        row.add(_buildField(
+            index: _tags.isNotEmpty ? j % (tagsLength - 1) : null,
+            width: widthTag,
+            last: (j + 1 == tagsLength)));
+      }
+
+      // Check overflow width
+      if (!overflow) start = end;
+
+      rows.add(Row(
+        mainAxisAlignment: widget.alignment ??
+            ((widget.symmetry)
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.center),
+        children: row,
+      ));
     }
 
-    /// Build single Tag
-    Widget _buildField({int index, double width, bool last=false})
-    {
-        String tag = (index!=null )?_tags[index]:'';
+    return rows;
+  }
 
-        final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+  /// Build single Tag
+  Widget _buildField({int index, double width, bool last = false}) {
+    String tag = (index != null) ? _tags[index] : '';
 
-        Widget textField = Visibility(
-            visible: !widget.textFieldHidden,
-            child: Flexible(
-                flex: (widget.symmetry)? 1 : width.ceil(),
-                child: Container(
-                    margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: 6),
-                    width: 200,
-                    child: _textField()
-                )
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+
+    Widget textField = Visibility(
+      visible: !widget.textFieldHidden,
+      child: Flexible(
+          flex: (widget.symmetry) ? 1 : width.ceil(),
+          child: Container(
+              margin: widget.margin ??
+                  EdgeInsets.symmetric(horizontal: _initMargin, vertical: 6),
+              width: 200,
+              child: _textField())),
+    );
+
+    if (last || tag == null)
+      return textField;
+    else {
+      Widget container = Container(
+        margin: widget.margin ??
+            EdgeInsets.symmetric(horizontal: _initMargin, vertical: 6),
+        width: (widget.symmetry) ? _widthCalc() : width,
+        height: widget.height ?? 29 * (widget.fontSize / 14),
+        decoration: BoxDecoration(
+          boxShadow: widget.boxShadow ??
+              [
+                BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 0.5,
+                    blurRadius: 4,
+                    offset: Offset(0, 1))
+              ],
+          borderRadius:
+              widget.borderRadius ?? BorderRadius.circular(_initBorderRadius),
+          color: _check == index
+              ? ((widget.highlightColor ?? widget.color?.withRed(700)) ??
+                  Colors.green.withRed(450))
+              : (widget.color ?? Colors.green[400]),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Flexible(
+              fit: FlexFit.loose,
+              flex: 1,
+              child: Padding(
+                padding: widget.padding ??
+                    EdgeInsets.only(
+                        left: (_initPadding) *
+                            (widget.fontSize.clamp(8, 20) / 14)),
+                child: Text(
+                  tag,
+                  overflow: widget.textOverflow ?? TextOverflow.fade,
+                  softWrap: false,
+                  style: _textStyle,
+                ),
+              ),
             ),
-        );
-
-        if(last || tag==null)
-            return textField;
-        else{
-
-            Widget container = Container(
-                margin: widget.margin ?? EdgeInsets.symmetric(horizontal: _initMargin, vertical: 6),
-                width: (widget.symmetry)? _widthCalc( ) : width,
-                height: widget.height ?? 29*(widget.fontSize/14),
-                decoration: BoxDecoration(
-                    boxShadow: widget.boxShadow ?? [
-                        BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            spreadRadius: 0.5,
-                            blurRadius: 4,
-                            offset: Offset(0, 1)
-                        )
-                    ],
-                    borderRadius: widget.borderRadius ?? BorderRadius.circular(_initBorderRadius),
-                    color: _check==index? ((widget.highlightColor ?? widget.color?.withRed(700)) ?? Colors.green.withRed(450)) : (widget.color ?? Colors.green[400]),
-                ),
-                child:Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                        Flexible(
-                            fit: FlexFit.loose,
-                            flex: 1,
-                            child: Padding(
-                                padding: widget.padding ??  EdgeInsets.only(left: (_initPadding)*(widget.fontSize.clamp(8, 20)/14)),
-                                child: Text(
-                                    tag,
-                                    overflow: widget.textOverflow ?? TextOverflow.fade,
-                                    softWrap: false,
-                                    style: _textStyle,
-                                ),
-                            ),
-                        ),
-                        FittedBox(
-                            fit: BoxFit.cover,
-                            child: GestureDetector(
-                                child: Container(
-                                    padding: widget.iconPadding  ?? EdgeInsets.all(_initPaddingIcon),
-                                    margin: widget.iconMargin ??
-                                        EdgeInsets.only(
-                                            right: _initMarginIcon *(widget.fontSize!=null? (widget.fontSize.clamp(8, 22)/26):1 )
-                                        ),
-                                    decoration: BoxDecoration(
-                                        color: widget.iconBackground ?? Colors.transparent,
-                                        borderRadius: widget.iconBorderRadius ?? BorderRadius.circular(_initBorderRadius),
-                                    ),
-                                    child: Icon(
-                                        widget.icon ?? Icons.clear,
-                                        color: widget.iconColor ?? Colors.white,
-                                        size: ((widget.fontSize!=null)? 15 +(widget.fontSize.clamp(6, 25).toDouble()-18) : 14)),
-                                ),
-                                onTap: (){
-                                    _check = -1;
-                                    if(widget.onDelete != null)
-                                        widget.onDelete(tag);
-                                    setState(() {
-                                        _tags.remove(tag);
-                                    });
-                                },
-                            )
-                        )
-                    ],
-                ),
-            );
-
-            return Flexible(
-                flex: (widget.symmetry)? 1 : width.round(),
+            FittedBox(
+                fit: BoxFit.cover,
                 child: GestureDetector(
-                    onTapDown: (details){
-                        _tapPosition = details.globalPosition;
-                    },
-                    onLongPress: (){
-                        showMenu(
-                            semanticLabel: tag,
-                            items: widget.popupMenuBuilder(tag) ?? [],
-                            context: context,
-                            position:  RelativeRect.fromRect(_tapPosition & Size(40, 40), Offset.zero & overlay.size)// & RelativeRect.fromLTRB(65.0, 40.0, 0.0, 0.0),
-                        ).then( (value){
-                            if(widget.popupMenuOnSelected!=null)
-                                widget.popupMenuOnSelected(value,tag);
-                        });
-                    },
-                    child: widget.popupMenuBuilder==null ?
-                    Tooltip(
-                        message: tag,
-                        child: container,
-                    )
-                    :
-                    container,
-                )
-            );
-        }
+                  child: Container(
+                    padding:
+                        widget.iconPadding ?? EdgeInsets.all(_initPaddingIcon),
+                    margin: widget.iconMargin ??
+                        EdgeInsets.only(
+                            right: _initMarginIcon *
+                                (widget.fontSize != null
+                                    ? (widget.fontSize.clamp(8, 22) / 26)
+                                    : 1)),
+                    decoration: BoxDecoration(
+                      color: widget.iconBackground ?? Colors.transparent,
+                      borderRadius: widget.iconBorderRadius ??
+                          BorderRadius.circular(_initBorderRadius),
+                    ),
+                    child: Icon(widget.icon ?? Icons.clear,
+                        color: widget.iconColor ?? Colors.white,
+                        size: ((widget.fontSize != null)
+                            ? 15 +
+                                (widget.fontSize.clamp(6, 25).toDouble() - 18)
+                            : 14)),
+                  ),
+                  onTap: () {
+                    _check = -1;
+                    if (widget.onDelete != null) widget.onDelete(tag);
+                    setState(() {
+                      _tags.remove(tag);
+                    });
+                  },
+                ))
+          ],
+        ),
+      );
+
+      return Flexible(
+          flex: (widget.symmetry) ? 1 : width.round(),
+          child: GestureDetector(
+            onTapDown: (details) {
+              _tapPosition = details.globalPosition;
+            },
+            onLongPress: () {
+              showMenu(
+                      semanticLabel: tag,
+                      items: widget.popupMenuBuilder(tag) ?? [],
+                      context: context,
+                      position: RelativeRect.fromRect(
+                          _tapPosition & Size(40, 40),
+                          Offset.zero &
+                              overlay
+                                  .size) // & RelativeRect.fromLTRB(65.0, 40.0, 0.0, 0.0),
+                      )
+                  .then((value) {
+                if (widget.popupMenuOnSelected != null)
+                  widget.popupMenuOnSelected(value, tag);
+              });
+            },
+            child: widget.popupMenuBuilder == null
+                ? Tooltip(
+                    message: tag,
+                    child: container,
+                  )
+                : container,
+          ));
     }
+  }
 
-    /// TextFiled or CustomTextField
-    Widget _textField()
-    {
-       return InputSuggestions(
-           fontSize: widget.fontSize ?? null,
-           suggestions: widget.suggestionsList ?? null,
-           autofocus: widget.autofocus ?? true,
-           keyboardType: widget.keyboardType ?? null,
-           maxLength: widget.maxLength ?? null,
-           lowerCase: widget.lowerCase ?? null,
-           autocorrect: widget.autocorrect ?? false,
-           onSubmitted: (str){
-               setState(() {
-                   _check = -1;
-                   if(_tags.contains(str) && !widget.duplicate )
-                       _check = _tags.indexWhere((st) => st==str);
-                   else{
-                       if(widget.onInsert != null)
-                           widget.onInsert(str);
-                       _tags.add(str);
-                   }
-               });
-           },
-           style: TextStyle(color: Colors.black),
-           inputDecoration:  widget.inputDecoration ?? InputDecoration(
-               disabledBorder: InputBorder.none,
-               errorBorder: InputBorder.none,
-               contentPadding: EdgeInsets.symmetric(vertical: 7 +(widget.fontSize.clamp(10, 24).toDouble()-14),horizontal: 10 +(widget.fontSize.clamp(10, 24).toDouble()-14)),
-               hintText: widget.placeholder ?? 'Add a tag',
-               focusedBorder: UnderlineInputBorder(
-                   borderRadius: BorderRadius.circular(_initBorderRadius,),
-                   borderSide: BorderSide(color: widget.color ?? Colors.green[400],),
-               ),
-               enabledBorder: UnderlineInputBorder(
-                   borderRadius: BorderRadius.circular(_initBorderRadius,),
-                   borderSide: BorderSide(color: Colors.green.withOpacity(0.5)),
-               ),
-               border: UnderlineInputBorder(
-                   borderRadius: BorderRadius.circular(_initBorderRadius,),
-                   borderSide: BorderSide(color: Colors.green.withOpacity(0.5)),
-               )
-           ),
-       );
-    }
+  /// TextFiled or CustomTextField
+  Widget _textField() {
+    return InputSuggestions(
+      fontSize: widget.fontSize ?? null,
+      suggestions: widget.suggestionsList ?? null,
+      autofocus: widget.autofocus ?? true,
+      keyboardType: widget.keyboardType ?? null,
+      maxLength: widget.maxLength ?? null,
+      lowerCase: widget.lowerCase ?? null,
+      autocorrect: widget.autocorrect ?? false,
+      onSubmitted: (str) {
+        setState(() {
+          _check = -1;
+          if (_tags.contains(str) && !widget.duplicate)
+            _check = _tags.indexWhere((st) => st == str);
+          else {
+            if (widget.onInsert != null) widget.onInsert(str);
+            // fix issue #13
+            if (!_tags.contains(str)) _tags.add(str);
+          }
+        });
+      },
+      style: TextStyle(color: Colors.black),
+      inputDecoration: widget.inputDecoration ??
+          InputDecoration(
+              disabledBorder: InputBorder.none,
+              errorBorder: InputBorder.none,
+              contentPadding: EdgeInsets.symmetric(
+                  vertical: 7 + (widget.fontSize.clamp(10, 24).toDouble() - 14),
+                  horizontal:
+                      10 + (widget.fontSize.clamp(10, 24).toDouble() - 14)),
+              hintText: widget.placeholder ?? 'Add a tag',
+              focusedBorder: UnderlineInputBorder(
+                borderRadius: BorderRadius.circular(
+                  _initBorderRadius,
+                ),
+                borderSide: BorderSide(
+                  color: widget.color ?? Colors.green[400],
+                ),
+              ),
+              enabledBorder: UnderlineInputBorder(
+                borderRadius: BorderRadius.circular(
+                  _initBorderRadius,
+                ),
+                borderSide: BorderSide(color: Colors.green.withOpacity(0.5)),
+              ),
+              border: UnderlineInputBorder(
+                borderRadius: BorderRadius.circular(
+                  _initBorderRadius,
+                ),
+                borderSide: BorderSide(color: Colors.green.withOpacity(0.5)),
+              )),
+    );
+  }
 
-    ///TextStyle
-    TextStyle get _textStyle
-    {
-        if(widget.textStyle!=null)
-            return widget.textStyle.apply(
-                color: widget.textStyle.color ?? Colors.white,
-            );
+  ///TextStyle
+  TextStyle get _textStyle {
+    if (widget.textStyle != null)
+      return widget.textStyle.apply(
+        color: widget.textStyle.color ?? Colors.white,
+      );
 
-        return  TextStyle (
-            fontSize: widget.fontSize ?? null,
-            color: Colors.white,
-            fontWeight: FontWeight.normal
-        );
-    }
+    return TextStyle(
+        fontSize: widget.fontSize ?? null,
+        color: Colors.white,
+        fontWeight: FontWeight.normal);
+  }
 
-    ///Total width of the close icon
-    double _widthIcon()
-    {
-        double margin = widget.iconMargin!=null ?  widget.iconMargin.horizontal : _initMarginIcon;
-        double padding = widget.iconPadding!=null ?  widget.iconPadding.horizontal/2 : _initPaddingIcon;
-        double size =  (widget.fontSize!=null)? 15 +(widget.fontSize.clamp(6, 25).toDouble()-18) : 14;
+  ///Total width of the close icon
+  double _widthIcon() {
+    double margin = widget.iconMargin != null
+        ? widget.iconMargin.horizontal
+        : _initMarginIcon;
+    double padding = widget.iconPadding != null
+        ? widget.iconPadding.horizontal / 2
+        : _initPaddingIcon;
+    double size = (widget.fontSize != null)
+        ? 15 + (widget.fontSize.clamp(6, 25).toDouble() - 18)
+        : 14;
 
-        return margin + padding + size;
-    }
+    return margin + padding + size;
+  }
 
-    ///Container width divided by the number of columns when symmetry is active
-    double _widthCalc()
-    {
-        int columns = widget.columns;
+  ///Container width divided by the number of columns when symmetry is active
+  double _widthCalc() {
+    int columns = widget.columns;
 
-        int margin = (widget.margin!=null)? widget.margin.horizontal.round(): _initMargin.round()*2;
+    int margin = (widget.margin != null)
+        ? widget.margin.horizontal.round()
+        : _initMargin.round() * 2;
 
-        int subtraction = columns *(margin);
-        double width = ( _width>1 )? (_width-subtraction)/columns : _width;
+    int subtraction = columns * (margin);
+    double width = (_width > 1) ? (_width - subtraction) / columns : _width;
 
-        return width;
-    }
-
+    return width;
+  }
 }
-

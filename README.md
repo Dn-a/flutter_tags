@@ -1,37 +1,45 @@
-#### :star: Star the repo to support the project or [Follow Me](https://github.com/Dn-a) 
-
 # flutter_tags
-[![pub package](https://img.shields.io/badge/pub-0.3.1-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
+[![pub package](https://img.shields.io/badge/pub-0.3.2-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
 
-Flutter tags let you create clickable tags or create new ones using textField, adapting perfectly to the width of the screen.
+Flutter tags simplifies the dynamic creation of selectable tags or input with textField. You will never have to worry about the screen width.
 
 ## Installing
 Add this to your package's pubspec.yaml file:
 ```dart
 dependencies:
-  flutter_tags: "^0.3.1"
+  flutter_tags: "^0.3.2"
 ```
 
 
-### DEMO
-![Example](https://github.com/Dn-a/flutter_tags/tree/master/example)
+## DEMO
 
-![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example0.3.0_1.gif)
-![Demo 2](https://github.com/Dn-a/flutter_tags/blob/master/example/example0.3.0_2.gif)
+<div align="center">
+<table>
+<tr>
+<td style="text-align:center">
+ <img width = "250px" src="https://github.com/Dn-a/flutter_tags/blob/master/example/example0.3.0_1.gif?raw=true" />
+ </td>
+<td style="text-align:center">
+  <img width = "250px" src="https://github.com/Dn-a/flutter_tags/blob/master/example/example0.3.0_2.gif?raw=true"/>
+ </td>
+</tr>
+</table>
+</div>
 
 
-# Selectable Tags
+## Selectable Tags
 
 The Tag class has some optional parameters. If you want to insert an icon, the title is not displayed but you can always use it.
 ```dart
 Tag(
-    id: 1,// optional
+    id: "first",// optional
     icon: Icon.home, // optional
     title: 'First Tag', // required
     active: true, // optional
     color: Colors.white, // optional
     activeColor: Colors.blue // optional
+    customData: 'DocumentId' // optional
 )
 ```
 
@@ -54,8 +62,8 @@ void initState()
         items.forEach((item) =>
             _tags.add(
                 Tag(
-                    id: item.id,
-                    title: item.title, 
+                    id: item.id.toString(),
+                    title: item.title,                    
                     active: bool.fromEnvironment(item.active) == "true",
                 )
             )
@@ -116,7 +124,7 @@ void _getDisableTags()
 }
 ```
 
-### All parameters
+### All parameters (SelectableTags)
 * tags - *List 'Tag'*
 * columns - *max columns (default 4)*
 * height - *custom height of Tag (default auto-resize)*
@@ -137,6 +145,7 @@ void _getDisableTags()
 * color - *background color of tag (default white)*
 * activeColor - *background color of active tag (default green)*
 * backgroundContainer - *default white* 
+* customData: Possibility to add any custom value in `customData` field, you can retrieve this later. A good example: store an id from Firestore document.
 * popupMenuBuilder - *Popup Menu Items*
 * popupMenuOnSelected - *On Selected Item*
 * onPressed - *Callback*
@@ -237,7 +246,7 @@ void _getTags()
 }
 ```
 
-### All parameters
+### All parameters (InputTags)
 * tags - *List 'String'*
 * columns - *max columns (default 4)*
 * autofocus - *default true*
@@ -273,7 +282,9 @@ void _getTags()
 * onInsert - *return the tag entered*
 * suggestionsList - *a List of string that force the insertion of specific items*
 
+## Donate
+If you found this project helpful or you learned something from the source code and want to thank me: 
+- [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
 
 ## Issues
 If you encounter problems, open an issue. Pull request are also welcome.
-

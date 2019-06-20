@@ -1,3 +1,8 @@
+## [0.3.2] - 2019-06-20.
+
+* Issue #14 and #13 fixed.
+* Added `customData` field in Tag Class.
+
 ## [0.3.1] - 2019-05-13.
 
 * General improvement of the code.
