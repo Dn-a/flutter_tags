@@ -33,6 +33,7 @@ class SelectableTags extends StatefulWidget {
       this.onPressed,
       this.popupMenuBuilder,
       this.popupMenuOnSelected,
+      this.readOnly,
       Key key})
       : assert(tags != null),
         super(key: key);
@@ -107,6 +108,9 @@ class SelectableTags extends StatefulWidget {
   /// On Selected Item
   /// (int id, Tag tag)
   final PopupMenuOnSelected popupMenuOnSelected;
+
+  /// when you just want to show. [Tag] don't stay active
+  final bool readOnly;
 
   @override
   _SelectableTagsState createState() => _SelectableTagsState();
@@ -316,14 +320,16 @@ class _SelectableTagsState extends State<SelectableTags> {
                     style: _textStyle(tag),
                   ),
             onPressed: () {
-              if (widget.singleItem) _singleItem();
+              if (!widget.readOnly){
+                if (widget.singleItem) _singleItem();
 
-              setState(() {
-                (widget.singleItem)
-                    ? tag.active = true
-                    : tag.active = !tag.active;
-                if (widget.onPressed != null) widget.onPressed(tag);
-              });
+                setState(() {
+                  (widget.singleItem)
+                      ? tag.active = true
+                      : tag.active = !tag.active;
+                  if (widget.onPressed != null) widget.onPressed(tag);
+                });
+              }
             },
             shape: RoundedRectangleBorder(
                 borderRadius: widget.borderRadius ??
