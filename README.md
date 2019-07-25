@@ -4,8 +4,10 @@
 
 With flutter tags you can create selectable or input tags that automatically adapt to the screen width.
 
+##
 ### Soon version 0.4.0 will be released with a new structure, much faster and much more flexible.
 ### Stay tuned
+##
 
 ## Installing
 Add this to your package's pubspec.yaml file:
