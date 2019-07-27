@@ -5,8 +5,8 @@
 Create beautiful tags quickly and easily.
 
 **Since version 4.0 the structure of the code has changed radically.**
-**`SelectableTags` and` InputTags` have been replaced with the Tags () widget**
-If you still prefer the previous version, go to ![0.3.2](https://github.com/Dn-a/flutter_tags/tree/0.3.2)
+**`SelectableTags` and` InputTags` have been replaced with the Tags () widget**. 
+ If you still prefer the previous version, go to ![0.3.2](https://github.com/Dn-a/flutter_tags/tree/0.3.2)
 
 ## Installing
 Add this to your package's pubspec.yaml file:
