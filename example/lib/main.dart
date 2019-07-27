@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_tags/tag.dart';
 
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -75,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage>
   int _column = 0;
   double _fontSize = 14;
 
-  String _onPressed='';
+  String _onPressed = '';
 
   List _icon = [Icons.home, Icons.language, Icons.headset];
 
@@ -126,11 +125,13 @@ class _MyHomePageState extends State<MyHomePage>
                       delegate: SliverChildListDelegate([
                     Container(
                       decoration: BoxDecoration(
-                          border: Border(bottom: BorderSide(color: Colors.grey[300],width: 0.5))
-                      ),
-                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                          border: Border(
+                              bottom: BorderSide(
+                                  color: Colors.grey[300], width: 0.5))),
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       child: ExpansionTile(
-                        title:Text("Settings"),
+                        title: Text("Settings"),
                         children: <Widget>[
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -142,7 +143,8 @@ class _MyHomePageState extends State<MyHomePage>
                                         value: _withSuggesttions,
                                         onChanged: (a) {
                                           setState(() {
-                                            _withSuggesttions = !_withSuggesttions;
+                                            _withSuggesttions =
+                                                !_withSuggesttions;
                                           });
                                         }),
                                     Text('Suggestions')
@@ -180,7 +182,9 @@ class _MyHomePageState extends State<MyHomePage>
                                 padding: EdgeInsets.all(5),
                               ),
                               DropdownButton(
-                                hint: _column== 0 ? Text("Not set") : Text(_column.toString()),
+                                hint: _column == 0
+                                    ? Text("Not set")
+                                    : Text(_column.toString()),
                                 items: _buildItems(),
                                 onChanged: (a) {
                                   setState(() {
@@ -201,7 +205,8 @@ class _MyHomePageState extends State<MyHomePage>
                                         value: _horizontalScroll,
                                         onChanged: (a) {
                                           setState(() {
-                                            _horizontalScroll = !_horizontalScroll;
+                                            _horizontalScroll =
+                                                !_horizontalScroll;
                                           });
                                         }),
                                     Text('Horizontal scroll')
@@ -252,7 +257,8 @@ class _MyHomePageState extends State<MyHomePage>
                                   ),
                                   Text(_fontSize.toString()),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 20),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
                                   ),
                                   Container(
                                     height: 30,
@@ -271,7 +277,8 @@ class _MyHomePageState extends State<MyHomePage>
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 5),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5),
                                   ),
                                   Container(
                                     height: 30,
@@ -308,13 +315,10 @@ class _MyHomePageState extends State<MyHomePage>
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 20),
-                              child: Text(_onPressed)
-                              ,
+                              child: Text(_onPressed),
                             ),
                           ],
-                        )
-                    ),
-
+                        )),
                   ])),
                 ],
               ),
@@ -328,9 +332,7 @@ class _MyHomePageState extends State<MyHomePage>
     );
   }
 
-
   Widget get _tags {
-
     return Tags(
       symmetry: _symmetry,
       columns: _column,
@@ -338,37 +340,40 @@ class _MyHomePageState extends State<MyHomePage>
       //runSpacing: 20,
       //alignment: WrapAlignment.start,
       horizontalScroll: _horizontalScroll,
-      heightHorizontalScroll: 60*(_fontSize/14),
-      textField: 1==0? null : TagsTextFiled(
-        //duplicates: true,
-        autofocus: false,
-        //position: TagsTextFiledPosition.start,
-        textStyle: TextStyle(fontSize: _fontSize),
-        suggestions: _withSuggesttions ? [
-          "One",
-          "two",
-          "android",
-          "Dart",
-          "flutter",
-          "test",
-          "tests",
-          "androids",
-          "androidsaaa",
-          "Test",
-          "suggest",
-          "suggestions",
-          "last",
-          "lest"
-        ]:null,
-        onSubmitted: (String str) {
-          setState(() {
-            _items.add(str);
-          });
-        },
-      ),
+      heightHorizontalScroll: 60 * (_fontSize / 14),
+      textField: 1 == 0
+          ? null
+          : TagsTextFiled(
+              //duplicates: true,
+              autofocus: false,
+              //position: TagsTextFiledPosition.start,
+              textStyle: TextStyle(fontSize: _fontSize),
+              suggestions: _withSuggesttions
+                  ? [
+                      "One",
+                      "two",
+                      "android",
+                      "Dart",
+                      "flutter",
+                      "test",
+                      "tests",
+                      "androids",
+                      "androidsaaa",
+                      "Test",
+                      "suggest",
+                      "suggestions",
+                      "last",
+                      "lest"
+                    ]
+                  : null,
+              onSubmitted: (String str) {
+                setState(() {
+                  _items.add(str);
+                });
+              },
+            ),
       itemCount: _items.length,
-      itemBuilder: (index){
-
+      itemBuilder: (index) {
         final item = _items[index];
 
         return ItemTags(
@@ -382,30 +387,31 @@ class _MyHomePageState extends State<MyHomePage>
           //alignment: MainAxisAlignment.start,
           //padding: EdgeInsets.all(10),
           splashColor: Colors.green,
-          image: index > 0 && index < 5 ?
-          ItemTagsImage(
-              image: AssetImage("img/p$index.jpg")
-          )
-          :
-          (
-            1==0?ItemTagsImage(
-              image: NetworkImage("https://image.flaticon.com/icons/png/512/44/44948.png")
-            ):null
-          ),
-          icon: (item == '0' || item == '1' || item == '2')?
-          ItemTagsIcon(
-            icon: _icon[int.parse(item)],
-          ):null,
-          removeButton: 1==1? ItemTagsRemoveButton(
-            //size: 5
-            //backgroundColor: Colors.green,
-            //borderRadius: BorderRadius.circular(5)
-          ):null,
-          textScaleFactor: utf8.encode(item.substring(0,1)).length > 2 ? 0.8 : 1,
+          image: index > 0 && index < 5
+              ? ItemTagsImage(image: AssetImage("img/p$index.jpg"))
+              : (1 == 0
+                  ? ItemTagsImage(
+                      image: NetworkImage(
+                          "https://image.flaticon.com/icons/png/512/44/44948.png"))
+                  : null),
+          icon: (item == '0' || item == '1' || item == '2')
+              ? ItemTagsIcon(
+                  icon: _icon[int.parse(item)],
+                )
+              : null,
+          removeButton: 1 == 1
+              ? ItemTagsRemoveButton(
+                  //size: 5
+                  //backgroundColor: Colors.green,
+                  //borderRadius: BorderRadius.circular(5)
+                  )
+              : null,
+          textScaleFactor:
+              utf8.encode(item.substring(0, 1)).length > 2 ? 0.8 : 1,
           textStyle: TextStyle(
             fontSize: _fontSize,
           ),
-          onRemoved: (){
+          onRemoved: () {
             print("remove");
             setState(() {
               _items.removeAt(index);
@@ -414,12 +420,9 @@ class _MyHomePageState extends State<MyHomePage>
           //onPressed: (item) => print(item),
           //onLongPressed: (item) => print(item),
         );
-
       },
     );
-
   }
-
 
   List<DropdownMenuItem> _buildItems() {
     List<DropdownMenuItem> list = [];

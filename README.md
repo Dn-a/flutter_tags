@@ -3,9 +3,8 @@
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
 
 Create beautiful tags quickly and easily.
-##
 
-Since version 4.0 the structure of the code has changed radically.
+**Since version 4.0 the structure of the code has changed radically.**
 If you still prefer the previous version, go to ![0.3.2](https://github.com/Dn-a/flutter_tags/tree/0.3.2)
 
 ## Installing
@@ -29,21 +28,19 @@ dependencies:
 </div>
 
 
-### Simple usage
+## Simple usage
 ```dart
 
 import 'package:flutter_tags/tag.dart';
 .
 .
 .
-
-
 @override
-void initState()
-{
+void initState(){
     super.initState();
     _items.addAll(['first','second','third']);
 }
+
 
 List __items;
 double _fontSize = 14;
@@ -60,32 +57,31 @@ Tags(
         },
       ),
       itemCount: _items.length, // required
-      itemBuilder: (int index){
-          
-        final item = _items[index];
+      itemBuilder: (int index){          
+            final item = _items[index];
 
-        return ItemTags(
-          key: Key(index.toString()),
-          index: index, // required
-          title: item, 
-          textStyle: TextStyle( fontSize: _fontSize, ),
-          combine: ItemTagsCombine.withTextBefore,
-          image: ItemTagsImage(
-            image: AssetImage("img.jpg") OR NetworkImage("https://...image.png")
-          ),
-          icon: ItemTagsIcon(
-            icon: Icons.add,
-          ),
-          removeButton: ItemTagsRemoveButton( ), 
-          onRemoved: (){
-            setState(() {
-                // required
-              _items.removeAt(index); 
-            });
-          },
-          onPressed: (item) => print(item),
-          onLongPressed: (item) => print(item),
-        );
+            return ItemTags(
+              key: Key(index.toString()),
+              index: index, // required
+              title: item, 
+              textStyle: TextStyle( fontSize: _fontSize, ),
+              combine: ItemTagsCombine.withTextBefore,
+              image: ItemTagsImage(
+                image: AssetImage("img.jpg") OR NetworkImage("https://...image.png")
+              ),
+              icon: ItemTagsIcon(
+                icon: Icons.add,
+              ),
+              removeButton: ItemTagsRemoveButton( ), 
+              onRemoved: (){
+                setState(() {
+                    // required
+                  _items.removeAt(index); 
+                });
+              },
+              onPressed: (item) => print(item),
+              onLongPressed: (item) => print(item),
+            );
 
       },
 )

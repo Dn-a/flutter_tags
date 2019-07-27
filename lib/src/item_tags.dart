@@ -12,439 +12,472 @@ typedef OnLongPressedCallback = void Function(_Item i);
 typedef OnRemovedCallback = void Function();
 
 /// combines icon text or image
-enum ItemTagsCombine{
-    onlyText,
-    onlyIcon,
-    onlyImage,
-    imageOrIconOrText,
-    withTextBefore,
-    withTextAfter
+enum ItemTagsCombine {
+  onlyText,
+  onlyIcon,
+  onlyImage,
+  imageOrIconOrText,
+  withTextBefore,
+  withTextAfter
 }
 
 class ItemTags extends StatefulWidget {
-    ItemTags({
-             @required this.index,
-             @required this.title,
-             this.textScaleFactor,
-             this.active = true,
-             this.pressEnabled = true,
-             this.customData,
-             this.textStyle = const TextStyle(fontSize: 14),
-             this.alignment = MainAxisAlignment.center,
-             this.combine = ItemTagsCombine.imageOrIconOrText,
-             this.icon,
-             this.image,
-             this.removeButton,
-             this.borderRadius,
-             this.border,
-             this.padding = const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
-             this.elevation = 5,
-             this.singleItem = false,
-             this.textOverflow = TextOverflow.fade,
-             this.textColor = Colors.black,
-             this.textActiveColor = Colors.white,
-             this.color = Colors.white,
-             this.activeColor = Colors.blueGrey,
-             this.highlightColor,
-             this.splashColor,
-             this.colorShowDuplicate = Colors.red,
-             this.onPressed,
-             this.onLongPressed,
-             this.onRemoved,
-             Key key})
-        : assert(index!=null), assert(title!=null), super(key: key);
+  ItemTags(
+      {@required this.index,
+      @required this.title,
+      this.textScaleFactor,
+      this.active = true,
+      this.pressEnabled = true,
+      this.customData,
+      this.textStyle = const TextStyle(fontSize: 14),
+      this.alignment = MainAxisAlignment.center,
+      this.combine = ItemTagsCombine.imageOrIconOrText,
+      this.icon,
+      this.image,
+      this.removeButton,
+      this.borderRadius,
+      this.border,
+      this.padding = const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+      this.elevation = 5,
+      this.singleItem = false,
+      this.textOverflow = TextOverflow.fade,
+      this.textColor = Colors.black,
+      this.textActiveColor = Colors.white,
+      this.color = Colors.white,
+      this.activeColor = Colors.blueGrey,
+      this.highlightColor,
+      this.splashColor,
+      this.colorShowDuplicate = Colors.red,
+      this.onPressed,
+      this.onLongPressed,
+      this.onRemoved,
+      Key key})
+      : assert(index != null),
+        assert(title != null),
+        super(key: key);
 
+  /// Id of [ItemTags] - required
+  final int index;
 
-    /// Id of [ItemTags] - required
-    final int index;
+  /// Title of [ItemTags] - required
+  final String title;
 
-    /// Title of [ItemTags] - required
-    final String title;
+  /// Scale Factor of [ItemTags] - double
+  final double textScaleFactor;
 
-    /// Scale Factor of [ItemTags] - double
-    final double textScaleFactor;
+  /// Initial bool value
+  final bool active;
 
-    /// Initial bool value
-    final bool active;
+  /// Initial bool value
+  final bool pressEnabled;
 
-    /// Initial bool value
-    final bool pressEnabled;
+  /// Possibility to add any custom value in customData field, you can retrieve this later. A good example: store an id from Firestore document.
+  final dynamic customData;
 
-    /// Possibility to add any custom value in customData field, you can retrieve this later. A good example: store an id from Firestore document.
-    final dynamic customData;
+  /// ItemTagsCombine (text,icon,textIcon,textImage) of [ItemTags]
+  final ItemTagsCombine combine;
 
-    /// ItemTagsCombine (text,icon,textIcon,textImage) of [ItemTags]
-    final ItemTagsCombine combine;
+  /// Icon of [ItemTags]
+  final ItemTagsIcon icon;
 
-    /// Icon of [ItemTags]
-    final ItemTagsIcon icon;
+  /// Image of [ItemTags]
+  final ItemTagsImage image;
 
-    /// Image of [ItemTags]
-    final ItemTagsImage image;
+  /// Custom Remove Button of [ItemTags]
+  final ItemTagsRemoveButton removeButton;
 
-    /// Custom Remove Button of [ItemTags]
-    final ItemTagsRemoveButton removeButton;
+  /// TextStyle of the [ItemTags]
+  final TextStyle textStyle;
 
-    /// TextStyle of the [ItemTags]
-    final TextStyle textStyle;
+  /// TextStyle of the [ItemTags]
+  final MainAxisAlignment alignment;
 
-    /// TextStyle of the [ItemTags]
-    final MainAxisAlignment alignment;
+  /// border-radius of [ItemTags]
+  final BorderRadius borderRadius;
 
-    /// border-radius of [ItemTags]
-    final BorderRadius borderRadius;
+  /// custom border-side of [ItemTags]
+  final BoxBorder border;
 
-    /// custom border-side of [ItemTags]
-    final BoxBorder border;
+  /// padding of the [ItemTags]
+  final EdgeInsets padding;
 
-    /// padding of the [ItemTags]
-    final EdgeInsets padding;
+  /// BoxShadow of the [ItemTags]
+  final double elevation;
 
-    /// BoxShadow of the [ItemTags]
-    final double elevation;
+  /// when you want only one tag selected. same radio-button
+  final bool singleItem;
 
-    /// when you want only one tag selected. same radio-button
-    final bool singleItem;
+  /// type of text overflow within the [ItemTags]
+  final TextOverflow textOverflow;
 
-    /// type of text overflow within the [ItemTags]
-    final TextOverflow textOverflow;
+  /// text color of the [ItemTags]
+  final Color textColor;
 
-    /// text color of the [ItemTags]
-    final Color textColor;
+  /// color of the [ItemTags] text activated
+  final Color textActiveColor;
 
-    /// color of the [ItemTags] text activated
-    final Color textActiveColor;
+  /// background color [ItemTags]
+  final Color color;
 
-    /// background color [ItemTags]
-    final Color color;
+  /// background color [ItemTags] activated
+  final Color activeColor;
 
-    /// background color [ItemTags] activated
-    final Color activeColor;
+  /// highlight Color [ItemTags]
+  final Color highlightColor;
 
-    /// highlight Color [ItemTags]
-    final Color highlightColor;
+  /// Splash color [ItemTags]
+  final Color splashColor;
 
-    /// Splash color [ItemTags]
-    final Color splashColor;
+  /// Color show duplicate [ItemTags]
+  final Color colorShowDuplicate;
 
-    /// Color show duplicate [ItemTags]
-    final Color colorShowDuplicate;
+  /// callback
+  final OnPressedCallback onPressed;
 
-    /// callback
-    final OnPressedCallback onPressed;
+  /// callback
+  final OnLongPressedCallback onLongPressed;
 
-    /// callback
-    final OnLongPressedCallback onLongPressed;
+  /// callback
+  final OnRemovedCallback onRemoved;
 
-    /// callback
-    final OnRemovedCallback onRemoved;
-
-    @override
-    _ItemTagsState createState() => _ItemTagsState();
+  @override
+  _ItemTagsState createState() => _ItemTagsState();
 }
 
 class _ItemTagsState extends State<ItemTags> {
+  final double _initBorderRadius = 50;
 
-    final double _initBorderRadius = 50;
+  DataListInherited _dataListInherited;
+  DataList _dataList;
 
-    DataListInherited _dataListInherited;
-    DataList _dataList;
+  void _setDataList() {
+    // Get List<DataList> from Tags widget
+    _dataListInherited = DataListInherited.of(context);
 
+    if (_dataListInherited.list.length > (widget.index + 1) &&
+        _dataListInherited.list.elementAt(widget.index).title != widget.title) {
+      // when an element is removed from the outside
+      _dataListInherited.list.removeAt(widget.index);
 
-    void _setDataList(){
-
-        // Get List<DataList> from Tags widget
-        _dataListInherited = DataListInherited.of(context);
-
-        if(_dataListInherited.list.length > (widget.index+1) && _dataListInherited.list.elementAt(widget.index).title != widget.title ){
-
-            // when an element is removed from the outside
-            _dataListInherited.list.removeAt(widget.index);
-
-            // when all item list changed
-            final DataList dataList = _dataListInherited.list.sublist(widget.index).firstWhere((d) => d.title == widget.title,orElse: () => null);
-            if (dataList == null)
-                _dataListInherited.list.removeRange(widget.index, _dataListInherited.list.length);
-        }
-
-        // add new Item
-        if( _dataListInherited.list.length < (widget.index+1) ){
-            //print("add");
-            _dataListInherited.list.insert(widget.index,
-                DataList(
-                    title: widget.title,
-                    active: widget.singleItem ? false : widget.active,
-                    customData: widget.customData
-                )
-            );
-        }
-
-        // removes items that have been orphaned
-        if( _dataListInherited.intemCount == widget.index+1 && _dataListInherited.list.length > _dataListInherited.intemCount )
-            _dataListInherited.list.removeRange(widget.index+1, _dataListInherited.list.length);
-
-        //print(_dataListInherited.list.length);
-
-        // update Listener
-        if(_dataList!=null)
-            _dataList.removeListener(_didValueChange);
-
-        _dataList = _dataListInherited.list.elementAt(widget.index);
-        _dataList.addListener(_didValueChange);
+      // when all item list changed
+      final DataList dataList = _dataListInherited.list
+          .sublist(widget.index)
+          .firstWhere((d) => d.title == widget.title, orElse: () => null);
+      if (dataList == null)
+        _dataListInherited.list
+            .removeRange(widget.index, _dataListInherited.list.length);
     }
 
-    _didValueChange() => setState(() { });
-
-    @override
-    void dispose() {
-        _dataList.removeListener(_didValueChange);
-        super.dispose();
+    // add new Item
+    if (_dataListInherited.list.length < (widget.index + 1)) {
+      //print("add");
+      _dataListInherited.list.insert(
+          widget.index,
+          DataList(
+              title: widget.title,
+              active: widget.singleItem ? false : widget.active,
+              customData: widget.customData));
     }
 
-    @override
-    Widget build(BuildContext context) {
+    // removes items that have been orphaned
+    if (_dataListInherited.intemCount == widget.index + 1 &&
+        _dataListInherited.list.length > _dataListInherited.intemCount)
+      _dataListInherited.list
+          .removeRange(widget.index + 1, _dataListInherited.list.length);
 
-        _setDataList();
+    //print(_dataListInherited.list.length);
 
-        final double fontSize = widget.textStyle.fontSize;
+    // update Listener
+    if (_dataList != null) _dataList.removeListener(_didValueChange);
 
-        Color color = _dataList.active ? widget.activeColor : widget.color;
+    _dataList = _dataListInherited.list.elementAt(widget.index);
+    _dataList.addListener(_didValueChange);
+  }
 
-        if(_dataList.showDuplicate)
-           color =  widget.colorShowDuplicate;
+  _didValueChange() => setState(() {});
 
-        return Material(
-            color: color,
-            borderRadius: widget.borderRadius ?? BorderRadius.circular(_initBorderRadius),
-            elevation: widget.elevation,
-            //shadowColor: _dataList.highlights? Colors.red : Colors.blue,
-            child: InkWell(
-                borderRadius: widget.borderRadius ?? BorderRadius.circular(_initBorderRadius),
-                highlightColor: widget.pressEnabled ? widget.highlightColor : Colors.transparent,
-                splashColor: widget.pressEnabled ? widget.splashColor : Colors.transparent,
-                child: Container(
-                    decoration: BoxDecoration(
-                        border: widget.border ?? Border.all(color: widget.activeColor,width: 0.5),
-                        borderRadius: widget.borderRadius ?? BorderRadius.circular(_initBorderRadius)
-                    ),
-                    padding: widget.padding * (fontSize/14),
-                    child: _combine
-                ),
-                onTap: (){
-                    if(widget.pressEnabled){
+  @override
+  void dispose() {
+    _dataList.removeListener(_didValueChange);
+    super.dispose();
+  }
 
-                        if(widget.singleItem){
-                            _singleItem(_dataListInherited, _dataList);
-                            _dataList.active = true;
-                        }
-                        else
-                            _dataList.active = !_dataList.active;
+  @override
+  Widget build(BuildContext context) {
+    _setDataList();
 
-                        if(widget.onPressed!=null)
-                            widget.onPressed(_Item(index: widget.index , title: _dataList.title, active: _dataList.active,customData: widget.customData));
-                    }
-                },
-                onLongPress: widget.onLongPressed!=null?
-                    () => widget.onLongPressed(_Item(index: widget.index , title: _dataList.title, active: _dataList.active,customData: widget.customData))
-                    :null
-                ,
-            ),
-        );
-    }
+    final double fontSize = widget.textStyle.fontSize;
 
-    Widget get _combine
-    {
-        final Widget text = Text(widget.title,
-            softWrap: false,
-            textAlign: _textAlignment,
-            overflow: widget.textOverflow,
-            textScaleFactor: widget.textScaleFactor,
-            style: _textStyle,
-        );
-        final Widget icon = widget.icon!=null? Container(
-            padding: widget.icon.padding ?? (widget.combine==ItemTagsCombine.onlyIcon || widget.combine==ItemTagsCombine.imageOrIconOrText? null : widget.combine == ItemTagsCombine.withTextAfter ? EdgeInsets.only(right:5):EdgeInsets.only(left:5)),
+    Color color = _dataList.active ? widget.activeColor : widget.color;
+
+    if (_dataList.showDuplicate) color = widget.colorShowDuplicate;
+
+    return Material(
+      color: color,
+      borderRadius:
+          widget.borderRadius ?? BorderRadius.circular(_initBorderRadius),
+      elevation: widget.elevation,
+      //shadowColor: _dataList.highlights? Colors.red : Colors.blue,
+      child: InkWell(
+        borderRadius:
+            widget.borderRadius ?? BorderRadius.circular(_initBorderRadius),
+        highlightColor:
+            widget.pressEnabled ? widget.highlightColor : Colors.transparent,
+        splashColor:
+            widget.pressEnabled ? widget.splashColor : Colors.transparent,
+        child: Container(
+            decoration: BoxDecoration(
+                border: widget.border ??
+                    Border.all(color: widget.activeColor, width: 0.5),
+                borderRadius: widget.borderRadius ??
+                    BorderRadius.circular(_initBorderRadius)),
+            padding: widget.padding * (fontSize / 14),
+            child: _combine),
+        onTap: () {
+          if (widget.pressEnabled) {
+            if (widget.singleItem) {
+              _singleItem(_dataListInherited, _dataList);
+              _dataList.active = true;
+            } else
+              _dataList.active = !_dataList.active;
+
+            if (widget.onPressed != null)
+              widget.onPressed(_Item(
+                  index: widget.index,
+                  title: _dataList.title,
+                  active: _dataList.active,
+                  customData: widget.customData));
+          }
+        },
+        onLongPress: widget.onLongPressed != null
+            ? () => widget.onLongPressed(_Item(
+                index: widget.index,
+                title: _dataList.title,
+                active: _dataList.active,
+                customData: widget.customData))
+            : null,
+      ),
+    );
+  }
+
+  Widget get _combine {
+    final Widget text = Text(
+      widget.title,
+      softWrap: false,
+      textAlign: _textAlignment,
+      overflow: widget.textOverflow,
+      textScaleFactor: widget.textScaleFactor,
+      style: _textStyle,
+    );
+    final Widget icon = widget.icon != null
+        ? Container(
+            padding: widget.icon.padding ??
+                (widget.combine == ItemTagsCombine.onlyIcon ||
+                        widget.combine == ItemTagsCombine.imageOrIconOrText
+                    ? null
+                    : widget.combine == ItemTagsCombine.withTextAfter
+                        ? EdgeInsets.only(right: 5)
+                        : EdgeInsets.only(left: 5)),
             child: Icon(
-                widget.icon.icon,
-                color: _textStyle.color,
-                size: _textStyle.fontSize*1.2,
+              widget.icon.icon,
+              color: _textStyle.color,
+              size: _textStyle.fontSize * 1.2,
             ),
-        ):text;
-        final Widget image = widget.image!=null? Container(
-            padding: widget.image.padding ?? (widget.combine==ItemTagsCombine.onlyImage || widget.combine==ItemTagsCombine.imageOrIconOrText? null : widget.combine == ItemTagsCombine.withTextAfter ? EdgeInsets.only(right:5):EdgeInsets.only(left:5)),
+          )
+        : text;
+    final Widget image = widget.image != null
+        ? Container(
+            padding: widget.image.padding ??
+                (widget.combine == ItemTagsCombine.onlyImage ||
+                        widget.combine == ItemTagsCombine.imageOrIconOrText
+                    ? null
+                    : widget.combine == ItemTagsCombine.withTextAfter
+                        ? EdgeInsets.only(right: 5)
+                        : EdgeInsets.only(left: 5)),
             child: CircleAvatar(
-                radius: widget.image.radius * (widget.textStyle.fontSize/14),
-                backgroundColor: Colors.transparent,
-                backgroundImage: widget.image.image,
+              radius: widget.image.radius * (widget.textStyle.fontSize / 14),
+              backgroundColor: Colors.transparent,
+              backgroundImage: widget.image.image,
             ),
-        ):text;
+          )
+        : text;
 
-        final List list = List();
+    final List list = List();
 
-        switch(widget.combine){
-            case ItemTagsCombine.onlyText:
-                list.add(text);
-                break;
-            case ItemTagsCombine.onlyIcon:
-                list.add(icon);
-                break;
-            case ItemTagsCombine.onlyImage:
-                list.add(image);
-                break;
-            case ItemTagsCombine.imageOrIconOrText:
-                list.add((image!=text? image:icon));
-                break;
-            case ItemTagsCombine.withTextBefore:
-                list.add(text);
-                if(image!=text)
-                    list.add(image);
-                else if(icon!=text)
-                    list.add(icon);
-                break;
-            case ItemTagsCombine.withTextAfter:
-                if(image!=text)
-                    list.add(image);
-                else if(icon!=text)
-                    list.add(icon);
-                list.add(text);
-        }
+    switch (widget.combine) {
+      case ItemTagsCombine.onlyText:
+        list.add(text);
+        break;
+      case ItemTagsCombine.onlyIcon:
+        list.add(icon);
+        break;
+      case ItemTagsCombine.onlyImage:
+        list.add(image);
+        break;
+      case ItemTagsCombine.imageOrIconOrText:
+        list.add((image != text ? image : icon));
+        break;
+      case ItemTagsCombine.withTextBefore:
+        list.add(text);
+        if (image != text)
+          list.add(image);
+        else if (icon != text) list.add(icon);
+        break;
+      case ItemTagsCombine.withTextAfter:
+        if (image != text)
+          list.add(image);
+        else if (icon != text) list.add(icon);
+        list.add(text);
+    }
 
-        final Widget row = Row(
-            mainAxisAlignment: widget.alignment,
-            mainAxisSize: MainAxisSize.min,
-            children: List.generate(list.length, (i){
-                if(i==0 && list.length>1)
-                    return Flexible(
-                        flex: widget.combine == ItemTagsCombine.withTextAfter ? 0:1,
-                        child: list[i],
-                    );
-                return Flexible(
-                    flex: widget.combine == ItemTagsCombine.withTextAfter || list.length==1? 1:0,
-                    child: list[i],
-                );
-            })
-        );
-
-        if(widget.removeButton!=null)
-            return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                    Flexible(
-                        fit: _dataListInherited.symmetry ? FlexFit.tight:FlexFit.loose,
-                        flex: 2,
-                        child: row
-                    ),
-                    Flexible(
-                        flex: 0,
-                        child: FittedBox(
-                            alignment: Alignment.centerRight,
-                            fit: BoxFit.fill,
-                            child: GestureDetector(
-                                child: Container(
-                                    margin: widget.removeButton?.margin ?? EdgeInsets.only(left: 5),
-                                    padding: (widget.removeButton?.padding ?? EdgeInsets.all(2)) *(widget.textStyle.fontSize/14),
-                                    decoration: BoxDecoration(
-                                        color: widget.removeButton?.backgroundColor ?? Colors.black,
-                                        borderRadius: widget.removeButton?.borderRadius ?? BorderRadius.circular(_initBorderRadius),
-                                    ),
-                                    child: widget.removeButton?.padding ?? Icon(Icons.clear,
-                                        color: widget.removeButton?.color ?? Colors.white,
-                                        size: (widget.removeButton?.size?? 12) * (widget.textStyle.fontSize/14),
-                                    ),
-                                ),
-                                onTap: () {
-                                    if(widget.onRemoved!=null){
-                                        _dataListInherited.list.removeAt(widget.index);
-                                        widget.onRemoved();
-                                    }
-                                },
-                            )
-                        )
-                    )
-                ]
+    final Widget row = Row(
+        mainAxisAlignment: widget.alignment,
+        mainAxisSize: MainAxisSize.min,
+        children: List.generate(list.length, (i) {
+          if (i == 0 && list.length > 1)
+            return Flexible(
+              flex: widget.combine == ItemTagsCombine.withTextAfter ? 0 : 1,
+              child: list[i],
             );
+          return Flexible(
+            flex: widget.combine == ItemTagsCombine.withTextAfter ||
+                    list.length == 1
+                ? 1
+                : 0,
+            child: list[i],
+          );
+        }));
 
-        return row;
-    }
+    if (widget.removeButton != null)
+      return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Flexible(
+                fit:
+                    _dataListInherited.symmetry ? FlexFit.tight : FlexFit.loose,
+                flex: 2,
+                child: row),
+            Flexible(
+                flex: 0,
+                child: FittedBox(
+                    alignment: Alignment.centerRight,
+                    fit: BoxFit.fill,
+                    child: GestureDetector(
+                      child: Container(
+                        margin: widget.removeButton?.margin ??
+                            EdgeInsets.only(left: 5),
+                        padding: (widget.removeButton?.padding ??
+                                EdgeInsets.all(2)) *
+                            (widget.textStyle.fontSize / 14),
+                        decoration: BoxDecoration(
+                          color: widget.removeButton?.backgroundColor ??
+                              Colors.black,
+                          borderRadius: widget.removeButton?.borderRadius ??
+                              BorderRadius.circular(_initBorderRadius),
+                        ),
+                        child: widget.removeButton?.padding ??
+                            Icon(
+                              Icons.clear,
+                              color: widget.removeButton?.color ?? Colors.white,
+                              size: (widget.removeButton?.size ?? 12) *
+                                  (widget.textStyle.fontSize / 14),
+                            ),
+                      ),
+                      onTap: () {
+                        if (widget.onRemoved != null) {
+                          _dataListInherited.list.removeAt(widget.index);
+                          widget.onRemoved();
+                        }
+                      },
+                    )))
+          ]);
 
-    ///Text Alignment
-    TextAlign get _textAlignment {
-        switch(widget.alignment){
-          case MainAxisAlignment.spaceBetween:
-          case MainAxisAlignment.start:
-            return TextAlign.start;
-            break;
-          case MainAxisAlignment.end:
-              return TextAlign.end;
-            break;
-          case MainAxisAlignment.spaceAround:
-          case MainAxisAlignment.spaceEvenly:
-          case MainAxisAlignment.center:
-            return TextAlign.center;
-        }
-        return null;
-    }
+    return row;
+  }
 
-    ///TextStyle
-    TextStyle get _textStyle {
-        return widget.textStyle.apply(
-            color: _dataList.active ? widget.textActiveColor : widget.textColor,
-        );
+  ///Text Alignment
+  TextAlign get _textAlignment {
+    switch (widget.alignment) {
+      case MainAxisAlignment.spaceBetween:
+      case MainAxisAlignment.start:
+        return TextAlign.start;
+        break;
+      case MainAxisAlignment.end:
+        return TextAlign.end;
+        break;
+      case MainAxisAlignment.spaceAround:
+      case MainAxisAlignment.spaceEvenly:
+      case MainAxisAlignment.center:
+        return TextAlign.center;
     }
+    return null;
+  }
 
-    /// Single item selection
-    void _singleItem(DataListInherited dataSetIn, DataList dataSet) {
-        dataSetIn.list.where((tg) => tg.active).where((tg2)=> tg2!= dataSet).forEach((tg) => tg.active = false );
-    }
+  ///TextStyle
+  TextStyle get _textStyle {
+    return widget.textStyle.apply(
+      color: _dataList.active ? widget.textActiveColor : widget.textColor,
+    );
+  }
+
+  /// Single item selection
+  void _singleItem(DataListInherited dataSetIn, DataList dataSet) {
+    dataSetIn.list
+        .where((tg) => tg.active)
+        .where((tg2) => tg2 != dataSet)
+        .forEach((tg) => tg.active = false);
+  }
 }
 
 ///callback
-class _Item{
-    _Item({this.index,this.title,this.active,this.image,this.customData});
-    final int index;
-    final String title;
-    final bool active;
-    final String image;
-    final dynamic customData;
+class _Item {
+  _Item({this.index, this.title, this.active, this.image, this.customData});
+  final int index;
+  final String title;
+  final bool active;
+  final String image;
+  final dynamic customData;
 
-    @override
-    String toString() {
-        return "id:$index, title: $title, active: $active, customData: $customData";
+  @override
+  String toString() {
+    return "id:$index, title: $title, active: $active, customData: $customData";
   }
 }
 
 /// ItemTag Image
-class ItemTagsImage{
+class ItemTagsImage {
+  ItemTagsImage({this.radius = 8, this.padding, @required this.image});
 
-    ItemTagsImage({this.radius=8,this.padding, @required this.image});
-
-    final double radius;
-    final EdgeInsets padding;
-    final ImageProvider image;
+  final double radius;
+  final EdgeInsets padding;
+  final ImageProvider image;
 }
 
 /// ItemTag Icon
-class ItemTagsIcon{
-    ItemTagsIcon({this.padding, @required this.icon});
+class ItemTagsIcon {
+  ItemTagsIcon({this.padding, @required this.icon});
 
-    final EdgeInsets padding;
-    final IconData icon;
+  final EdgeInsets padding;
+  final IconData icon;
 }
 
 /// ItemTag RemoveButton
-class ItemTagsRemoveButton{
-    ItemTagsRemoveButton({this.icon,this.size,this.backgroundColor,this.color,this.borderRadius,this.padding,this.margin});
+class ItemTagsRemoveButton {
+  ItemTagsRemoveButton(
+      {this.icon,
+      this.size,
+      this.backgroundColor,
+      this.color,
+      this.borderRadius,
+      this.padding,
+      this.margin});
 
-    final IconData icon;
-    final double size;
-    final Color backgroundColor;
-    final Color color;
-    final BorderRadius borderRadius;
-    final EdgeInsets padding;
-    final EdgeInsets margin;
+  final IconData icon;
+  final double size;
+  final Color backgroundColor;
+  final Color color;
+  final BorderRadius borderRadius;
+  final EdgeInsets padding;
+  final EdgeInsets margin;
 }
-
-
-
-
-

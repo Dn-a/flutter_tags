@@ -11,13 +11,9 @@ typedef OnChangedCallback = void Function(String string);
 /// Used by [SuggestionsTextField.onSubmitted].
 typedef OnSubmittedCallback = void Function(String string);
 
-
 class SuggestionsTextField extends StatefulWidget {
   SuggestionsTextField(
-      {
-        @required this.tagsTextFiled,
-        this.onSubmitted,
-        Key key})
+      {@required this.tagsTextFiled, this.onSubmitted, Key key})
       : assert(tagsTextFiled != null),
         super(key: key);
 
@@ -29,7 +25,6 @@ class SuggestionsTextField extends StatefulWidget {
 }
 
 class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
-
   final _controller = TextEditingController();
 
   List<String> _matches = List();
@@ -47,7 +42,6 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
 
   @override
   Widget build(BuildContext context) {
-
     _helperText = widget.tagsTextFiled.helperText ?? "no matches";
     _suggestions = widget.tagsTextFiled.suggestions;
     _inputDecoration = widget.tagsTextFiled.inputDecoration;
@@ -62,9 +56,8 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
             padding: _inputDecoration != null
                 ? _inputDecoration.contentPadding
                 : EdgeInsets.symmetric(
-                vertical: 5 * (_fontSize/ 14),
-                horizontal: 14 * (_fontSize/ 14)
-            ),
+                    vertical: 5 * (_fontSize / 14),
+                    horizontal: 14 * (_fontSize / 14)),
             child: Text(
               _matches.isNotEmpty ? (_matches.first) : "",
               softWrap: false,
@@ -83,7 +76,7 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
           maxLength: widget.tagsTextFiled.maxLength ?? null,
           maxLines: 1,
           autocorrect: widget.tagsTextFiled.autocorrect ?? false,
-          style: widget.tagsTextFiled.textStyle.copyWith(height: 0.6 ),
+          style: widget.tagsTextFiled.textStyle.copyWith(height: 0.6),
           decoration: _initialInputDecoration,
           onChanged: (str) => _checkOnChanged(str),
           onSubmitted: (str) => _onSubmitted(str),
@@ -92,42 +85,44 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
     );
   }
 
-  InputDecoration get _initialInputDecoration
-  {
-    var input = _inputDecoration ?? InputDecoration(
-        disabledBorder: InputBorder.none,
-        errorBorder: InputBorder.none,
-        contentPadding: EdgeInsets.symmetric(
-            vertical: 10 * (_fontSize/14),
-            horizontal: 14 * (_fontSize/14)
-        ),
-        focusedBorder: UnderlineInputBorder(
-          borderRadius: BorderRadius.circular(
-            50,
-          ),
-          borderSide: BorderSide(
-            color:  Colors.blueGrey[400],
-          ),
-        ),
-        enabledBorder: UnderlineInputBorder(
-          borderRadius: BorderRadius.circular(
-            50,
-          ),
-          borderSide: BorderSide(color: Colors.blueGrey.withOpacity(0.5)),
-        ),
-        border: UnderlineInputBorder(
-          borderRadius: BorderRadius.circular(
-            50,
-          ),
-          borderSide: BorderSide(color: Colors.blueGrey.withOpacity(0.5)),
-        ));
+  InputDecoration get _initialInputDecoration {
+    var input = _inputDecoration ??
+        InputDecoration(
+            disabledBorder: InputBorder.none,
+            errorBorder: InputBorder.none,
+            contentPadding: EdgeInsets.symmetric(
+                vertical: 10 * (_fontSize / 14),
+                horizontal: 14 * (_fontSize / 14)),
+            focusedBorder: UnderlineInputBorder(
+              borderRadius: BorderRadius.circular(
+                50,
+              ),
+              borderSide: BorderSide(
+                color: Colors.blueGrey[400],
+              ),
+            ),
+            enabledBorder: UnderlineInputBorder(
+              borderRadius: BorderRadius.circular(
+                50,
+              ),
+              borderSide: BorderSide(color: Colors.blueGrey.withOpacity(0.5)),
+            ),
+            border: UnderlineInputBorder(
+              borderRadius: BorderRadius.circular(
+                50,
+              ),
+              borderSide: BorderSide(color: Colors.blueGrey.withOpacity(0.5)),
+            ));
 
-    return input.copyWith( helperText: _helperCheck || _suggestions==null ? null : _helperText,helperStyle: widget.tagsTextFiled.helperTextStyle, hintText: widget.tagsTextFiled.hintText ?? 'Add a tag',hintStyle: TextStyle(color: widget.tagsTextFiled.hintTextColor));
+    return input.copyWith(
+        helperText: _helperCheck || _suggestions == null ? null : _helperText,
+        helperStyle: widget.tagsTextFiled.helperTextStyle,
+        hintText: widget.tagsTextFiled.hintText ?? 'Add a tag',
+        hintStyle: TextStyle(color: widget.tagsTextFiled.hintTextColor));
   }
 
   ///OnSubmitted
   void _onSubmitted(String str) {
-
     var onSubmitted = widget.onSubmitted;
 
     if (_suggestions != null) str = _matches.first;
@@ -152,53 +147,48 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
 
   ///Check onChanged
   void _checkOnChanged(String str) {
-    if(_suggestions!=null){
-        _matches = _suggestions.where((String sgt) => sgt.startsWith(str)).toList();
+    if (_suggestions != null) {
+      _matches =
+          _suggestions.where((String sgt) => sgt.startsWith(str)).toList();
 
-        if (str.isEmpty) _matches = [];
+      if (str.isEmpty) _matches = [];
 
-        if (_matches.length > 1) _matches.removeWhere((String mtc) => mtc == str);
+      if (_matches.length > 1) _matches.removeWhere((String mtc) => mtc == str);
 
-        setState(() {
-          _helperCheck = _matches.isNotEmpty || str.isEmpty ? true : false;
-          _matches.sort((a, b) => a.compareTo(b));
-        });
+      setState(() {
+        _helperCheck = _matches.isNotEmpty || str.isEmpty ? true : false;
+        _matches.sort((a, b) => a.compareTo(b));
+      });
     }
 
-    if (widget.tagsTextFiled.onChanged != null) widget.tagsTextFiled.onChanged(str);
+    if (widget.tagsTextFiled.onChanged != null)
+      widget.tagsTextFiled.onChanged(str);
   }
 }
 
-
-enum TagsTextFiledPosition {
-  start,
-  end
-}
+enum TagsTextFiledPosition { start, end }
 
 /// Tags TextField
 class TagsTextFiled {
-
   TagsTextFiled(
-      {
-        this.lowerCase = false,
-        this.textStyle = const TextStyle(fontSize: 14),
-        this.width = 200,
-        this.duplicates = false,
-        this.position = TagsTextFiledPosition.end,
-        this.suggestions,
-        this.autocorrect,
-        this.autofocus,
-        this.hintText,
-        this.hintTextColor,
-        this.suggestionTextColor,
-        this.helperText,
-        this.helperTextStyle,
-        this.keyboardType,
-        this.maxLength,
-        this.inputDecoration,
-        this.onSubmitted,
-        this.onChanged
-        });
+      {this.lowerCase = false,
+      this.textStyle = const TextStyle(fontSize: 14),
+      this.width = 200,
+      this.duplicates = false,
+      this.position = TagsTextFiledPosition.end,
+      this.suggestions,
+      this.autocorrect,
+      this.autofocus,
+      this.hintText,
+      this.hintTextColor,
+      this.suggestionTextColor,
+      this.helperText,
+      this.helperTextStyle,
+      this.keyboardType,
+      this.maxLength,
+      this.inputDecoration,
+      this.onSubmitted,
+      this.onChanged});
 
   final double width;
   final bool duplicates;
@@ -219,4 +209,3 @@ class TagsTextFiled {
   final OnSubmittedCallback onSubmitted;
   final OnChangedCallback onChanged;
 }
-
