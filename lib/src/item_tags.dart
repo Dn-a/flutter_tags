@@ -233,8 +233,8 @@ class _ItemTagsState extends State<ItemTags> {
                     BorderRadius.circular(_initBorderRadius)),
             padding: widget.padding * (fontSize / 14),
             child: _combine),
-        onTap: () {
-          if (widget.pressEnabled) {
+        onTap: widget.pressEnabled ? () {
+
             if (widget.singleItem) {
               _singleItem(_dataListInherited, _dataList);
               _dataList.active = true;
@@ -247,8 +247,8 @@ class _ItemTagsState extends State<ItemTags> {
                   title: _dataList.title,
                   active: _dataList.active,
                   customData: widget.customData));
-          }
-        },
+
+        }:null,
         onLongPress: widget.onLongPressed != null
             ? () => widget.onLongPressed(_Item(
                 index: widget.index,

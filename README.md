@@ -1,10 +1,10 @@
 # flutter_tags
-[![pub package](https://img.shields.io/badge/pub-0.4.1-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
+[![pub package](https://img.shields.io/badge/pub-0.4.2-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
 
 Create beautiful tags quickly and easily.
 
-**Since version 4.0 the structure of the code has changed radically.**
+**Since version 0.4.0 the structure of the code has changed radically.**
 **`SelectableTags` and` InputTags` have been replaced with the Tags () widget**.
 **Now it is possible to personalize every single tag, with the possibility of adding icons, images and a removal button.**
  If you still prefer the previous version, go to ![0.3.2](https://github.com/Dn-a/flutter_tags/tree/0.3.2)
@@ -13,7 +13,7 @@ Create beautiful tags quickly and easily.
 Add this to your package's pubspec.yaml file:
 ```dart
 dependencies:
-  flutter_tags: "^0.4.1"
+  flutter_tags: "^0.4.2"
 ```
 
 
@@ -23,8 +23,11 @@ dependencies:
 <table>
 <tr>
 <td style="text-align:center">
- <img width = "250px" src="https://github.com/Dn-a/flutter_tags/blob/master/example/example0.4.0.gif?raw=true" />
+ <img width = "250px" src="https://github.com/Dn-a/flutter_tags/blob/master/example/example0.4.0_1.gif?raw=true" />
  </td>
+ <td style="text-align:center">
+  <img width = "250px" src="https://github.com/Dn-a/flutter_tags/blob/master/example/example0.4.0_2.gif?raw=true" />
+  </td>
 </tr>
 </table>
 </div>
@@ -37,18 +40,23 @@ import 'package:flutter_tags/tag.dart';
 .
 .
 .
-@override
-void initState(){
-    super.initState();
-    _items.addAll(['first','second','third']);
-}
 
 
 List __items;
 double _fontSize = 14;
 
-//Widget
-Tags(
+@override
+void initState(){
+    super.initState();
+    // if you store data on a local database (sqflite), then you could do something like this
+    Model().getItems().then((items){
+            _items = items;
+        });
+}
+
+Widget _tags(){
+    
+    Tags(
       textField: TagsTextFiled(  
         textStyle: TextStyle(fontSize: _fontSize),        
         onSubmitted: (String str) {
@@ -61,11 +69,13 @@ Tags(
       itemCount: _items.length, // required
       itemBuilder: (int index){          
             final item = _items[index];
-
+    
             return ItemTags(
                   key: Key(index.toString()),
                   index: index, // required
-                  title: item, 
+                  title: item.title,
+                  active: item.active,
+                  customData: item.customData,
                   textStyle: TextStyle( fontSize: _fontSize, ),
                   combine: ItemTagsCombine.withTextBefore,
                   image: ItemTagsImage(
@@ -84,9 +94,25 @@ Tags(
                   onPressed: (item) => print(item),
                   onLongPressed: (item) => print(item),
             );
-
+    
       },
-)
+    );    
+}
+```
+## Wrapped widget example
+you are free to wrap ItemTags () inside another widget
+```dart
+Tags(  
+      itemCount: items.length, 
+      itemBuilder: (int index){ 
+          return Tooltip(
+          message: item.title,
+          child:ItemTags(
+            title:item.title,
+          )
+          );
+      },
+    );    
 ```
 
 ### Tags() parameters

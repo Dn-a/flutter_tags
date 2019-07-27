@@ -1,6 +1,11 @@
-## [0.4.1] - 2019-07-27.
+## [0.4.2] - 2019-07-27.
 
 * Update Documentation.
+* General improvement of the code.
+
+## [0.4.1] - 2019-07-27.
+
+* Minor Update Documentation.
 
 ## [0.4.0] - 2019-07-27.
 

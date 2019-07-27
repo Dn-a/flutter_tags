@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_tags/tag.dart';
 
@@ -35,7 +36,6 @@ class _MyHomePageState extends State<MyHomePage>
   final List<String> _list = [
     '0',
     'SDK',
-    'SDK',
     'plugin updates',
     'Facebook',
     '哔了狗了QP又不够了',
@@ -45,6 +45,7 @@ class _MyHomePageState extends State<MyHomePage>
     'Spain',
     '美',
     'Dart',
+    'SDK',
     'Foo',
     'Select',
     'lorem ip',
@@ -67,12 +68,16 @@ class _MyHomePageState extends State<MyHomePage>
   ];
 
   bool _symmetry = false;
+  bool _removeButton = true;
   bool _singleItem = false;
+  bool _textFieldStart = false;
   bool _horizontalScroll = false;
   bool _withSuggesttions = false;
   int _count = 0;
   int _column = 0;
   double _fontSize = 14;
+
+  String _itemCombine = 'withTextBefore';
 
   String _onPressed = '';
 
@@ -81,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 1, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     _scrollViewController = ScrollController();
 
     _items = _list.toList();
@@ -109,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage>
                   labelStyle: TextStyle(fontSize: 18.0),
                   tabs: [
                     Tab(text: "Demo 1"),
-                    //Tab(text: "Demo 2"),
+                    Tab(text: "Demo 2"),
                   ],
                   controller: _tabController,
                 ),
@@ -140,19 +145,18 @@ class _MyHomePageState extends State<MyHomePage>
                                 child: Row(
                                   children: <Widget>[
                                     Checkbox(
-                                        value: _withSuggesttions,
+                                        value: _removeButton,
                                         onChanged: (a) {
                                           setState(() {
-                                            _withSuggesttions =
-                                                !_withSuggesttions;
+                                            _removeButton = !_removeButton;
                                           });
                                         }),
-                                    Text('Suggestions')
+                                    Text('Remove Button')
                                   ],
                                 ),
                                 onTap: () {
                                   setState(() {
-                                    _withSuggesttions = !_withSuggesttions;
+                                    _removeButton = !_removeButton;
                                   });
                                 },
                               ),
@@ -192,7 +196,6 @@ class _MyHomePageState extends State<MyHomePage>
                                   });
                                 },
                               ),
-                              Text("Columns"),
                             ],
                           ),
                           Row(
@@ -305,7 +308,7 @@ class _MyHomePageState extends State<MyHomePage>
                     Padding(
                       padding: EdgeInsets.all(20),
                     ),
-                    _tags,
+                    _tags1,
                     Container(
                         padding: EdgeInsets.all(20),
                         child: Column(
@@ -322,107 +325,339 @@ class _MyHomePageState extends State<MyHomePage>
                   ])),
                 ],
               ),
-              ListView(
-                children: <Widget>[
-                  //Text("aa")
+              CustomScrollView(
+                slivers: <Widget>[
+                  SliverList(
+                      delegate: SliverChildListDelegate([
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      color: Colors.grey[300], width: 0.5))),
+                          margin:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                          child: ExpansionTile(
+                            title: Text("Settings"),
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  GestureDetector(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Checkbox(
+                                            value: _withSuggesttions,
+                                            onChanged: (a) {
+                                              setState(() {
+                                                _withSuggesttions =
+                                                !_withSuggesttions;
+                                              });
+                                            }),
+                                        Text('Suggestions')
+                                      ],
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        _withSuggesttions = !_withSuggesttions;
+                                      });
+                                    },
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(20),
+                                  ),
+                                  DropdownButton(
+                                    hint: Text(_itemCombine),
+                                    items: _buildItems2(),
+                                    onChanged: (val) {
+                                      setState(() {
+                                        _itemCombine = val;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  GestureDetector(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Checkbox(
+                                            value: _horizontalScroll,
+                                            onChanged: (a) {
+                                              setState(() {
+                                                _horizontalScroll =
+                                                !_horizontalScroll;
+                                              });
+                                            }),
+                                        Text('Horizontal scroll')
+                                      ],
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        _horizontalScroll = !_horizontalScroll;
+                                      });
+                                    },
+                                  ),
+                                  GestureDetector(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Checkbox(
+                                            value: _textFieldStart,
+                                            onChanged: (a) {
+                                              setState(() {
+                                                _textFieldStart = !_textFieldStart;
+                                              });
+                                            }),
+                                        Text('TextField Start')
+                                      ],
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        _textFieldStart = !_textFieldStart;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: <Widget>[
+                                  Text('Font Size'),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Slider(
+                                        value: _fontSize,
+                                        min: 6,
+                                        max: 30,
+                                        onChanged: (a) {
+                                          setState(() {
+                                            _fontSize = (a.round()).toDouble();
+                                          });
+                                        },
+                                      ),
+                                      Text(_fontSize.toString()),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(20),
+                        ),
+                        _tags2,
+                        Container(
+                            padding: EdgeInsets.all(20),
+                            child: Column(
+                              children: <Widget>[
+                                Divider(
+                                  color: Colors.blueGrey,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 20),
+                                  child: Text(_onPressed),
+                                ),
+                              ],
+                            )),
+                      ])),
                 ],
-              )
+              ),
             ],
           )),
     );
   }
 
-  Widget get _tags {
+  Widget get _tags1 {
     return Tags(
       symmetry: _symmetry,
       columns: _column,
-      //spacing: 36,
-      //runSpacing: 20,
-      //alignment: WrapAlignment.start,
       horizontalScroll: _horizontalScroll,
       heightHorizontalScroll: 60 * (_fontSize / 14),
-      textField: 1 == 0
-          ? null
-          : TagsTextFiled(
-              //duplicates: true,
-              autofocus: false,
-              //position: TagsTextFiledPosition.start,
-              textStyle: TextStyle(fontSize: _fontSize),
-              suggestions: _withSuggesttions
-                  ? [
-                      "One",
-                      "two",
-                      "android",
-                      "Dart",
-                      "flutter",
-                      "test",
-                      "tests",
-                      "androids",
-                      "androidsaaa",
-                      "Test",
-                      "suggest",
-                      "suggestions",
-                      "last",
-                      "lest"
-                    ]
-                  : null,
-              onSubmitted: (String str) {
-                setState(() {
-                  _items.add(str);
-                });
-              },
-            ),
       itemCount: _items.length,
       itemBuilder: (index) {
+
         final item = _items[index];
 
         return ItemTags(
           key: Key(index.toString()),
           index: index,
           title: item,
-          //pressEnabled: false,
+          pressEnabled: true,
           activeColor: Colors.blueGrey[600],
           singleItem: _singleItem,
-          combine: ItemTagsCombine.withTextBefore,
-          //alignment: MainAxisAlignment.start,
-          //padding: EdgeInsets.all(10),
           splashColor: Colors.green,
+          combine: ItemTagsCombine.withTextBefore,
           image: index > 0 && index < 5
               ? ItemTagsImage(image: AssetImage("img/p$index.jpg"))
-              : (1 == 0
+              : (1 == 1
                   ? ItemTagsImage(
                       image: NetworkImage(
-                          "https://image.flaticon.com/icons/png/512/44/44948.png"))
+                          "https://d32ogoqmya1dw8.cloudfront.net/images/serc/empty_user_icon_256.v2.png"))
                   : null),
           icon: (item == '0' || item == '1' || item == '2')
               ? ItemTagsIcon(
                   icon: _icon[int.parse(item)],
                 )
               : null,
-          removeButton: 1 == 1
-              ? ItemTagsRemoveButton(
-                  //size: 5
-                  //backgroundColor: Colors.green,
-                  //borderRadius: BorderRadius.circular(5)
-                  )
-              : null,
+          removeButton: _removeButton ? ItemTagsRemoveButton( ):null,
           textScaleFactor:
               utf8.encode(item.substring(0, 1)).length > 2 ? 0.8 : 1,
           textStyle: TextStyle(
             fontSize: _fontSize,
           ),
           onRemoved: () {
-            print("remove");
             setState(() {
               _items.removeAt(index);
             });
           },
-          //onPressed: (item) => print(item),
-          //onLongPressed: (item) => print(item),
+          onPressed: (item) => print(item),
         );
       },
     );
   }
+
+  // Position for popup menu
+  Offset _tapPosition;
+
+  Widget get _tags2 {
+
+    //popup Menu
+    final RenderBox overlay = Overlay.of(context).context?.findRenderObject();
+
+    ItemTagsCombine combine = ItemTagsCombine.onlyText;
+
+    switch(_itemCombine){
+      case 'onlyText':
+        combine = ItemTagsCombine.onlyText;
+        break;
+      case 'onlyIcon':
+        combine = ItemTagsCombine.onlyIcon;
+        break;
+      case 'onlyIcon':
+        combine = ItemTagsCombine.onlyIcon;
+        break;
+      case 'onlyImage':
+        combine = ItemTagsCombine.onlyImage;
+        break;
+      case 'imageOrIconOrText':
+        combine = ItemTagsCombine.imageOrIconOrText;
+        break;
+      case 'withTextAfter':
+        combine = ItemTagsCombine.withTextAfter;
+        break;
+      case 'withTextBefore':
+        combine = ItemTagsCombine.withTextBefore;
+        break;
+    }
+
+    return Tags(
+      symmetry: _symmetry,
+      columns: _column,
+      horizontalScroll: _horizontalScroll,
+      heightHorizontalScroll: 60 * (_fontSize / 14),
+      textField: TagsTextFiled(
+        autofocus: false,
+        position: _textFieldStart ?  TagsTextFiledPosition.start: TagsTextFiledPosition.end,
+        textStyle: TextStyle(fontSize: _fontSize),
+        suggestions: _withSuggesttions
+            ? [
+          "One",
+          "two",
+          "android",
+          "Dart",
+          "flutter",
+          "test",
+          "tests",
+          "androids",
+          "androidsaaa",
+          "Test",
+          "suggest",
+          "suggestions",
+          "last",
+          "lest"
+        ]
+            : null,
+        onSubmitted: (String str) {
+          setState(() {
+            _items.add(str);
+          });
+        },
+      ),
+      itemCount: _items.length,
+      itemBuilder: (index) {
+
+        final item = _items[index];
+
+        return  GestureDetector(
+          child: ItemTags(
+            key: Key(index.toString()),
+            index: index,
+            title: item,
+            pressEnabled: false,
+            activeColor: Colors.green[400],
+            combine: combine,
+            image: index > 0 && index < 5
+                ? ItemTagsImage(image: AssetImage("img/p$index.jpg"))
+                : (1 == 0
+                ? ItemTagsImage(
+                image: NetworkImage(
+                    "https://image.flaticon.com/icons/png/512/44/44948.png"))
+                : null),
+            icon: (item == '0' || item == '1' || item == '2')
+                ? ItemTagsIcon(
+              icon: _icon[int.parse(item)],
+            )
+                : null,
+            removeButton: ItemTagsRemoveButton(
+              backgroundColor: Colors.green[900],
+            ),
+            textScaleFactor: utf8.encode(item.substring(0, 1)).length > 2 ? 0.8 : 1,
+            textStyle: TextStyle(
+              fontSize: _fontSize,
+            ),
+            onRemoved: () {
+              setState(() {
+                _items.removeAt(index);
+              });
+            },
+          ),
+          onTapDown: (details) => _tapPosition = details.globalPosition ,
+          onLongPress: (){
+            showMenu(
+                //semanticLabel: item,
+                items: <PopupMenuEntry>[
+                  PopupMenuItem(
+                    child: Text(item, style: TextStyle( color: Colors.blueGrey ) ),
+                    enabled: false,
+                  ),
+                  PopupMenuDivider(),
+                  PopupMenuItem(
+                    value: 1,
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.content_copy),
+                        Text("Copy text"),
+                      ],
+                    ),
+                  ),
+                ],
+                context: context,
+                position: RelativeRect.fromRect(
+                    _tapPosition & Size(40, 40),
+                    Offset.zero &
+                    overlay.size) // & RelativeRect.fromLTRB(65.0, 40.0, 0.0, 0.0),
+            ).then((value) {
+              if(value == 1)
+                Clipboard.setData( ClipboardData(text: item));
+            });
+          },
+        );
+      },
+    );
+  }
+
 
   List<DropdownMenuItem> _buildItems() {
     List<DropdownMenuItem> list = [];
@@ -443,6 +678,52 @@ class _MyHomePageState extends State<MyHomePage>
           value: i,
         ),
       );
+
+    return list;
+  }
+
+  List<DropdownMenuItem> _buildItems2() {
+    List<DropdownMenuItem> list = [];
+
+
+    list.add(
+      DropdownMenuItem(
+        child: Text("onlyText"),
+        value: 'onlyText',
+      )
+    );
+
+    list.add(
+      DropdownMenuItem(
+      child: Text("onlyIcon"),
+      value: 'onlyIcon',
+      )
+    );
+    list.add(
+      DropdownMenuItem(
+      child: Text("onlyImage"),
+      value: 'onlyImage',
+      )
+    );
+    list.add(
+      DropdownMenuItem(
+      child: Text("imageOrIconOrText"),
+      value: 'imageOrIconOrText',
+      )
+    );
+    list.add(
+      DropdownMenuItem(
+      child: Text("withTextBefore"),
+      value: 'withTextBefore',
+      )
+    );
+    list.add(
+      DropdownMenuItem(
+      child: Text("withTextAfter"),
+      value: 'withTextAfter',
+      )
+    );
+
 
     return list;
   }
