@@ -1,3 +1,11 @@
+## [0.4.0] - 2019-07-27.
+
+* **Improvements, new Structure, new Features and Documentation Updates**
+*
+* `SelectableTags` and `InputTags`have been removed, now there is only one widget. **Tags()**
+* Now it is possible to personalize every single tag, with the possibility of adding icons, images and a removal button.
+* Possibility to display the list with horizontal scroll.
+
 ## [0.3.2] - 2019-06-20.
 
 * Issue #14 and #13 fixed.

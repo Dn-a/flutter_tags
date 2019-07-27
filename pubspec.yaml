@@ -1,6 +1,6 @@
 name: flutter_tags
 description: With flutter tags you can create selectable or input tags that automatically adapt to the screen width.
-version: 0.3.2
+version: 0.4.0
 author: Antonino Di Natale <gyorgio88@gmail.com>
 homepage: https://github.com/Dn-a/flutter_tags
 
