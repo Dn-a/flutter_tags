@@ -1,3 +1,7 @@
+## [0.4.1] - 2019-07-27.
+
+* Update Documentation.
+
 ## [0.4.0] - 2019-07-27.
 
 * **Improvements, new Structure, new Features and Documentation Updates**
