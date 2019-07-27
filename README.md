@@ -5,6 +5,7 @@
 Create beautiful tags quickly and easily.
 
 **Since version 4.0 the structure of the code has changed radically.**
+**`SelectableTags` and` InputTags` have been replaced with the Tags () widget**
 If you still prefer the previous version, go to ![0.3.2](https://github.com/Dn-a/flutter_tags/tree/0.3.2)
 
 ## Installing
@@ -61,33 +62,33 @@ Tags(
             final item = _items[index];
 
             return ItemTags(
-              key: Key(index.toString()),
-              index: index, // required
-              title: item, 
-              textStyle: TextStyle( fontSize: _fontSize, ),
-              combine: ItemTagsCombine.withTextBefore,
-              image: ItemTagsImage(
-                image: AssetImage("img.jpg") OR NetworkImage("https://...image.png")
-              ),
-              icon: ItemTagsIcon(
-                icon: Icons.add,
-              ),
-              removeButton: ItemTagsRemoveButton( ), 
-              onRemoved: (){
-                setState(() {
-                    // required
-                  _items.removeAt(index); 
-                });
-              },
-              onPressed: (item) => print(item),
-              onLongPressed: (item) => print(item),
+                  key: Key(index.toString()),
+                  index: index, // required
+                  title: item, 
+                  textStyle: TextStyle( fontSize: _fontSize, ),
+                  combine: ItemTagsCombine.withTextBefore,
+                  image: ItemTagsImage(
+                    image: AssetImage("img.jpg") OR NetworkImage("https://...image.png")
+                  ) OR null,
+                  icon: ItemTagsIcon(
+                    icon: Icons.add,
+                  ) OR null,
+                  removeButton: ItemTagsRemoveButton( ) OR null, 
+                  onRemoved: (){
+                    setState(() {
+                        // required
+                      _items.removeAt(index); 
+                    });
+                  },
+                  onPressed: (item) => print(item),
+                  onLongPressed: (item) => print(item),
             );
 
       },
 )
 ```
 
-### Tags parameters
+### Tags() parameters
 * `columns` - *possibility to set number of columns when necessary. default not set*
 * `itemCount` - *tag number to display ( required ) *
 * `symmetry` - *set width equal to all tags ( default false)*
@@ -103,7 +104,7 @@ Tags(
 * `itemBuilder` - *tag generator*
 * `textField` - *add textField => TagsTextFiled()*
 
-### ItemTags parameters
+### ItemTags() parameters
 * `index` - *required*
 * `title` - *required*
 * `textScaleFactor` - *custom textScaleFactor*
