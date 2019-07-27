@@ -40,8 +40,6 @@ import 'package:flutter_tags/tag.dart';
 .
 .
 .
-
-
 List __items;
 double _fontSize = 14;
 
@@ -56,10 +54,11 @@ void initState(){
 
 Widget _tags(){
     
-    Tags(
+    return Tags(
       textField: TagsTextFiled(  
         textStyle: TextStyle(fontSize: _fontSize),        
         onSubmitted: (String str) {
+          // Add item to the data source.
           setState(() {
               // required
             _items.add(str);
@@ -71,6 +70,8 @@ Widget _tags(){
             final item = _items[index];
     
             return ItemTags(
+                  // Each ItemTags must contain a Key. Keys allow Flutter to
+                  // uniquely identify widgets.
                   key: Key(index.toString()),
                   index: index, // required
                   title: item.title,
@@ -86,6 +87,7 @@ Widget _tags(){
                   ) OR null,
                   removeButton: ItemTagsRemoveButton( ) OR null, 
                   onRemoved: (){
+                    // Remove the item from the data source.
                     setState(() {
                         // required
                       _items.removeAt(index); 
@@ -100,7 +102,7 @@ Widget _tags(){
 }
 ```
 ## Wrapped widget example
-you are free to wrap ItemTags () inside another widget
+You are free to wrap ItemTags () inside another widget
 ```dart
 Tags(  
       itemCount: items.length, 
