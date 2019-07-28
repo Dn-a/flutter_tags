@@ -19,11 +19,16 @@ class Tags extends StatefulWidget {
       this.runAlignment = WrapAlignment.center,
       this.direction = Axis.horizontal,
       this.verticalDirection = VerticalDirection.down,
-      this.textDirection,
+      this.textDirection = TextDirection.ltr,
       this.itemBuilder,
       this.textField,
       Key key})
       : assert(itemCount >= 0),
+        assert(alignment != null),
+        assert(runAlignment != null),
+        assert(direction != null),
+        assert(verticalDirection != null),
+        assert(textDirection != null),
         super(key: key);
 
   ///specific number of columns
@@ -140,7 +145,7 @@ class _TagsState extends State<Tags> {
     return DataListInherited(
       list: _list,
       symmetry: widget.symmetry,
-      intemCount: widget.itemCount,
+      itemCount: widget.itemCount,
       child: child,
     );
   }
@@ -149,7 +154,7 @@ class _TagsState extends State<Tags> {
     /*if(_list.length < widget.itemCount)
             _list.clear();*/
 
-    Widget textField = widget.textField != null
+    final Widget textField = widget.textField != null
         ? Container(
             alignment: Alignment.center,
             width: widget.symmetry ? _widthCalc() : widget.textField.width,
@@ -173,10 +178,10 @@ class _TagsState extends State<Tags> {
           )
         : null;
 
-    final List<Widget> finalList = List();
+    List<Widget> finalList = List();
 
-    final List<Widget> itemList = List.generate(widget.itemCount, (i) {
-      Widget item = widget.itemBuilder(i);
+    List<Widget> itemList = List.generate(widget.itemCount, (i) {
+      final Widget item = widget.itemBuilder(i);
       if (widget.symmetry)
         return Container(
           width: _widthCalc(),
@@ -191,21 +196,25 @@ class _TagsState extends State<Tags> {
       return item;
     });
 
-    if (textField == null) {
+
+    if(widget.horizontalScroll && widget.textDirection == TextDirection.rtl )
+      itemList = itemList.reversed.toList();
+
+
+    if (textField == null){
       finalList.addAll(itemList);
       return finalList;
     }
 
-    switch (widget.textField.position) {
-      case TagsTextFiledPosition.start:
-        finalList.add(textField);
-        finalList.addAll(itemList);
-        break;
-      case TagsTextFiledPosition.end:
-        finalList.addAll(itemList);
-        finalList.add(textField);
-        break;
+    if(widget.horizontalScroll && widget.verticalDirection == VerticalDirection.up ){
+      finalList.add(textField);
+      finalList.addAll(itemList);
     }
+    else{
+      finalList.addAll(itemList);
+      finalList.add(textField);
+    }
+
 
     return finalList;
   }
@@ -225,16 +234,16 @@ class _TagsState extends State<Tags> {
 /// Inherited Widget
 class DataListInherited extends InheritedWidget {
   DataListInherited(
-      {Key key, this.list, this.symmetry, this.intemCount, Widget child})
+      {Key key, this.list, this.symmetry, this.itemCount, Widget child})
       : super(key: key, child: child);
 
   final List<DataList> list;
   final bool symmetry;
-  final int intemCount;
+  final int itemCount;
 
   @override
   bool updateShouldNotify(DataListInherited old) {
-    //print("inerited");
+    //print("inherited");
     return false;
   }
 
@@ -247,7 +256,7 @@ class DataList extends ValueNotifier {
   DataList(
       {@required this.title,
       bool highlights = false,
-      bool active,
+      bool active = true,
       this.customData})
       : _showDuplicate = highlights,
         _active = active,

@@ -166,8 +166,6 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
   }
 }
 
-enum TagsTextFiledPosition { start, end }
-
 /// Tags TextField
 class TagsTextFiled {
   TagsTextFiled(
@@ -175,7 +173,6 @@ class TagsTextFiled {
       this.textStyle = const TextStyle(fontSize: 14),
       this.width = 200,
       this.duplicates = false,
-      this.position = TagsTextFiledPosition.end,
       this.suggestions,
       this.autocorrect,
       this.autofocus,
@@ -192,7 +189,6 @@ class TagsTextFiled {
 
   final double width;
   final bool duplicates;
-  final TagsTextFiledPosition position;
   final TextStyle textStyle;
   final InputDecoration inputDecoration;
   final bool autocorrect;

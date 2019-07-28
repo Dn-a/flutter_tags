@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage>
   bool _symmetry = false;
   bool _removeButton = true;
   bool _singleItem = false;
-  bool _textFieldStart = false;
+  bool _startDirection = false;
   bool _horizontalScroll = false;
   bool _withSuggesttions = false;
   int _count = 0;
@@ -281,6 +281,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         setState(() {
                                           _count++;
                                           _items.add(_count.toString());
+                                          //_items.removeAt(3); _items.removeAt(10);
                                         });
                                       },
                                     ),
@@ -335,139 +336,139 @@ class _MyHomePageState extends State<MyHomePage>
                 slivers: <Widget>[
                   SliverList(
                       delegate: SliverChildListDelegate([
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                                      color: Colors.grey[300], width: 0.5))),
-                          margin:
+                    Container(
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(
+                                  color: Colors.grey[300], width: 0.5))),
+                      margin:
                           EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                          child: ExpansionTile(
-                            title: Text("Settings"),
+                      child: ExpansionTile(
+                        title: Text("Settings"),
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  GestureDetector(
-                                    child: Row(
-                                      children: <Widget>[
-                                        Checkbox(
-                                            value: _withSuggesttions,
-                                            onChanged: (a) {
-                                              setState(() {
-                                                _withSuggesttions =
-                                                !_withSuggesttions;
-                                              });
-                                            }),
-                                        Text('Suggestions')
-                                      ],
-                                    ),
-                                    onTap: () {
-                                      setState(() {
-                                        _withSuggesttions = !_withSuggesttions;
-                                      });
-                                    },
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(20),
-                                  ),
-                                  DropdownButton(
-                                    hint: Text(_itemCombine),
-                                    items: _buildItems2(),
-                                    onChanged: (val) {
-                                      setState(() {
-                                        _itemCombine = val;
-                                      });
-                                    },
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  GestureDetector(
-                                    child: Row(
-                                      children: <Widget>[
-                                        Checkbox(
-                                            value: _horizontalScroll,
-                                            onChanged: (a) {
-                                              setState(() {
-                                                _horizontalScroll =
-                                                !_horizontalScroll;
-                                              });
-                                            }),
-                                        Text('Horizontal scroll')
-                                      ],
-                                    ),
-                                    onTap: () {
-                                      setState(() {
-                                        _horizontalScroll = !_horizontalScroll;
-                                      });
-                                    },
-                                  ),
-                                  GestureDetector(
-                                    child: Row(
-                                      children: <Widget>[
-                                        Checkbox(
-                                            value: _textFieldStart,
-                                            onChanged: (a) {
-                                              setState(() {
-                                                _textFieldStart = !_textFieldStart;
-                                              });
-                                            }),
-                                        Text('TextField Start')
-                                      ],
-                                    ),
-                                    onTap: () {
-                                      setState(() {
-                                        _textFieldStart = !_textFieldStart;
-                                      });
-                                    },
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: <Widget>[
-                                  Text('Font Size'),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Slider(
-                                        value: _fontSize,
-                                        min: 6,
-                                        max: 30,
+                              GestureDetector(
+                                child: Row(
+                                  children: <Widget>[
+                                    Checkbox(
+                                        value: _withSuggesttions,
                                         onChanged: (a) {
                                           setState(() {
-                                            _fontSize = (a.round()).toDouble();
+                                            _withSuggesttions =
+                                                !_withSuggesttions;
                                           });
-                                        },
-                                      ),
-                                      Text(_fontSize.toString()),
-                                    ],
+                                        }),
+                                    Text('Suggestions')
+                                  ],
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    _withSuggesttions = !_withSuggesttions;
+                                  });
+                                },
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(20),
+                              ),
+                              DropdownButton(
+                                hint: Text(_itemCombine),
+                                items: _buildItems2(),
+                                onChanged: (val) {
+                                  setState(() {
+                                    _itemCombine = val;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              GestureDetector(
+                                child: Row(
+                                  children: <Widget>[
+                                    Checkbox(
+                                        value: _horizontalScroll,
+                                        onChanged: (a) {
+                                          setState(() {
+                                            _horizontalScroll =
+                                                !_horizontalScroll;
+                                          });
+                                        }),
+                                    Text('Horizontal scroll')
+                                  ],
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    _horizontalScroll = !_horizontalScroll;
+                                  });
+                                },
+                              ),
+                              GestureDetector(
+                                child: Row(
+                                  children: <Widget>[
+                                    Checkbox(
+                                        value: _startDirection,
+                                        onChanged: (a) {
+                                          setState(() {
+                                            _startDirection = !_startDirection;
+                                          });
+                                        }),
+                                    Text('Start Direction')
+                                  ],
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    _startDirection = !_startDirection;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: <Widget>[
+                              Text('Font Size'),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Slider(
+                                    value: _fontSize,
+                                    min: 6,
+                                    max: 30,
+                                    onChanged: (a) {
+                                      setState(() {
+                                        _fontSize = (a.round()).toDouble();
+                                      });
+                                    },
                                   ),
+                                  Text(_fontSize.toString()),
                                 ],
                               ),
                             ],
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(20),
-                        ),
-                        _tags2,
-                        Container(
-                            padding: EdgeInsets.all(20),
-                            child: Column(
-                              children: <Widget>[
-                                Divider(
-                                  color: Colors.blueGrey,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 20),
-                                  child: Text(_onPressed),
-                                ),
-                              ],
-                            )),
-                      ])),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(20),
+                    ),
+                    _tags2,
+                    Container(
+                        padding: EdgeInsets.all(20),
+                        child: Column(
+                          children: <Widget>[
+                            Divider(
+                              color: Colors.blueGrey,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              child: Text(_onPressed),
+                            ),
+                          ],
+                        )),
+                  ])),
                 ],
               ),
             ],
@@ -477,13 +478,14 @@ class _MyHomePageState extends State<MyHomePage>
 
   Widget get _tags1 {
     return Tags(
+      key: Key("1"),
       symmetry: _symmetry,
       columns: _column,
       horizontalScroll: _horizontalScroll,
+      //verticalDirection: VerticalDirection.up, textDirection: TextDirection.rtl,
       heightHorizontalScroll: 60 * (_fontSize / 14),
       itemCount: _items.length,
       itemBuilder: (index) {
-
         final item = _items[index];
 
         return ItemTags(
@@ -507,7 +509,7 @@ class _MyHomePageState extends State<MyHomePage>
                   icon: _icon[int.parse(item)],
                 )
               : null,
-          removeButton: _removeButton ? ItemTagsRemoveButton( ):null,
+          removeButton: _removeButton ? ItemTagsRemoveButton() : null,
           textScaleFactor:
               utf8.encode(item.substring(0, 1)).length > 2 ? 0.8 : 1,
           textStyle: TextStyle(
@@ -528,13 +530,12 @@ class _MyHomePageState extends State<MyHomePage>
   Offset _tapPosition;
 
   Widget get _tags2 {
-
     //popup Menu
     final RenderBox overlay = Overlay.of(context).context?.findRenderObject();
 
     ItemTagsCombine combine = ItemTagsCombine.onlyText;
 
-    switch(_itemCombine){
+    switch (_itemCombine) {
       case 'onlyText':
         combine = ItemTagsCombine.onlyText;
         break;
@@ -559,31 +560,33 @@ class _MyHomePageState extends State<MyHomePage>
     }
 
     return Tags(
+      key: Key("2"),
       symmetry: _symmetry,
       columns: _column,
       horizontalScroll: _horizontalScroll,
+      verticalDirection: _startDirection ? VerticalDirection.up : VerticalDirection.down,
+      textDirection: _startDirection ? TextDirection.rtl : TextDirection.ltr,
       heightHorizontalScroll: 60 * (_fontSize / 14),
       textField: TagsTextFiled(
         autofocus: false,
-        position: _textFieldStart ?  TagsTextFiledPosition.start: TagsTextFiledPosition.end,
         textStyle: TextStyle(fontSize: _fontSize),
         suggestions: _withSuggesttions
             ? [
-          "One",
-          "two",
-          "android",
-          "Dart",
-          "flutter",
-          "test",
-          "tests",
-          "androids",
-          "androidsaaa",
-          "Test",
-          "suggest",
-          "suggestions",
-          "last",
-          "lest"
-        ]
+                "One",
+                "two",
+                "android",
+                "Dart",
+                "flutter",
+                "test",
+                "tests",
+                "androids",
+                "androidsaaa",
+                "Test",
+                "suggest",
+                "suggestions",
+                "last",
+                "lest"
+              ]
             : null,
         onSubmitted: (String str) {
           setState(() {
@@ -593,10 +596,9 @@ class _MyHomePageState extends State<MyHomePage>
       ),
       itemCount: _items.length,
       itemBuilder: (index) {
-
         final item = _items[index];
 
-        return  GestureDetector(
+        return GestureDetector(
           child: ItemTags(
             key: Key(index.toString()),
             index: index,
@@ -607,19 +609,20 @@ class _MyHomePageState extends State<MyHomePage>
             image: index > 0 && index < 5
                 ? ItemTagsImage(image: AssetImage("img/p$index.jpg"))
                 : (1 == 0
-                ? ItemTagsImage(
-                image: NetworkImage(
-                    "https://image.flaticon.com/icons/png/512/44/44948.png"))
-                : null),
+                    ? ItemTagsImage(
+                        image: NetworkImage(
+                            "https://image.flaticon.com/icons/png/512/44/44948.png"))
+                    : null),
             icon: (item == '0' || item == '1' || item == '2')
                 ? ItemTagsIcon(
-              icon: _icon[int.parse(item)],
-            )
+                    icon: _icon[int.parse(item)],
+                  )
                 : null,
             removeButton: ItemTagsRemoveButton(
               backgroundColor: Colors.green[900],
             ),
-            textScaleFactor: utf8.encode(item.substring(0, 1)).length > 2 ? 0.8 : 1,
+            textScaleFactor:
+                utf8.encode(item.substring(0, 1)).length > 2 ? 0.8 : 1,
             textStyle: TextStyle(
               fontSize: _fontSize,
             ),
@@ -629,13 +632,13 @@ class _MyHomePageState extends State<MyHomePage>
               });
             },
           ),
-          onTapDown: (details) => _tapPosition = details.globalPosition ,
-          onLongPress: (){
+          onTapDown: (details) => _tapPosition = details.globalPosition,
+          onLongPress: () {
             showMenu(
-                //semanticLabel: item,
-                items: <PopupMenuEntry>[
+                    //semanticLabel: item,
+                    items: <PopupMenuEntry>[
                   PopupMenuItem(
-                    child: Text(item, style: TextStyle( color: Colors.blueGrey ) ),
+                    child: Text(item, style: TextStyle(color: Colors.blueGrey)),
                     enabled: false,
                   ),
                   PopupMenuDivider(),
@@ -649,21 +652,21 @@ class _MyHomePageState extends State<MyHomePage>
                     ),
                   ),
                 ],
-                context: context,
-                position: RelativeRect.fromRect(
-                    _tapPosition & Size(40, 40),
-                    Offset.zero &
-                    overlay.size) // & RelativeRect.fromLTRB(65.0, 40.0, 0.0, 0.0),
-            ).then((value) {
-              if(value == 1)
-                Clipboard.setData( ClipboardData(text: item));
+                    context: context,
+                    position: RelativeRect.fromRect(
+                        _tapPosition & Size(40, 40),
+                        Offset.zero &
+                            overlay
+                                .size) // & RelativeRect.fromLTRB(65.0, 40.0, 0.0, 0.0),
+                    )
+                .then((value) {
+              if (value == 1) Clipboard.setData(ClipboardData(text: item));
             });
           },
         );
       },
     );
   }
-
 
   List<DropdownMenuItem> _buildItems() {
     List<DropdownMenuItem> list = [];
@@ -691,49 +694,36 @@ class _MyHomePageState extends State<MyHomePage>
   List<DropdownMenuItem> _buildItems2() {
     List<DropdownMenuItem> list = [];
 
+    list.add(DropdownMenuItem(
+      child: Text("onlyText"),
+      value: 'onlyText',
+    ));
 
-    list.add(
-      DropdownMenuItem(
-        child: Text("onlyText"),
-        value: 'onlyText',
-      )
-    );
-
-    list.add(
-      DropdownMenuItem(
+    list.add(DropdownMenuItem(
       child: Text("onlyIcon"),
       value: 'onlyIcon',
-      )
-    );
-    list.add(
-      DropdownMenuItem(
+    ));
+    list.add(DropdownMenuItem(
       child: Text("onlyImage"),
       value: 'onlyImage',
-      )
-    );
-    list.add(
-      DropdownMenuItem(
+    ));
+    list.add(DropdownMenuItem(
       child: Text("imageOrIconOrText"),
       value: 'imageOrIconOrText',
-      )
-    );
-    list.add(
-      DropdownMenuItem(
+    ));
+    list.add(DropdownMenuItem(
       child: Text("withTextBefore"),
       value: 'withTextBefore',
-      )
-    );
-    list.add(
-      DropdownMenuItem(
+    ));
+    list.add(DropdownMenuItem(
       child: Text("withTextAfter"),
       value: 'withTextAfter',
-      )
-    );
-
+    ));
 
     return list;
   }
 }
+
 
 ```
 

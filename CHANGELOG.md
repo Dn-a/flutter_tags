@@ -1,3 +1,9 @@
+## [0.4.3] - 2019-07-28.
+
+* Minor Update Documentation.
+* Fixed some problem.
+* removed the 'position' parameter  in TagsTexField () because it is not essential. the same result can be obtained by setting the verticalDirection and TextDirection parameters in Tags ().
+
 ## [0.4.2] - 2019-07-27.
 
 * Update Documentation.

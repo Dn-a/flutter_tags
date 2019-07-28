@@ -1,5 +1,5 @@
 # flutter_tags
-[![pub package](https://img.shields.io/badge/pub-0.4.2-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
+[![pub package](https://img.shields.io/badge/pub-0.4.3-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
 
 Create beautiful tags quickly and easily.
@@ -13,7 +13,7 @@ Create beautiful tags quickly and easily.
 Add this to your package's pubspec.yaml file:
 ```dart
 dependencies:
-  flutter_tags: "^0.4.2"
+  flutter_tags: "^0.4.3"
 ```
 
 
@@ -119,7 +119,7 @@ Tags(
 
 ### Tags() parameters
 * `columns` - *possibility to set number of columns when necessary. default not set*
-* `itemCount` - *tag number to display ( required ) *
+* `itemCount` - *tag number to display ( required )*
 * `symmetry` - *set width equal to all tags ( default false)*
 * `horizontalScroll` - *ability to view and scroll tags horizontally (default false)*
 * `heightHorizontalScroll` - *height to set to display tags correctly*
@@ -156,8 +156,8 @@ Tags(
 * `textActiveColor` - *default  Colors.white*
 * `color` - *default Colors.white*
 * `activeColor` - *default Colors.blueGrey*
-* `highlightColor` - **
-* `splashColor` - **
+* `highlightColor` - 
+* `splashColor` - 
 * `colorShowDuplicate` - *default  Colors.red*
 * `onPressed` - *callback*
 * `onLongPressed` - *callback*

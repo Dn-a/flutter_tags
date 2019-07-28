@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage>
   bool _symmetry = false;
   bool _removeButton = true;
   bool _singleItem = false;
-  bool _textFieldStart = false;
+  bool _startDirection = false;
   bool _horizontalScroll = false;
   bool _withSuggesttions = false;
   int _count = 0;
@@ -275,6 +275,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         setState(() {
                                           _count++;
                                           _items.add(_count.toString());
+                                          //_items.removeAt(3); _items.removeAt(10);
                                         });
                                       },
                                     ),
@@ -403,18 +404,18 @@ class _MyHomePageState extends State<MyHomePage>
                                 child: Row(
                                   children: <Widget>[
                                     Checkbox(
-                                        value: _textFieldStart,
+                                        value: _startDirection,
                                         onChanged: (a) {
                                           setState(() {
-                                            _textFieldStart = !_textFieldStart;
+                                            _startDirection = !_startDirection;
                                           });
                                         }),
-                                    Text('TextField Start')
+                                    Text('Start Direction')
                                   ],
                                 ),
                                 onTap: () {
                                   setState(() {
-                                    _textFieldStart = !_textFieldStart;
+                                    _startDirection = !_startDirection;
                                   });
                                 },
                               ),
@@ -471,9 +472,11 @@ class _MyHomePageState extends State<MyHomePage>
 
   Widget get _tags1 {
     return Tags(
+      key: Key("1"),
       symmetry: _symmetry,
       columns: _column,
       horizontalScroll: _horizontalScroll,
+      //verticalDirection: VerticalDirection.up, textDirection: TextDirection.rtl,
       heightHorizontalScroll: 60 * (_fontSize / 14),
       itemCount: _items.length,
       itemBuilder: (index) {
@@ -551,15 +554,15 @@ class _MyHomePageState extends State<MyHomePage>
     }
 
     return Tags(
+      key: Key("2"),
       symmetry: _symmetry,
       columns: _column,
       horizontalScroll: _horizontalScroll,
+      verticalDirection: _startDirection ? VerticalDirection.up : VerticalDirection.down,
+      textDirection: _startDirection ? TextDirection.rtl : TextDirection.ltr,
       heightHorizontalScroll: 60 * (_fontSize / 14),
       textField: TagsTextFiled(
         autofocus: false,
-        position: _textFieldStart
-            ? TagsTextFiledPosition.start
-            : TagsTextFiledPosition.end,
         textStyle: TextStyle(fontSize: _fontSize),
         suggestions: _withSuggesttions
             ? [

@@ -154,35 +154,44 @@ class _ItemTagsState extends State<ItemTags> {
     // Get List<DataList> from Tags widget
     _dataListInherited = DataListInherited.of(context);
 
-    if (_dataListInherited.list.length > (widget.index + 1) &&
-        _dataListInherited.list.elementAt(widget.index).title != widget.title) {
-      // when an element is removed from the outside
-      _dataListInherited.list.removeAt(widget.index);
+    // set List length
+    if(_dataListInherited.list.length < _dataListInherited.itemCount)
+        _dataListInherited.list.length = _dataListInherited.itemCount;
 
-      // when all item list changed
-      final DataList dataList = _dataListInherited.list
-          .sublist(widget.index)
-          .firstWhere((d) => d.title == widget.title, orElse: () => null);
-      if (dataList == null)
-        _dataListInherited.list
-            .removeRange(widget.index, _dataListInherited.list.length);
+    if (_dataListInherited.list.length > (widget.index + 1)
+        && _dataListInherited.list.elementAt(widget.index) != null &&
+        _dataListInherited.list.elementAt(widget.index).title != widget.title) {
+
+        // when an element is removed from the data source
+        _dataListInherited.list.removeAt(widget.index);
+
+        // when all item list changed in data source
+        if(_dataListInherited.list.elementAt(widget.index) != null && _dataListInherited.list.elementAt(widget.index).title != widget.title)
+          _dataListInherited.list.removeRange(widget.index, _dataListInherited.list.length);
     }
 
-    // add new Item
-    if (_dataListInherited.list.length < (widget.index + 1)) {
-      //print("add");
-      _dataListInherited.list.insert(
-          widget.index,
-          DataList(
-              title: widget.title,
-              active: widget.singleItem ? false : widget.active,
-              customData: widget.customData));
+    // add new Item in the List
+    if (_dataListInherited.list.length < (widget.index + 1) ){
+        //print("add");
+        _dataListInherited.list.insert(widget.index,
+            DataList(
+                title: widget.title,
+                active: widget.singleItem ? false : widget.active,
+                customData: widget.customData
+            ));
+    }
+    else if (_dataListInherited.list.elementAt(widget.index) == null ) {
+        //print("replace");
+        _dataListInherited.list[widget.index] = DataList(
+            title: widget.title,
+            active: widget.singleItem ? false : widget.active,
+            customData: widget.customData);
     }
 
     // removes items that have been orphaned
-    if (_dataListInherited.intemCount == widget.index + 1 &&
-        _dataListInherited.list.length > _dataListInherited.intemCount)
-      _dataListInherited.list
+    if (_dataListInherited.itemCount == widget.index + 1 &&
+        _dataListInherited.list.length > _dataListInherited.itemCount)
+        _dataListInherited.list
           .removeRange(widget.index + 1, _dataListInherited.list.length);
 
     //print(_dataListInherited.list.length);
