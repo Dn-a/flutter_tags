@@ -558,7 +558,8 @@ class _MyHomePageState extends State<MyHomePage>
       symmetry: _symmetry,
       columns: _column,
       horizontalScroll: _horizontalScroll,
-      verticalDirection: _startDirection ? VerticalDirection.up : VerticalDirection.down,
+      verticalDirection:
+          _startDirection ? VerticalDirection.up : VerticalDirection.down,
       textDirection: _startDirection ? TextDirection.rtl : TextDirection.ltr,
       heightHorizontalScroll: 60 * (_fontSize / 14),
       textField: TagsTextFiled(

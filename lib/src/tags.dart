@@ -196,25 +196,22 @@ class _TagsState extends State<Tags> {
       return item;
     });
 
-
-    if(widget.horizontalScroll && widget.textDirection == TextDirection.rtl )
+    if (widget.horizontalScroll && widget.textDirection == TextDirection.rtl)
       itemList = itemList.reversed.toList();
 
-
-    if (textField == null){
+    if (textField == null) {
       finalList.addAll(itemList);
       return finalList;
     }
 
-    if(widget.horizontalScroll && widget.verticalDirection == VerticalDirection.up ){
+    if (widget.horizontalScroll &&
+        widget.verticalDirection == VerticalDirection.up) {
       finalList.add(textField);
       finalList.addAll(itemList);
-    }
-    else{
+    } else {
       finalList.addAll(itemList);
       finalList.add(textField);
     }
-
 
     return finalList;
   }
