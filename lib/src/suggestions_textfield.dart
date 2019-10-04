@@ -72,6 +72,7 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
         TextField(
           controller: _controller,
           autofocus: widget.tagsTextFiled.autofocus ?? true,
+          focusNode: widget.tagsTextFiled.focusNode ?? null,
           keyboardType: widget.tagsTextFiled.keyboardType ?? null,
           maxLength: widget.tagsTextFiled.maxLength ?? null,
           maxLines: 1,
@@ -176,6 +177,7 @@ class TagsTextFiled {
       this.suggestions,
       this.autocorrect,
       this.autofocus,
+      this.focusNode,
       this.hintText,
       this.hintTextColor,
       this.suggestionTextColor,
@@ -195,6 +197,7 @@ class TagsTextFiled {
   final List<String> suggestions;
   final bool lowerCase;
   final bool autofocus;
+  final FocusNode focusNode;
   final String hintText;
   final Color hintTextColor;
   final Color suggestionTextColor;
