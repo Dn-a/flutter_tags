@@ -23,10 +23,10 @@ dependencies:
 <table>
 <tr>
 <td style="text-align:center">
- <img width = "250px" src="https://github.com/Dn-a/flutter_tags/raw/master/repo-file/img/example0.4.0_1.gif?" />
+ <img width = "250px" src="https://github.com/Dn-a/flutter_tags/raw/master/repo-file/img/example0.4.0_1.gif" />
  </td>
  <td style="text-align:center">
-  <img width = "250px" src="https://github.com/Dn-a/flutter_tags/raw/master/repo-file/img/example0.4.0_2.gif?" />
+  <img width = "250px" src="https://github.com/Dn-a/flutter_tags/raw/master/repo-file/img/example0.4.0_2.gif" />
   </td>
 </tr>
 </table>

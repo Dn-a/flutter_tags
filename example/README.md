@@ -741,8 +741,8 @@ class _MyHomePageState extends State<MyHomePage>
 ```
 
 ## DEMO
-![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example0.4.0_1.gif)
-![Demo 1](https://github.com/Dn-a/flutter_tags/blob/master/example/example0.4.0_2.gif)
+![Demo 1](https://github.com/Dn-a/flutter_tags/raw/master/repo-file/img/example0.4.0_1.gif)
+![Demo 1](https://github.com/Dn-a/flutter_tags/raw/master/repo-file/img/example0.4.0_2.gif)
 
 ## Other
 This project is a starting point for a Flutter application.

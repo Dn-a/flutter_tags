@@ -4,7 +4,7 @@
 
 * Added `child` field in `ItemTagsImage()`, allows more control over the images.
 * Fixed alignment `textField` and `suggestions` - Issue #31.
-* Added the possibility to get the list of `ItemTags` via GlobalKey<TagsState>.
+* Added the possibility to get a list of all the `ItemTags` via GlobalKey<TagsState>.
 
 ## [0.4.3] - 2019-07-28.
 
