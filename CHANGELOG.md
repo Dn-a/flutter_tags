@@ -1,3 +1,11 @@
+## [0.4.4] - 2019-10-16.
+
+* New Features and Documentation Updates.
+
+* Added `child` field in `ItemTagsImage()`, allows more control over the images.
+* Fixed alignment `textField` and `suggestions` - Issue #31.
+* Added the possibility to get the list of `ItemTags` via GlobalKey<TagsState>.
+
 ## [0.4.3] - 2019-07-28.
 
 * Minor Update Documentation.

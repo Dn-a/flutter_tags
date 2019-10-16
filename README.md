@@ -1,5 +1,5 @@
 # flutter_tags
-[![pub package](https://img.shields.io/badge/pub-0.4.3-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
+[![pub package](https://img.shields.io/badge/pub-0.4.4-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
 
 Create beautiful tags quickly and easily.
@@ -13,7 +13,7 @@ Create beautiful tags quickly and easily.
 Add this to your package's pubspec.yaml file:
 ```dart
 dependencies:
-  flutter_tags: "^0.4.3"
+  flutter_tags: "^0.4.4"
 ```
 
 
@@ -23,10 +23,10 @@ dependencies:
 <table>
 <tr>
 <td style="text-align:center">
- <img width = "250px" src="https://github.com/Dn-a/flutter_tags/blob/master/example/example0.4.0_1.gif?raw=true" />
+ <img width = "250px" src="https://github.com/Dn-a/flutter_tags/raw/master/repo-file/img/example0.4.0_1.gif?" />
  </td>
  <td style="text-align:center">
-  <img width = "250px" src="https://github.com/Dn-a/flutter_tags/blob/master/example/example0.4.0_2.gif?raw=true" />
+  <img width = "250px" src="https://github.com/Dn-a/flutter_tags/raw/master/repo-file/img/example0.4.0_2.gif?" />
   </td>
 </tr>
 </table>
@@ -52,9 +52,10 @@ void initState(){
         });
 }
 
-Widget _tags(){
-    
+@override
+Widget build(BuildContext context) {
     return Tags(
+      key:_tagStateKey,
       textField: TagsTextFiled(  
         textStyle: TextStyle(fontSize: _fontSize),        
         onSubmitted: (String str) {
@@ -100,6 +101,14 @@ Widget _tags(){
       },
     );    
 }
+
+final GlobalKey<TagsState> _tagStateKey = GlobalKey<TagsState>();
+// Allows you to get a list of all the ItemTags
+_getAllItem(){
+    List<Item> lst = _tagStateKey.currentState?.getAllItem;
+    if(lst!=null)
+        lst.where((a) => a.active==true).forEach( ( a) => print(a.title));        
+}
 ```
 ## Wrapped widget example
 You are free to wrap ItemTags () inside another widget
@@ -116,22 +125,23 @@ Tags(
       },
     );    
 ```
-
 ### Tags() parameters
-* `columns` - *possibility to set number of columns when necessary. default not set*
-* `itemCount` - *tag number to display ( required )*
-* `symmetry` - *set width equal to all tags ( default false)*
-* `horizontalScroll` - *ability to view and scroll tags horizontally (default false)*
-* `heightHorizontalScroll` - *height to set to display tags correctly*
-* `spacing` - *horizontal space between the tags*
-* `runSpacing` - *vertical space between the tags*
-* `alignment` - *horizontal WrapAlignment ( default WrapAlignment.center)*
-* `runAlignment` - *vertical WrapAlignment ( default WrapAlignment.center)*
-* `direction` - *Axis.horizontal*
-* `verticalDirection` - *VerticalDirection.down*
-* `textDirection` - *textDirection*
-* `itemBuilder` - *tag generator*
-* `textField` - *add textField => TagsTextFiled()*
+|PropName|Description|default value|
+|:-------|:----------|:------------|
+|`columns`|*Possibility to set number of columns when necessary*|null|
+|`itemCount`|*Tag number to display*|required|
+|`symmetry`|*Ability to view and scroll tags horizontally*|false|
+|`horizontalScroll`|*Offset drawer width*|0.4|
+|`heightHorizontalScroll`|*height for HorizontalScroll to set to display tags correctly*|60|
+|`spacing`|*Horizontal space between the tags*|6|
+|`runSpacing`|*Vertical space between the tags*|14|
+|`alignment`|*Horizontal WrapAlignment*|WrapAlignment.center|
+|`runAlignment`|*Vertical WrapAlignment*|WrapAlignment.center|
+|`direction`|*Direction of the ItemTags*|Axis.horizontal|
+|`verticalDirection`|*Iterate Item from the lower to the upper direction or vice versa*|VerticalDirection.down|
+|`textDirection`|*Text direction of  the ItemTags*|TextDirection.ltr|
+|`itemBuilder`|*tag generator*||
+|`textField`|*add textField*|TagsTextFiled()|
 
 ### ItemTags() parameters
 * `index` - *required*

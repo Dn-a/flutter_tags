@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../tag.dart';
 import 'util/custom_wrap.dart';
 import 'package:flutter_tags/src/suggestions_textfield.dart';
 
@@ -78,17 +79,17 @@ class Tags extends StatefulWidget {
   final TagsTextFiled textField;
 
   @override
-  _TagsState createState() => _TagsState();
+  TagsState createState() => TagsState();
 }
 
-class _TagsState extends State<Tags> {
+class TagsState extends State<Tags> {
   final GlobalKey _containerKey = GlobalKey();
   Orientation _orientation = Orientation.portrait;
   double _width = 0;
 
   final List<DataList> _list = List();
 
-  List get allItem => _list.toList();
+  List<Item> get getAllItem => _list.toList();
 
   //get the current width of the screen
   void _getWidthContext() {
@@ -249,9 +250,10 @@ class DataListInherited extends InheritedWidget {
 }
 
 /// Data List
-class DataList extends ValueNotifier {
+class DataList extends ValueNotifier implements Item {
   DataList(
       {@required this.title,
+      this.index,
       bool highlights = false,
       bool active = true,
       this.customData})
@@ -261,6 +263,7 @@ class DataList extends ValueNotifier {
 
   final String title;
   final dynamic customData;
+  final int index;
 
   get showDuplicate {
     final val = _showDuplicate;

@@ -100,6 +100,8 @@ class _MyHomePageState extends State<MyHomePage>
 
   List _items;
 
+  final GlobalKey<TagsState> _tagStateKey = GlobalKey<TagsState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -478,7 +480,7 @@ class _MyHomePageState extends State<MyHomePage>
 
   Widget get _tags1 {
     return Tags(
-      key: Key("1"),
+      key: _tagStateKey,
       symmetry: _symmetry,
       columns: _column,
       horizontalScroll: _horizontalScroll,
@@ -498,11 +500,18 @@ class _MyHomePageState extends State<MyHomePage>
           splashColor: Colors.green,
           combine: ItemTagsCombine.withTextBefore,
           image: index > 0 && index < 5
-              ? ItemTagsImage(image: AssetImage("img/p$index.jpg"))
+              ? ItemTagsImage(
+                  //image: AssetImage("img/p$index.jpg"),
+                  child: Image.network(
+                  "http://www.clipartpanda.com/clipart_images/user-66327738/download",
+                  width: 16 * _fontSize / 14,
+                  height: 16 * _fontSize / 14,
+                ))
               : (1 == 1
                   ? ItemTagsImage(
                       image: NetworkImage(
-                          "https://d32ogoqmya1dw8.cloudfront.net/images/serc/empty_user_icon_256.v2.png"))
+                          "https://d32ogoqmya1dw8.cloudfront.net/images/serc/empty_user_icon_256.v2.png"),
+                    )
                   : null),
           icon: (item == '0' || item == '1' || item == '2')
               ? ItemTagsIcon(
@@ -564,12 +573,16 @@ class _MyHomePageState extends State<MyHomePage>
       symmetry: _symmetry,
       columns: _column,
       horizontalScroll: _horizontalScroll,
-      verticalDirection: _startDirection ? VerticalDirection.up : VerticalDirection.down,
+      verticalDirection:
+          _startDirection ? VerticalDirection.up : VerticalDirection.down,
       textDirection: _startDirection ? TextDirection.rtl : TextDirection.ltr,
       heightHorizontalScroll: 60 * (_fontSize / 14),
       textField: TagsTextFiled(
         autofocus: false,
-        textStyle: TextStyle(fontSize: _fontSize),
+        textStyle: TextStyle(
+          fontSize: _fontSize,
+          //height: 1
+        ),
         suggestions: _withSuggesttions
             ? [
                 "One",
@@ -584,8 +597,10 @@ class _MyHomePageState extends State<MyHomePage>
                 "Test",
                 "suggest",
                 "suggestions",
+                "互联网",
                 "last",
-                "lest"
+                "lest",
+                "炫舞时代"
               ]
             : null,
         onSubmitted: (String str) {
@@ -608,7 +623,7 @@ class _MyHomePageState extends State<MyHomePage>
             combine: combine,
             image: index > 0 && index < 5
                 ? ItemTagsImage(image: AssetImage("img/p$index.jpg"))
-                : (1 == 0
+                : (1 == 1
                     ? ItemTagsImage(
                         image: NetworkImage(
                             "https://image.flaticon.com/icons/png/512/44/44948.png"))
@@ -723,8 +738,6 @@ class _MyHomePageState extends State<MyHomePage>
     return list;
   }
 }
-
-
 ```
 
 ## DEMO

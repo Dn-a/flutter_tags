@@ -3,10 +3,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_tags/src/tags.dart';
 
 /// Used by [ItemTags.onPressed].
-typedef OnPressedCallback = void Function(_Item i);
+typedef OnPressedCallback = void Function(Item i);
 
 /// Used by [ItemTags.OnLongPressed].
-typedef OnLongPressedCallback = void Function(_Item i);
+typedef OnLongPressedCallback = void Function(Item i);
 
 /// Used by [ItemTags.onRemoved].
 typedef OnRemovedCallback = void Function();
@@ -178,6 +178,7 @@ class _ItemTagsState extends State<ItemTags> {
           widget.index,
           DataList(
               title: widget.title,
+              index: widget.index,
               active: widget.singleItem ? false : widget.active,
               customData: widget.customData));
     } else if (_dataListInherited.list.elementAt(widget.index) == null) {
@@ -251,7 +252,7 @@ class _ItemTagsState extends State<ItemTags> {
                   _dataList.active = !_dataList.active;
 
                 if (widget.onPressed != null)
-                  widget.onPressed(_Item(
+                  widget.onPressed(Item(
                       index: widget.index,
                       title: _dataList.title,
                       active: _dataList.active,
@@ -259,7 +260,7 @@ class _ItemTagsState extends State<ItemTags> {
               }
             : null,
         onLongPress: widget.onLongPressed != null
-            ? () => widget.onLongPressed(_Item(
+            ? () => widget.onLongPressed(Item(
                 index: widget.index,
                 title: _dataList.title,
                 active: _dataList.active,
@@ -270,6 +271,9 @@ class _ItemTagsState extends State<ItemTags> {
   }
 
   Widget get _combine {
+    if (widget.image != null)
+      assert((widget.image.image != null && widget.image.child == null) ||
+          (widget.image.child != null && widget.image.image == null));
     final Widget text = Text(
       widget.title,
       softWrap: false,
@@ -303,11 +307,13 @@ class _ItemTagsState extends State<ItemTags> {
                     : widget.combine == ItemTagsCombine.withTextAfter
                         ? EdgeInsets.only(right: 5)
                         : EdgeInsets.only(left: 5)),
-            child: CircleAvatar(
-              radius: widget.image.radius * (widget.textStyle.fontSize / 14),
-              backgroundColor: Colors.transparent,
-              backgroundImage: widget.image.image,
-            ),
+            child: widget.image.child ??
+                CircleAvatar(
+                  radius:
+                      widget.image.radius * (widget.textStyle.fontSize / 14),
+                  backgroundColor: Colors.transparent,
+                  backgroundImage: widget.image.image,
+                ),
           )
         : text;
 
@@ -440,12 +446,11 @@ class _ItemTagsState extends State<ItemTags> {
 }
 
 ///callback
-class _Item {
-  _Item({this.index, this.title, this.active, this.image, this.customData});
+class Item {
+  Item({this.index, this.title, this.active, this.customData});
   final int index;
   final String title;
   final bool active;
-  final String image;
   final dynamic customData;
 
   @override
@@ -456,11 +461,12 @@ class _Item {
 
 /// ItemTag Image
 class ItemTagsImage {
-  ItemTagsImage({this.radius = 8, this.padding, @required this.image});
+  ItemTagsImage({this.radius = 8, this.padding, this.image, this.child});
 
   final double radius;
   final EdgeInsets padding;
   final ImageProvider image;
+  final Widget child;
 }
 
 /// ItemTag Icon

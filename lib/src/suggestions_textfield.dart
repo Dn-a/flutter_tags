@@ -48,21 +48,25 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
     _fontSize = widget.tagsTextFiled.textStyle.fontSize;
 
     return Stack(
+      alignment: Alignment.bottomLeft,
       children: <Widget>[
         Visibility(
           visible: _suggestions != null,
           child: Container(
-            width: double.infinity,
+            //width: double.infinity,
             padding: _inputDecoration != null
                 ? _inputDecoration.contentPadding
                 : EdgeInsets.symmetric(
-                    vertical: 5 * (_fontSize / 14),
-                    horizontal: 14 * (_fontSize / 14)),
+                    vertical: 6 * (_fontSize / 14),
+                    horizontal: 6 * (_fontSize / 14)),
             child: Text(
               _matches.isNotEmpty ? (_matches.first) : "",
               softWrap: false,
               overflow: TextOverflow.fade,
               style: TextStyle(
+                height: widget.tagsTextFiled.textStyle.height == null
+                    ? 1
+                    : widget.tagsTextFiled.textStyle.height,
                 fontSize: _fontSize ?? null,
                 color: widget.tagsTextFiled.suggestionTextColor ?? Colors.red,
               ),
@@ -76,7 +80,8 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
           maxLength: widget.tagsTextFiled.maxLength ?? null,
           maxLines: 1,
           autocorrect: widget.tagsTextFiled.autocorrect ?? false,
-          style: widget.tagsTextFiled.textStyle.copyWith(height: 0.6),
+          style: widget.tagsTextFiled.textStyle.copyWith(
+              height: widget.tagsTextFiled.textStyle.height == null ? 1 : null),
           decoration: _initialInputDecoration,
           onChanged: (str) => _checkOnChanged(str),
           onSubmitted: (str) => _onSubmitted(str),
@@ -91,27 +96,20 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
             disabledBorder: InputBorder.none,
             errorBorder: InputBorder.none,
             contentPadding: EdgeInsets.symmetric(
-                vertical: 10 * (_fontSize / 14),
-                horizontal: 14 * (_fontSize / 14)),
+                vertical: 6 * (_fontSize / 14),
+                horizontal: 6 * (_fontSize / 14)),
             focusedBorder: UnderlineInputBorder(
-              borderRadius: BorderRadius.circular(
-                50,
-              ),
               borderSide: BorderSide(
-                color: Colors.blueGrey[400],
+                color: Colors.blueGrey[300],
               ),
             ),
             enabledBorder: UnderlineInputBorder(
-              borderRadius: BorderRadius.circular(
-                50,
-              ),
-              borderSide: BorderSide(color: Colors.blueGrey.withOpacity(0.5)),
+              borderSide:
+                  BorderSide(color: Colors.blueGrey[400].withOpacity(0.3)),
             ),
             border: UnderlineInputBorder(
-              borderRadius: BorderRadius.circular(
-                50,
-              ),
-              borderSide: BorderSide(color: Colors.blueGrey.withOpacity(0.5)),
+              borderSide:
+                  BorderSide(color: Colors.blueGrey[400].withOpacity(0.3)),
             ));
 
     return input.copyWith(
