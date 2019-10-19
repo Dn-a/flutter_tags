@@ -184,6 +184,7 @@ class TagsTextFiled {
       this.helperText,
       this.helperTextStyle,
       this.keyboardType,
+      this.textInputAction,
       this.maxLength,
       this.inputDecoration,
       this.onSubmitted,
@@ -204,6 +205,7 @@ class TagsTextFiled {
   final String helperText;
   final TextStyle helperTextStyle;
   final TextInputType keyboardType;
+  final TextInputAction textInputAction;
   final int maxLength;
   final OnSubmittedCallback onSubmitted;
   final OnChangedCallback onChanged;

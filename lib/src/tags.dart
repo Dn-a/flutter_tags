@@ -283,3 +283,7 @@ class DataList extends ValueNotifier {
     notifyListeners();
   }
 }
+
+//TagsController
+class TagsController extends DataList {
+}
