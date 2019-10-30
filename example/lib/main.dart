@@ -571,7 +571,7 @@ class _MyHomePageState extends State<MyHomePage>
           _startDirection ? VerticalDirection.up : VerticalDirection.down,
       textDirection: _startDirection ? TextDirection.rtl : TextDirection.ltr,
       heightHorizontalScroll: 60 * (_fontSize / 14),
-      textField: TagsTextFiled(
+      textField: TagsTextField(
         autofocus: false,
         textStyle: TextStyle(
           fontSize: _fontSize,

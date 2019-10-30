@@ -1,3 +1,8 @@
+## [0.4.5] - 2019-10-30.
+
+* Renamed `TagsTextFiled` to `TagsTextField`.
+* Added `textCapitalization` field in `TagsTextField`.
+
 ## [0.4.4] - 2019-10-16.
 
 * New Features and Documentation Updates.

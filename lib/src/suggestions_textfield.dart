@@ -13,11 +13,11 @@ typedef OnSubmittedCallback = void Function(String string);
 
 class SuggestionsTextField extends StatefulWidget {
   SuggestionsTextField(
-      {@required this.tagsTextFiled, this.onSubmitted, Key key})
-      : assert(tagsTextFiled != null),
+      {@required this.tagsTextField, this.onSubmitted, Key key})
+      : assert(tagsTextField != null),
         super(key: key);
 
-  final TagsTextFiled tagsTextFiled;
+  final TagsTextField tagsTextField;
   final OnSubmittedCallback onSubmitted;
 
   @override
@@ -42,10 +42,10 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
 
   @override
   Widget build(BuildContext context) {
-    _helperText = widget.tagsTextFiled.helperText ?? "no matches";
-    _suggestions = widget.tagsTextFiled.suggestions;
-    _inputDecoration = widget.tagsTextFiled.inputDecoration;
-    _fontSize = widget.tagsTextFiled.textStyle.fontSize;
+    _helperText = widget.tagsTextField.helperText ?? "no matches";
+    _suggestions = widget.tagsTextField.suggestions;
+    _inputDecoration = widget.tagsTextField.inputDecoration;
+    _fontSize = widget.tagsTextField.textStyle.fontSize;
 
     return Stack(
       alignment: Alignment.bottomLeft,
@@ -64,24 +64,26 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
               softWrap: false,
               overflow: TextOverflow.fade,
               style: TextStyle(
-                height: widget.tagsTextFiled.textStyle.height == null
+                height: widget.tagsTextField.textStyle.height == null
                     ? 1
-                    : widget.tagsTextFiled.textStyle.height,
+                    : widget.tagsTextField.textStyle.height,
                 fontSize: _fontSize ?? null,
-                color: widget.tagsTextFiled.suggestionTextColor ?? Colors.red,
+                color: widget.tagsTextField.suggestionTextColor ?? Colors.red,
               ),
             ),
           ),
         ),
         TextField(
           controller: _controller,
-          autofocus: widget.tagsTextFiled.autofocus ?? true,
-          keyboardType: widget.tagsTextFiled.keyboardType ?? null,
-          maxLength: widget.tagsTextFiled.maxLength ?? null,
+          autofocus: widget.tagsTextField.autofocus ?? true,
+          keyboardType: widget.tagsTextField.keyboardType ?? null,
+          textCapitalization: widget.tagsTextField.textCapitalization ??
+              TextCapitalization.none,
+          maxLength: widget.tagsTextField.maxLength ?? null,
           maxLines: 1,
-          autocorrect: widget.tagsTextFiled.autocorrect ?? false,
-          style: widget.tagsTextFiled.textStyle.copyWith(
-              height: widget.tagsTextFiled.textStyle.height == null ? 1 : null),
+          autocorrect: widget.tagsTextField.autocorrect ?? false,
+          style: widget.tagsTextField.textStyle.copyWith(
+              height: widget.tagsTextField.textStyle.height == null ? 1 : null),
           decoration: _initialInputDecoration,
           onChanged: (str) => _checkOnChanged(str),
           onSubmitted: (str) => _onSubmitted(str),
@@ -114,9 +116,9 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
 
     return input.copyWith(
         helperText: _helperCheck || _suggestions == null ? null : _helperText,
-        helperStyle: widget.tagsTextFiled.helperTextStyle,
-        hintText: widget.tagsTextFiled.hintText ?? 'Add a tag',
-        hintStyle: TextStyle(color: widget.tagsTextFiled.hintTextColor));
+        helperStyle: widget.tagsTextField.helperTextStyle,
+        hintText: widget.tagsTextField.hintText ?? 'Add a tag',
+        hintStyle: TextStyle(color: widget.tagsTextField.hintTextColor));
   }
 
   ///OnSubmitted
@@ -125,7 +127,7 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
 
     if (_suggestions != null) str = _matches.first;
 
-    if (widget.tagsTextFiled.lowerCase) str = str.toLowerCase();
+    if (widget.tagsTextField.lowerCase) str = str.toLowerCase();
 
     str = str.trim();
 
@@ -159,14 +161,14 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
       });
     }
 
-    if (widget.tagsTextFiled.onChanged != null)
-      widget.tagsTextFiled.onChanged(str);
+    if (widget.tagsTextField.onChanged != null)
+      widget.tagsTextField.onChanged(str);
   }
 }
 
 /// Tags TextField
-class TagsTextFiled {
-  TagsTextFiled(
+class TagsTextField {
+  TagsTextField(
       {this.lowerCase = false,
       this.textStyle = const TextStyle(fontSize: 14),
       this.width = 200,
@@ -180,6 +182,7 @@ class TagsTextFiled {
       this.helperText,
       this.helperTextStyle,
       this.keyboardType,
+      this.textCapitalization,
       this.maxLength,
       this.inputDecoration,
       this.onSubmitted,
@@ -199,6 +202,7 @@ class TagsTextFiled {
   final String helperText;
   final TextStyle helperTextStyle;
   final TextInputType keyboardType;
+  final TextCapitalization textCapitalization;
   final int maxLength;
   final OnSubmittedCallback onSubmitted;
   final OnChangedCallback onChanged;
