@@ -1,5 +1,5 @@
 # flutter_tags
-[![pub package](https://img.shields.io/badge/pub-0.4.4-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
+[![pub package](https://img.shields.io/badge/pub-0.4.5-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
 
 Create beautiful tags quickly and easily.
@@ -13,7 +13,7 @@ Create beautiful tags quickly and easily.
 Add this to your package's pubspec.yaml file:
 ```dart
 dependencies:
-  flutter_tags: "^0.4.4"
+  flutter_tags: "^0.4.5"
 ```
 
 
