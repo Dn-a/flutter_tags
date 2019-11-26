@@ -289,7 +289,7 @@ class _ItemTagsState extends State<ItemTags> {
                         : EdgeInsets.only(left: 5)),
             child: Icon(
               widget.icon.icon,
-              color: _textStyle.color,
+              color: widget.icon.color??_textStyle.color,
               size: _textStyle.fontSize * 1.2,
             ),
           )
@@ -465,10 +465,11 @@ class ItemTagsImage {
 
 /// ItemTag Icon
 class ItemTagsIcon {
-  ItemTagsIcon({this.padding, @required this.icon});
+  ItemTagsIcon({this.padding, @required this.icon, this.color});
 
   final EdgeInsets padding;
   final IconData icon;
+  final Color color;
 }
 
 /// ItemTag RemoveButton
