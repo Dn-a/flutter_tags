@@ -40,7 +40,7 @@ import 'package:flutter_tags/tag.dart';
 .
 .
 .
-List __items;
+List _items;
 double _fontSize = 14;
 
 @override
@@ -56,7 +56,7 @@ void initState(){
 Widget build(BuildContext context) {
     return Tags(
       key:_tagStateKey,
-      textField: TagsTextFiled(  
+      textField: TagsTextField(  
         textStyle: TextStyle(fontSize: _fontSize),        
         onSubmitted: (String str) {
           // Add item to the data source.
@@ -81,12 +81,12 @@ Widget build(BuildContext context) {
                   textStyle: TextStyle( fontSize: _fontSize, ),
                   combine: ItemTagsCombine.withTextBefore,
                   image: ItemTagsImage(
-                    image: AssetImage("img.jpg") OR NetworkImage("https://...image.png")
-                  ) OR null,
+                    image: AssetImage("img.jpg") // OR NetworkImage("https://...image.png")
+                  ), // OR null,
                   icon: ItemTagsIcon(
                     icon: Icons.add,
-                  ) OR null,
-                  removeButton: ItemTagsRemoveButton( ) OR null, 
+                  ), // OR null,
+                  removeButton: ItemTagsRemoveButton( ), // OR null, 
                   onRemoved: (){
                     // Remove the item from the data source.
                     setState(() {
