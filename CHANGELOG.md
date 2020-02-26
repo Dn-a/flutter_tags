@@ -1,3 +1,8 @@
+## [0.4.7] - 2020-02-26.
+
+* Update Documentation.
+* General improvement of the code.
+
 ## [0.4.6] - 2020-02-26.
 
 * Fixed some problem.

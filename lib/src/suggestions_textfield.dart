@@ -134,22 +134,23 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
 
     str = str.trim();
 
-    if (_suggestions != null && (_matches.isNotEmpty || !_constraintSuggestion)) {
+    if (_suggestions != null) {
+      if (_matches.isNotEmpty || !_constraintSuggestion) {
         if (onSubmitted != null) onSubmitted(str);
         setState(() {
           _matches = [];
         });
         _controller.clear();
+      }
     } else if (str.isNotEmpty) {
       if (onSubmitted != null) onSubmitted(str);
       _controller.clear();
     }
-
   }
 
   ///Check onChanged
   void _checkOnChanged(String str) {
-    if (_suggestions != null ) {
+    if (_suggestions != null) {
       _matches =
           _suggestions.where((String sgt) => sgt.startsWith(str)).toList();
 
@@ -158,7 +159,10 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
       if (_matches.length > 1) _matches.removeWhere((String mtc) => mtc == str);
 
       setState(() {
-        _helperCheck = _matches.isNotEmpty || str.isEmpty || !_constraintSuggestion ? true : false;
+        _helperCheck =
+            _matches.isNotEmpty || str.isEmpty || !_constraintSuggestion
+                ? true
+                : false;
         _matches.sort((a, b) => a.compareTo(b));
       });
     }

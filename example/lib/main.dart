@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:flutter_tags/tag.dart';
+import 'package:flutter_tags/flutter_tags.dart';
 
 void main() => runApp(MyApp());
 
@@ -513,14 +513,16 @@ class _MyHomePageState extends State<MyHomePage>
                   icon: _icon[int.parse(item)],
                 )
               : null,
-          removeButton: _removeButton ? ItemTagsRemoveButton(
-            onRemoved: () {
-              setState(() {
-                _items.removeAt(index);
-              });
-              return true;
-            },
-          ) : null,
+          removeButton: _removeButton
+              ? ItemTagsRemoveButton(
+                  onRemoved: () {
+                    setState(() {
+                      _items.removeAt(index);
+                    });
+                    return true;
+                  },
+                )
+              : null,
           textScaleFactor:
               utf8.encode(item.substring(0, 1)).length > 2 ? 0.8 : 1,
           textStyle: TextStyle(

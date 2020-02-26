@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../tag.dart';
+import '../flutter_tags.dart';
 import 'util/custom_wrap.dart';
 import 'package:flutter_tags/src/suggestions_textfield.dart';
 
@@ -245,8 +245,10 @@ class DataListInherited extends InheritedWidget {
     return false;
   }
 
+  /*static DataListInherited of(BuildContext context) =>
+      context.inheritFromWidgetOfExactType(DataListInherited);*/
   static DataListInherited of(BuildContext context) =>
-      context.inheritFromWidgetOfExactType(DataListInherited);
+      context.dependOnInheritedWidgetOfExactType();
 }
 
 /// Data List

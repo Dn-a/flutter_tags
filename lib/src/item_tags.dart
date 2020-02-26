@@ -378,9 +378,9 @@ class _ItemTagsState extends State<ItemTags> {
                       child: Container(
                         margin: widget.removeButton.margin ??
                             EdgeInsets.only(left: 5),
-                        padding: (widget.removeButton.padding ??
-                                EdgeInsets.all(2)) *
-                            (widget.textStyle.fontSize / 14),
+                        padding:
+                            (widget.removeButton.padding ?? EdgeInsets.all(2)) *
+                                (widget.textStyle.fontSize / 14),
                         decoration: BoxDecoration(
                           color: widget.removeButton.backgroundColor ??
                               Colors.black,
@@ -397,7 +397,7 @@ class _ItemTagsState extends State<ItemTags> {
                       ),
                       onTap: () {
                         if (widget.removeButton.onRemoved != null) {
-                          if(widget.removeButton.onRemoved())
+                          if (widget.removeButton.onRemoved())
                             _dataListInherited.list.removeAt(widget.index);
                         }
                       },
@@ -492,6 +492,7 @@ class ItemTagsRemoveButton {
   final BorderRadius borderRadius;
   final EdgeInsets padding;
   final EdgeInsets margin;
+
   /// callback
   final OnRemovedCallback onRemoved;
 }
