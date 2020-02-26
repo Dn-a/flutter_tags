@@ -1,3 +1,11 @@
+## [0.4.6] - 2020-02-26.
+
+* Fixed some problem.
+* Possibility to disabled/enabled `textFiled` - Issue #36.
+* Possibility to insert tags not present in the list of suggestions with the field `constraintSuggestion` - Issue #33.
+* `onRemoved` field has been moved inside `ItemTagsRemoveButton()` to maintain consistency.
+* `onRemoved` now has a bool return type (ex: when you want to add a control before removing a tag).
+
 ## [0.4.5] - 2019-10-30.
 
 * Renamed `TagsTextFiled` to `TagsTextField`.

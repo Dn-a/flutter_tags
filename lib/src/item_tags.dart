@@ -8,8 +8,8 @@ typedef OnPressedCallback = void Function(Item i);
 /// Used by [ItemTags.OnLongPressed].
 typedef OnLongPressedCallback = void Function(Item i);
 
-/// Used by [ItemTags.onRemoved].
-typedef OnRemovedCallback = void Function();
+/// Used by [ItemTags.removeButton.onRemoved].
+typedef OnRemovedCallback = bool Function();
 
 /// combines icon text or image
 enum ItemTagsCombine {
@@ -50,7 +50,6 @@ class ItemTags extends StatefulWidget {
       this.colorShowDuplicate = Colors.red,
       this.onPressed,
       this.onLongPressed,
-      this.onRemoved,
       Key key})
       : assert(index != null),
         assert(title != null),
@@ -136,9 +135,6 @@ class ItemTags extends StatefulWidget {
 
   /// callback
   final OnLongPressedCallback onLongPressed;
-
-  /// callback
-  final OnRemovedCallback onRemoved;
 
   @override
   _ItemTagsState createState() => _ItemTagsState();
@@ -380,29 +376,29 @@ class _ItemTagsState extends State<ItemTags> {
                     fit: BoxFit.fill,
                     child: GestureDetector(
                       child: Container(
-                        margin: widget.removeButton?.margin ??
+                        margin: widget.removeButton.margin ??
                             EdgeInsets.only(left: 5),
-                        padding: (widget.removeButton?.padding ??
+                        padding: (widget.removeButton.padding ??
                                 EdgeInsets.all(2)) *
                             (widget.textStyle.fontSize / 14),
                         decoration: BoxDecoration(
-                          color: widget.removeButton?.backgroundColor ??
+                          color: widget.removeButton.backgroundColor ??
                               Colors.black,
-                          borderRadius: widget.removeButton?.borderRadius ??
+                          borderRadius: widget.removeButton.borderRadius ??
                               BorderRadius.circular(_initBorderRadius),
                         ),
-                        child: widget.removeButton?.padding ??
+                        child: widget.removeButton.padding ??
                             Icon(
                               Icons.clear,
-                              color: widget.removeButton?.color ?? Colors.white,
-                              size: (widget.removeButton?.size ?? 12) *
+                              color: widget.removeButton.color ?? Colors.white,
+                              size: (widget.removeButton.size ?? 12) *
                                   (widget.textStyle.fontSize / 14),
                             ),
                       ),
                       onTap: () {
-                        if (widget.onRemoved != null) {
-                          _dataListInherited.list.removeAt(widget.index);
-                          widget.onRemoved();
+                        if (widget.removeButton.onRemoved != null) {
+                          if(widget.removeButton.onRemoved())
+                            _dataListInherited.list.removeAt(widget.index);
                         }
                       },
                     )))
@@ -486,7 +482,8 @@ class ItemTagsRemoveButton {
       this.color,
       this.borderRadius,
       this.padding,
-      this.margin});
+      this.margin,
+      this.onRemoved});
 
   final IconData icon;
   final double size;
@@ -495,4 +492,6 @@ class ItemTagsRemoveButton {
   final BorderRadius borderRadius;
   final EdgeInsets padding;
   final EdgeInsets margin;
+  /// callback
+  final OnRemovedCallback onRemoved;
 }

@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Tags Demo',
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
@@ -98,6 +98,7 @@ class _MyHomePageState extends State<MyHomePage>
 
   @override
   Widget build(BuildContext context) {
+    //List<Item> lst = _tagStateKey.currentState?.getAllItem; lst.forEach((f) => print(f.title));
     return Scaffold(
       body: NestedScrollView(
           controller: _scrollViewController,
@@ -512,17 +513,19 @@ class _MyHomePageState extends State<MyHomePage>
                   icon: _icon[int.parse(item)],
                 )
               : null,
-          removeButton: _removeButton ? ItemTagsRemoveButton() : null,
+          removeButton: _removeButton ? ItemTagsRemoveButton(
+            onRemoved: () {
+              setState(() {
+                _items.removeAt(index);
+              });
+              return true;
+            },
+          ) : null,
           textScaleFactor:
               utf8.encode(item.substring(0, 1)).length > 2 ? 0.8 : 1,
           textStyle: TextStyle(
             fontSize: _fontSize,
           ),
-          onRemoved: () {
-            setState(() {
-              _items.removeAt(index);
-            });
-          },
           onPressed: (item) => print(item),
         );
       },
@@ -577,6 +580,8 @@ class _MyHomePageState extends State<MyHomePage>
           fontSize: _fontSize,
           //height: 1
         ),
+        enabled: true,
+        constraintSuggestion: true,
         suggestions: _withSuggesttions
             ? [
                 "One",
@@ -629,17 +634,18 @@ class _MyHomePageState extends State<MyHomePage>
                 : null,
             removeButton: ItemTagsRemoveButton(
               backgroundColor: Colors.green[900],
+              onRemoved: () {
+                setState(() {
+                  _items.removeAt(index);
+                });
+                return true;
+              },
             ),
             textScaleFactor:
                 utf8.encode(item.substring(0, 1)).length > 2 ? 0.8 : 1,
             textStyle: TextStyle(
               fontSize: _fontSize,
             ),
-            onRemoved: () {
-              setState(() {
-                _items.removeAt(index);
-              });
-            },
           ),
           onTapDown: (details) => _tapPosition = details.globalPosition,
           onLongPress: () {

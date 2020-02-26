@@ -1,5 +1,5 @@
 # flutter_tags
-[![pub package](https://img.shields.io/badge/pub-0.4.5-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
+[![pub package](https://img.shields.io/badge/pub-0.4.6-orange.svg)](https://pub.dartlang.org/packages/flutter_tags)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/dnag88)
 
 Create beautiful tags quickly and easily.
@@ -13,7 +13,7 @@ Create beautiful tags quickly and easily.
 Add this to your package's pubspec.yaml file:
 ```dart
 dependencies:
-  flutter_tags: "^0.4.5"
+  flutter_tags: "^0.4.6"
 ```
 
 
@@ -57,7 +57,8 @@ Widget build(BuildContext context) {
     return Tags(
       key:_tagStateKey,
       textField: TagsTextField(  
-        textStyle: TextStyle(fontSize: _fontSize),        
+        textStyle: TextStyle(fontSize: _fontSize),
+        constraintSuggestion: true, suggestions: [],
         onSubmitted: (String str) {
           // Add item to the data source.
           setState(() {
@@ -86,14 +87,17 @@ Widget build(BuildContext context) {
                   icon: ItemTagsIcon(
                     icon: Icons.add,
                   ), // OR null,
-                  removeButton: ItemTagsRemoveButton( ), // OR null, 
-                  onRemoved: (){
-                    // Remove the item from the data source.
-                    setState(() {
-                        // required
-                      _items.removeAt(index); 
-                    });
-                  },
+                  removeButton: ItemTagsRemoveButton(
+                    onRemoved: (){
+                        // Remove the item from the data source.
+                        setState(() {
+                            // required
+                            _items.removeAt(index);
+                        });
+                        //required
+                        return true;
+                    },
+                  ), // OR null,
                   onPressed: (item) => print(item),
                   onLongPressed: (item) => print(item),
             );

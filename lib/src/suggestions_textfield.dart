@@ -32,6 +32,7 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
   bool _helperCheck = true;
 
   List<String> _suggestions;
+  bool _constraintSuggestion;
   double _fontSize;
   InputDecoration _inputDecoration;
 
@@ -44,11 +45,12 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
   Widget build(BuildContext context) {
     _helperText = widget.tagsTextField.helperText ?? "no matches";
     _suggestions = widget.tagsTextField.suggestions;
+    _constraintSuggestion = widget.tagsTextField.constraintSuggestion;
     _inputDecoration = widget.tagsTextField.inputDecoration;
     _fontSize = widget.tagsTextField.textStyle.fontSize;
 
     return Stack(
-      alignment: Alignment.bottomLeft,
+      alignment: Alignment.centerLeft,
       children: <Widget>[
         Visibility(
           visible: _suggestions != null,
@@ -75,6 +77,7 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
         ),
         TextField(
           controller: _controller,
+          enabled: widget.tagsTextField.enabled,
           autofocus: widget.tagsTextField.autofocus ?? true,
           keyboardType: widget.tagsTextField.keyboardType ?? null,
           textCapitalization: widget.tagsTextField.textCapitalization ??
@@ -125,29 +128,28 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
   void _onSubmitted(String str) {
     var onSubmitted = widget.onSubmitted;
 
-    if (_suggestions != null) str = _matches.first;
+    if (_suggestions != null && _matches.isNotEmpty) str = _matches.first;
 
     if (widget.tagsTextField.lowerCase) str = str.toLowerCase();
 
     str = str.trim();
 
-    if (_suggestions != null) {
-      if (_matches.isNotEmpty) {
+    if (_suggestions != null && (_matches.isNotEmpty || !_constraintSuggestion)) {
         if (onSubmitted != null) onSubmitted(str);
         setState(() {
           _matches = [];
         });
         _controller.clear();
-      }
     } else if (str.isNotEmpty) {
       if (onSubmitted != null) onSubmitted(str);
       _controller.clear();
     }
+
   }
 
   ///Check onChanged
   void _checkOnChanged(String str) {
-    if (_suggestions != null) {
+    if (_suggestions != null ) {
       _matches =
           _suggestions.where((String sgt) => sgt.startsWith(str)).toList();
 
@@ -156,7 +158,7 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
       if (_matches.length > 1) _matches.removeWhere((String mtc) => mtc == str);
 
       setState(() {
-        _helperCheck = _matches.isNotEmpty || str.isEmpty ? true : false;
+        _helperCheck = _matches.isNotEmpty || str.isEmpty || !_constraintSuggestion ? true : false;
         _matches.sort((a, b) => a.compareTo(b));
       });
     }
@@ -172,8 +174,10 @@ class TagsTextField {
       {this.lowerCase = false,
       this.textStyle = const TextStyle(fontSize: 14),
       this.width = 200,
+      this.enabled = true,
       this.duplicates = false,
       this.suggestions,
+      this.constraintSuggestion = true,
       this.autocorrect,
       this.autofocus,
       this.hintText,
@@ -189,11 +193,15 @@ class TagsTextField {
       this.onChanged});
 
   final double width;
+  final bool enabled;
   final bool duplicates;
   final TextStyle textStyle;
   final InputDecoration inputDecoration;
   final bool autocorrect;
   final List<String> suggestions;
+
+  /// Allows you to insert tags not present in the list of suggestions
+  final bool constraintSuggestion;
   final bool lowerCase;
   final bool autofocus;
   final String hintText;
