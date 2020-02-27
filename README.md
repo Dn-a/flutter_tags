@@ -31,7 +31,7 @@ dependencies:
 ## Simple usage
 ```dart
 
-import 'package:flutter_tags/tag.dart';
+import 'package:flutter_tags/flutter_tags.dart';
 .
 .
 .
