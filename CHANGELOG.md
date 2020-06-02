@@ -1,3 +1,7 @@
+## [0.4.8+2] - 2020-06-02.
+
+* `[Updated]` - readme.
+
 ## [0.4.8+1] - 2020-05-13.
 
 * Update Documentation.
