@@ -13,11 +13,15 @@ typedef OnSubmittedCallback = void Function(String string);
 
 class SuggestionsTextField extends StatefulWidget {
   SuggestionsTextField(
-      {@required this.tagsTextField, this.onSubmitted, Key key})
+      {@required this.tagsTextField,
+      this.onSubmitted,
+      this.shouldNotLoseFocus,
+      Key key})
       : assert(tagsTextField != null),
         super(key: key);
 
   final TagsTextField tagsTextField;
+  final bool shouldNotLoseFocus;
   final OnSubmittedCallback onSubmitted;
 
   @override
@@ -35,10 +39,18 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
   bool _constraintSuggestion;
   double _fontSize;
   InputDecoration _inputDecoration;
+  FocusNode _focusNode = FocusNode();
+  bool _shouldNotLoseFocus;
 
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -48,6 +60,7 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
     _constraintSuggestion = widget.tagsTextField.constraintSuggestion;
     _inputDecoration = widget.tagsTextField.inputDecoration;
     _fontSize = widget.tagsTextField.textStyle.fontSize;
+    _shouldNotLoseFocus = widget.shouldNotLoseFocus;
 
     return Stack(
       alignment: Alignment.centerLeft,
@@ -76,6 +89,7 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
           ),
         ),
         TextField(
+          focusNode: _focusNode,
           controller: _controller,
           enabled: widget.tagsTextField.enabled,
           autofocus: widget.tagsTextField.autofocus ?? true,
@@ -126,6 +140,9 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
 
   ///OnSubmitted
   void _onSubmitted(String str) {
+    if (_shouldNotLoseFocus) {
+      FocusScope.of(context).requestFocus(_focusNode);
+    }
     var onSubmitted = widget.onSubmitted;
 
     if (_suggestions != null && _matches.isNotEmpty) str = _matches.first;

@@ -569,6 +569,7 @@ class _MyHomePageState extends State<MyHomePage>
 
     return Tags(
       key: Key("2"),
+      shouldNotLoseFocus: true,
       symmetry: _symmetry,
       columns: _column,
       horizontalScroll: _horizontalScroll,

@@ -23,6 +23,7 @@ class Tags extends StatefulWidget {
       this.textDirection = TextDirection.ltr,
       this.itemBuilder,
       this.textField,
+      this.shouldNotLoseFocus = false,
       Key key})
       : assert(itemCount >= 0),
         assert(alignment != null),
@@ -77,6 +78,9 @@ class Tags extends StatefulWidget {
 
   /// custom TextField
   final TagsTextField textField;
+
+  /// should not lose Focus on done
+  final bool shouldNotLoseFocus;
 
   @override
   TagsState createState() => TagsState();
@@ -160,6 +164,7 @@ class TagsState extends State<Tags> {
             alignment: Alignment.center,
             width: widget.symmetry ? _widthCalc() : widget.textField.width,
             child: SuggestionsTextField(
+              shouldNotLoseFocus: widget.shouldNotLoseFocus,
               tagsTextField: widget.textField,
               onSubmitted: (String str) {
                 if (!widget.textField.duplicates) {
