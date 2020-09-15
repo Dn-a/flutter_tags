@@ -55,6 +55,7 @@ Widget build(BuildContext context) {
       textField: TagsTextField(
         textStyle: TextStyle(fontSize: _fontSize),
         constraintSuggestion: true, suggestions: [],
+        //width: double.infinity, padding: EdgeInsets.symmetric(horizontal: 10),
         onSubmitted: (String str) {
           // Add item to the data source.
           setState(() {
