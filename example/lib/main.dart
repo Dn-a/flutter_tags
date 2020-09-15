@@ -576,40 +576,7 @@ class _MyHomePageState extends State<MyHomePage>
           _startDirection ? VerticalDirection.up : VerticalDirection.down,
       textDirection: _startDirection ? TextDirection.rtl : TextDirection.ltr,
       heightHorizontalScroll: 60 * (_fontSize / 14),
-      textField: TagsTextField(
-        autofocus: false,
-        textStyle: TextStyle(
-          fontSize: _fontSize,
-          //height: 1
-        ),
-        enabled: true,
-        constraintSuggestion: true,
-        suggestions: _withSuggesttions
-            ? [
-                "One",
-                "two",
-                "android",
-                "Dart",
-                "flutter",
-                "test",
-                "tests",
-                "androids",
-                "androidsaaa",
-                "Test",
-                "suggest",
-                "suggestions",
-                "互联网",
-                "last",
-                "lest",
-                "炫舞时代"
-              ]
-            : null,
-        onSubmitted: (String str) {
-          setState(() {
-            _items.add(str);
-          });
-        },
-      ),
+      textField: _textField,
       itemCount: _items.length,
       itemBuilder: (index) {
         final item = _items[index];
@@ -681,6 +648,45 @@ class _MyHomePageState extends State<MyHomePage>
             });
           },
         );
+      },
+    );
+  }
+
+  TagsTextField get _textField {
+    return TagsTextField(
+      autofocus: false,
+      //width: double.infinity,
+      //padding: EdgeInsets.symmetric(horizontal: 10),
+      textStyle: TextStyle(
+        fontSize: _fontSize,
+        //height: 1
+      ),
+      enabled: true,
+      constraintSuggestion: true,
+      suggestions: _withSuggesttions
+          ? [
+              "One",
+              "two",
+              "android",
+              "Dart",
+              "flutter",
+              "test",
+              "tests",
+              "androids",
+              "androidsaaa",
+              "Test",
+              "suggest",
+              "suggestions",
+              "互联网",
+              "last",
+              "lest",
+              "炫舞时代"
+            ]
+          : null,
+      onSubmitted: (String str) {
+        setState(() {
+          _items.add(str);
+        });
       },
     );
   }

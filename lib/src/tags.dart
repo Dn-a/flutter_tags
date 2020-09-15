@@ -159,6 +159,7 @@ class TagsState extends State<Tags> {
         ? Container(
             alignment: Alignment.center,
             width: widget.symmetry ? _widthCalc() : widget.textField.width,
+            padding: widget.textField.padding,
             child: SuggestionsTextField(
               tagsTextField: widget.textField,
               onSubmitted: (String str) {

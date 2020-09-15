@@ -1,31 +1,35 @@
+## [0.4.9] - 2020-09-15.
+
+* `[Added]` - Possibility to to define the padding of the `textField`.
+
 ## [0.4.8+2] - 2020-06-02.
 
-* `[Updated]` - readme.
+* `[Updated]` - Documentation.
 
 ## [0.4.8+1] - 2020-05-13.
 
-* Update Documentation.
+* `[Updated]` - Documentation.
 
 ## [0.4.8] - 2020-03-07.
 
-* Update Documentation.
+* `[Updated]` - Documentation.
 
 ## [0.4.7] - 2020-02-26.
 
-* Update Documentation.
+* `[Updated]` -  Documentation.
 * General improvement of the code.
 
 ## [0.4.6] - 2020-02-26.
 
-* Fixed some problem.
-* Possibility to disabled/enabled `textFiled` field - Issue #36.
-* Possibility to insert tags not present in the list of suggestions with the `constraintSuggestion` field - Issue #33.
+* `[Fixed]` -  some problem.
+* `[Added]` - Possibility to disabled/enabled `textField` field - Issue #36.
+* `[Added]` - Possibility to insert tags not present in the list of suggestions with the `constraintSuggestion` field - Issue #33.
 * `onRemoved` field has been moved inside `ItemTagsRemoveButton()` to maintain consistency.
 * `onRemoved` now has a bool return type (ex: when you want to add a control before removing a tag).
 
 ## [0.4.5] - 2019-10-30.
 
-* Renamed `TagsTextFiled` to `TagsTextField`.
+* Renamed `TagstextField` to `TagsTextField`.
 * Added `textCapitalization` field in `TagsTextField`.
 
 ## [0.4.4] - 2019-10-16.

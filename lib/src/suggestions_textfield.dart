@@ -178,6 +178,7 @@ class TagsTextField {
       {this.lowerCase = false,
       this.textStyle = const TextStyle(fontSize: 14),
       this.width = 200,
+      this.padding,
       this.enabled = true,
       this.duplicates = false,
       this.suggestions,
@@ -197,6 +198,7 @@ class TagsTextField {
       this.onChanged});
 
   final double width;
+  final EdgeInsets padding;
   final bool enabled;
   final bool duplicates;
   final TextStyle textStyle;
