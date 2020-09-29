@@ -151,12 +151,31 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
   ///Check onChanged
   void _checkOnChanged(String str) {
     if (_suggestions != null) {
-      _matches =
-          _suggestions.where((String sgt) => sgt.startsWith(str)).toList();
+      _matches = _suggestions
+          .where(
+              (String sgt) => sgt.toLowerCase().startsWith(str.toLowerCase()))
+          .toList();
 
       if (str.isEmpty) _matches = [];
 
-      if (_matches.length > 1) _matches.removeWhere((String mtc) => mtc == str);
+      if (_matches.length > 1)
+        _matches.removeWhere(
+            (String mtc) => mtc.toLowerCase() == str.toLowerCase());
+
+      if (_matches.isNotEmpty && str.isNotEmpty) {
+        final _newValue = _matches.first.substring(0, str.length);
+        // Set value instead of text and subsequent selection
+        // to prevent recreating the widget. This prevents the
+        // cursor from moving to the beginnin.
+        _controller.value = TextEditingValue(
+          // use the same casing as the first match
+          text: _newValue,
+          // and place curser to the end of the line
+          selection: TextSelection.fromPosition(
+            TextPosition(offset: _newValue.length),
+          ),
+        );
+      }
 
       setState(() {
         _helperCheck =
