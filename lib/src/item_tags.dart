@@ -41,6 +41,7 @@ class ItemTags extends StatefulWidget {
       this.elevation = 5,
       this.singleItem = false,
       this.textOverflow = TextOverflow.fade,
+      this.textSoftWrap = false,
       this.textColor = Colors.black,
       this.textActiveColor = Colors.white,
       this.color = Colors.white,
@@ -108,6 +109,9 @@ class ItemTags extends StatefulWidget {
 
   /// type of text overflow within the [ItemTags]
   final TextOverflow textOverflow;
+
+  /// whether the text should break at soft line breaks
+  final bool textSoftWrap;
 
   /// text color of the [ItemTags]
   final Color textColor;
@@ -272,7 +276,7 @@ class _ItemTagsState extends State<ItemTags> {
           (widget.image.child != null && widget.image.image == null));
     final Widget text = Text(
       widget.title,
-      softWrap: false,
+      softWrap: widget.textSoftWrap,
       textAlign: _textAlignment,
       overflow: widget.textOverflow,
       textScaleFactor: widget.textScaleFactor,

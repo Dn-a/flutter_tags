@@ -1,3 +1,7 @@
+## [0.4.10] - 2020-10-03.
+
+* `[Added]` - Possibility to define softWrap property of `ItemTags` title text.
+
 ## [0.4.9] - 2020-09-15.
 
 * `[Added]` - Possibility to to define the padding of the `textField`.

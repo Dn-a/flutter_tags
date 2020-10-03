@@ -163,6 +163,7 @@ Tags(
 * `elevation` - *default 5*
 * `singleItem` - *default false*
 * `textOverflow` - *default TextOverflow.fade*
+* `textSoftWrap` - *default false*
 * `textColor` - *default Colors.black*
 * `textActiveColor` - *default  Colors.white*
 * `color` - *default Colors.white*
