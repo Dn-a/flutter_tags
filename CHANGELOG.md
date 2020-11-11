@@ -1,3 +1,8 @@
+## [0.4.9+1] - 2020-11-11.
+
+* `[Fixed]` - Issue #66.
+* `[Fixed]` - `DataList` null id.
+
 ## [0.4.9] - 2020-09-15.
 
 * `[Added]` - Possibility to to define the padding of the `textField`.

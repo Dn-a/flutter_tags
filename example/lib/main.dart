@@ -69,9 +69,9 @@ class _MyHomePageState extends State<MyHomePage>
 
   bool _symmetry = false;
   bool _removeButton = true;
-  bool _singleItem = false;
+  bool _singleItem = true;
   bool _startDirection = false;
-  bool _horizontalScroll = false;
+  bool _horizontalScroll = true;
   bool _withSuggesttions = false;
   int _count = 0;
   int _column = 0;
@@ -655,8 +655,8 @@ class _MyHomePageState extends State<MyHomePage>
   TagsTextField get _textField {
     return TagsTextField(
       autofocus: false,
-      //width: double.infinity,
-      //padding: EdgeInsets.symmetric(horizontal: 10),
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(horizontal: 10),
       textStyle: TextStyle(
         fontSize: _fontSize,
         //height: 1
