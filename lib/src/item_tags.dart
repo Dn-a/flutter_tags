@@ -244,7 +244,7 @@ class _ItemTagsState extends State<ItemTags> {
             ? () {
                 if (widget.singleItem) {
                   _singleItem(_dataListInherited, _dataList);
-                  _dataList.active = true;
+                  _dataList.active = _dataList.active ? false : true;
                 } else
                   _dataList.active = !_dataList.active;
 
