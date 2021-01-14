@@ -1,3 +1,7 @@
+## [1.0.0-nullsafety.1] - 2021-01-14.
+
+* `[Updated]` - Documentation.
+* 
 ## [1.0.0-nullsafety.0] - 2021-01-14.
 
 * **Breaking Change ( Dart SDK version >= 2.12.0-133.2.beta )**
