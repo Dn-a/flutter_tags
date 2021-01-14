@@ -655,8 +655,8 @@ class _MyHomePageState extends State<MyHomePage>
   TagsTextField get _textField {
     return TagsTextField(
       autofocus: false,
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      //width: double.infinity,
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
       textStyle: TextStyle(
         fontSize: _fontSize,
         //height: 1

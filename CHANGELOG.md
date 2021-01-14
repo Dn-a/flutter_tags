@@ -1,3 +1,11 @@
+## [1.0.0-nullsafety.0] - 2021-01-14.
+
+* **Breaking Change ( Dart SDK version >= 2.12.0-133.2.beta )**
+
+* `[Updated]` - dependencies updated to `Sound null safety` version.
+* `[Fixed]` - Some problem.
+* `[Updated]` - Documentation.
+
 ## [0.4.9+1] - 2020-11-11.
 
 * `[Fixed]` - Issue #66.
