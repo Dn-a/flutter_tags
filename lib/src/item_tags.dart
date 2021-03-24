@@ -390,7 +390,7 @@ class _ItemTagsState extends State<ItemTags> {
                         ),
                         child: widget.removeButton.padding ??
                             Icon(
-                              Icons.clear,
+                              widget.removeButton.icon,
                               color: widget.removeButton.color ?? Colors.white,
                               size: (widget.removeButton.size ?? 12) *
                                   (widget.textStyle.fontSize / 14),
