@@ -143,6 +143,8 @@ Tags(
 |`textDirection`|*Text direction of  the ItemTags*|TextDirection.ltr|
 |`itemBuilder`|*tag generator*||
 |`textField`|*add textField*|TagsTextFiled()|
+|`containerDecoration`|*add tags container decoration*|null|
+|`containerPadding`|*add tags container padding*|null|
 
 ### ItemTags() parameters
 * `index` - *required*
