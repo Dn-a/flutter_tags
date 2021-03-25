@@ -23,6 +23,8 @@ class Tags extends StatefulWidget {
       this.textDirection = TextDirection.ltr,
       this.itemBuilder,
       this.textField,
+      this.containerDecoration,
+      this.containerPadding,
       Key key})
       : assert(itemCount >= 0),
         assert(alignment != null),
@@ -78,6 +80,12 @@ class Tags extends StatefulWidget {
   /// custom TextField
   final TagsTextField textField;
 
+  /// Tags container decoration
+  final BoxDecoration containerDecoration;
+
+  /// Tags container padding
+  final EdgeInsetsGeometry containerPadding;
+
   @override
   TagsState createState() => TagsState();
 }
@@ -128,20 +136,23 @@ class TagsState extends State<Tags> {
         ),
       );
     else
-      child = CustomWrap(
-        key: _containerKey,
-        alignment: widget.alignment,
-        runAlignment: widget.runAlignment,
-        spacing: widget.spacing,
-        runSpacing: widget.runSpacing,
-        column: widget.columns,
-        symmetry: widget.symmetry,
-        textDirection: widget.textDirection,
-        direction: widget.direction,
-        verticalDirection: widget.verticalDirection,
-        crossAxisAlignment: WrapCrossAlignment.end,
-        children: _buildItems(),
-      );
+      child = Container(
+          decoration: widget.containerDecoration,
+          padding: widget.containerPadding,
+          child: CustomWrap(
+            key: _containerKey,
+            alignment: widget.alignment,
+            runAlignment: widget.runAlignment,
+            spacing: widget.spacing,
+            runSpacing: widget.runSpacing,
+            column: widget.columns,
+            symmetry: widget.symmetry,
+            textDirection: widget.textDirection,
+            direction: widget.direction,
+            verticalDirection: widget.verticalDirection,
+            crossAxisAlignment: WrapCrossAlignment.end,
+            children: _buildItems(),
+          ));
 
     return DataListInherited(
       list: _list,

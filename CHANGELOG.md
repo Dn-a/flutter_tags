@@ -1,3 +1,7 @@
+## [0.4.9+2] - 2021-03-25.
+* `[Updated]` - Add tags container decoration.
+* `[Updated]` - Add tags container padding.
+
 ## [0.4.9+1] - 2020-11-11.
 
 * `[Fixed]` - Issue #66.
