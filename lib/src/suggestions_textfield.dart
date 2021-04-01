@@ -36,9 +36,22 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
   double _fontSize;
   InputDecoration _inputDecoration;
 
+  FocusNode _focusNode;
+
+  bool get _focusAfterSubmit {
+    return this.widget.tagsTextField.focusAfterSubmit ?? false;
+  }
+
   @override
   void initState() {
     super.initState();
+    _focusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -79,6 +92,7 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
           controller: _controller,
           enabled: widget.tagsTextField.enabled,
           autofocus: widget.tagsTextField.autofocus ?? true,
+          focusNode: _focusNode,
           keyboardType: widget.tagsTextField.keyboardType ?? null,
           textCapitalization: widget.tagsTextField.textCapitalization ??
               TextCapitalization.none,
@@ -146,6 +160,10 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
       if (onSubmitted != null) onSubmitted(str);
       _controller.clear();
     }
+
+    if (_focusAfterSubmit) {
+      _focusNode.requestFocus();
+    }
   }
 
   ///Check onChanged
@@ -185,6 +203,7 @@ class TagsTextField {
       this.constraintSuggestion = true,
       this.autocorrect,
       this.autofocus,
+      this.focusAfterSubmit,
       this.hintText,
       this.hintTextColor,
       this.suggestionTextColor,
@@ -210,6 +229,8 @@ class TagsTextField {
   final bool constraintSuggestion;
   final bool lowerCase;
   final bool autofocus;
+  /// keep focus to TextField after submit, default is false
+  final bool focusAfterSubmit;
   final String hintText;
   final Color hintTextColor;
   final Color suggestionTextColor;
