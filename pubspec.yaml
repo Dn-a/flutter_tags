@@ -1,11 +1,11 @@
 name: flutter_tags
 description: Creating selectable and input tags (TextField) has never been easier.
-version: 1.0.0-nullsafety.1
+version: 1.0.0-nullsafety.2
 author: Antonino Di Natale <gyorgio88@gmail.com>
 homepage: https://github.com/Dn-a/flutter_tags/tree/null-safety
 
 environment:
-  sdk: '>=2.12.0-133.2.beta <3.0.0'
+  sdk: ">=2.12.0-133.2.beta <3.0.0"
 
 dependencies:
   flutter:

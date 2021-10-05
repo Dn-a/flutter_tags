@@ -149,8 +149,10 @@ class _ItemTagsState extends State<ItemTags> {
     _dataListInherited = DataListInherited.of(context);
 
     // set List length
-    if (_dataListInherited!.list!.length < _dataListInherited!.itemCount!)
+    if (_dataListInherited!.itemCount != null &&
+      _dataListInherited!.list!.length < _dataListInherited!.itemCount!) {
       _dataListInherited!.list!.length = _dataListInherited!.itemCount!;
+    }
 
     if (_dataListInherited!.list!.length > (widget.index + 1) &&
         _dataListInherited!.list!.elementAt(widget.index) != null &&
