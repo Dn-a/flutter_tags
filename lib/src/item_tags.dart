@@ -150,20 +150,20 @@ class _ItemTagsState extends State<ItemTags> {
 
     // set List length
     if (_dataListInherited!.itemCount != null &&
-      _dataListInherited!.list!.length < _dataListInherited!.itemCount!) {
+        _dataListInherited!.list!.length < _dataListInherited!.itemCount!) {
       _dataListInherited!.list!.length = _dataListInherited!.itemCount!;
     }
 
     if (_dataListInherited!.list!.length > (widget.index + 1) &&
         _dataListInherited!.list!.elementAt(widget.index) != null &&
-        _dataListInherited!.list!.elementAt(widget.index).title !=
+        _dataListInherited!.list!.elementAt(widget.index)!.title !=
             widget.title) {
       // when an element is removed from the data source
       _dataListInherited!.list!.removeAt(widget.index);
 
       // when all item list changed in data source
       if (_dataListInherited!.list!.elementAt(widget.index) != null &&
-          _dataListInherited!.list!.elementAt(widget.index).title !=
+          _dataListInherited!.list!.elementAt(widget.index)!.title !=
               widget.title)
         _dataListInherited!.list!
             .removeRange(widget.index, _dataListInherited!.list!.length);
@@ -417,16 +417,15 @@ class _ItemTagsState extends State<ItemTags> {
       case MainAxisAlignment.spaceBetween:
       case MainAxisAlignment.start:
         return TextAlign.start;
-        break;
+
       case MainAxisAlignment.end:
         return TextAlign.end;
-        break;
+
       case MainAxisAlignment.spaceAround:
       case MainAxisAlignment.spaceEvenly:
       case MainAxisAlignment.center:
         return TextAlign.center;
     }
-    return null;
   }
 
   ///TextStyle
@@ -440,9 +439,9 @@ class _ItemTagsState extends State<ItemTags> {
   void _singleItem(DataListInherited dataSetIn, DataList? dataSet) {
     dataSetIn.list!
         .where((tg) => tg != null)
-        .where((tg) => tg.active)
+        .where((tg) => tg!.active)
         .where((tg2) => tg2 != dataSet)
-        .forEach((tg) => tg.active = false);
+        .forEach((tg) => tg!.active = false);
   }
 }
 

@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
@@ -415,7 +416,6 @@ class CustomRenderWrap extends RenderBox
       case Axis.vertical:
         return child.size.height;
     }
-    return 0.0;
   }
 
   double _getCrossAxisExtent(RenderBox child) {
@@ -425,7 +425,6 @@ class CustomRenderWrap extends RenderBox
       case Axis.vertical:
         return child.size.width;
     }
-    return 0.0;
   }
 
   Offset _getOffset(double mainAxisOffset, double crossAxisOffset) {
@@ -435,7 +434,6 @@ class CustomRenderWrap extends RenderBox
       case Axis.vertical:
         return Offset(crossAxisOffset, mainAxisOffset);
     }
-    return Offset.zero;
   }
 
   double _getChildCrossAxisOffset(bool flipCrossAxis, double runCrossAxisExtent,
@@ -449,7 +447,6 @@ class CustomRenderWrap extends RenderBox
       case WrapCrossAlignment.center:
         return freeSpace / 2.0;
     }
-    return 0.0;
   }
 
   bool _hasVisualOverflow = false;

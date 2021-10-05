@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tags/src/suggestions_textfield.dart';
 
 import '../flutter_tags.dart';
 import 'util/custom_wrap.dart';
-import 'package:flutter_tags/src/suggestions_textfield.dart';
 
 ///ItemBuilder
 typedef Widget ItemBuilder(int index);
@@ -89,7 +89,7 @@ class TagsState extends State<Tags> {
 
   final List<DataList?> _list = [];
 
-  List<Item> get getAllItem => _list.toList();
+  List<Item?> get getAllItem => _list.toList();
 
   //get the current width of the screen
   void _getWidthContext() {
@@ -164,11 +164,11 @@ class TagsState extends State<Tags> {
               tagsTextField: widget.textField!,
               onSubmitted: (String str) {
                 if (!widget.textField!.duplicates) {
-                  final List<DataList> lst =
+                  final List<DataList?> lst =
                       _list.where((l) => l != null && l.title == str).toList();
 
                   if (lst.isNotEmpty) {
-                    lst.forEach((d) => d.showDuplicate = true);
+                    lst.forEach((d) => d!.showDuplicate = true);
                     return;
                   }
                 }
