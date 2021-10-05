@@ -105,13 +105,7 @@ class CustomRenderWrap extends RenderBox
     WrapCrossAlignment crossAxisAlignment = WrapCrossAlignment.start,
     TextDirection? textDirection,
     VerticalDirection verticalDirection = VerticalDirection.down,
-  })  : assert(direction != null),
-        assert(alignment != null),
-        assert(spacing != null),
-        assert(runAlignment != null),
-        assert(runSpacing != null),
-        assert(crossAxisAlignment != null),
-        _column = column,
+  })  : _column = column,
         _symmetry = symmetry,
         _direction = direction,
         _alignment = alignment,
@@ -143,7 +137,6 @@ class CustomRenderWrap extends RenderBox
   Axis get direction => _direction;
   Axis _direction;
   set direction(Axis value) {
-    assert(value != null);
     if (_direction == value) return;
     _direction = value;
     markNeedsLayout();
@@ -152,7 +145,6 @@ class CustomRenderWrap extends RenderBox
   WrapAlignment get alignment => _alignment;
   WrapAlignment _alignment;
   set alignment(WrapAlignment value) {
-    assert(value != null);
     if (_alignment == value) return;
     _alignment = value;
     markNeedsLayout();
@@ -161,7 +153,6 @@ class CustomRenderWrap extends RenderBox
   double get spacing => _spacing;
   double _spacing;
   set spacing(double value) {
-    assert(value != null);
     if (_spacing == value) return;
     _spacing = value;
     markNeedsLayout();
@@ -170,7 +161,6 @@ class CustomRenderWrap extends RenderBox
   WrapAlignment get runAlignment => _runAlignment;
   WrapAlignment _runAlignment;
   set runAlignment(WrapAlignment value) {
-    assert(value != null);
     if (_runAlignment == value) return;
     _runAlignment = value;
     markNeedsLayout();
@@ -179,7 +169,6 @@ class CustomRenderWrap extends RenderBox
   double get runSpacing => _runSpacing;
   double _runSpacing;
   set runSpacing(double value) {
-    assert(value != null);
     if (_runSpacing == value) return;
     _runSpacing = value;
     markNeedsLayout();
@@ -188,7 +177,6 @@ class CustomRenderWrap extends RenderBox
   WrapCrossAlignment get crossAxisAlignment => _crossAxisAlignment;
   WrapCrossAlignment _crossAxisAlignment;
   set crossAxisAlignment(WrapCrossAlignment value) {
-    assert(value != null);
     if (_crossAxisAlignment == value) return;
     _crossAxisAlignment = value;
     markNeedsLayout();
@@ -203,9 +191,10 @@ class CustomRenderWrap extends RenderBox
     }
   }
 
-  VerticalDirection get verticalDirection => _verticalDirection;
-  VerticalDirection _verticalDirection;
-  set verticalDirection(VerticalDirection value) {
+  VerticalDirection? get verticalDirection => _verticalDirection;
+  VerticalDirection? _verticalDirection;
+
+  set verticalDirection(VerticalDirection? value) {
     if (_verticalDirection != value) {
       _verticalDirection = value;
       markNeedsLayout();
@@ -213,10 +202,6 @@ class CustomRenderWrap extends RenderBox
   }
 
   bool get _debugHasNecessaryDirections {
-    assert(direction != null);
-    assert(alignment != null);
-    assert(runAlignment != null);
-    assert(crossAxisAlignment != null);
     if (firstChild != null && lastChild != firstChild) {
       // i.e. there's more than one child
       switch (direction) {
@@ -460,7 +445,7 @@ class CustomRenderWrap extends RenderBox
       size = constraints.smallest;
       return;
     }
-    BoxConstraints? childConstraints;
+    BoxConstraints childConstraints;
     double mainAxisLimit = 0.0;
     bool flipMainAxis = false;
     bool flipCrossAxis = false;
@@ -478,8 +463,6 @@ class CustomRenderWrap extends RenderBox
         if (textDirection == TextDirection.rtl) flipCrossAxis = true;
         break;
     }
-    assert(childConstraints != null);
-    assert(mainAxisLimit != null);
     final double spacing = this.spacing;
     final double runSpacing = this.runSpacing;
     final List<_RunMetrics> runMetrics = <_RunMetrics>[];

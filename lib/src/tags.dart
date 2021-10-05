@@ -25,11 +25,6 @@ class Tags extends StatefulWidget {
       this.textField,
       Key? key})
       : assert(itemCount >= 0),
-        assert(alignment != null),
-        assert(runAlignment != null),
-        assert(direction != null),
-        assert(verticalDirection != null),
-        assert(textDirection != null),
         super(key: key);
 
   ///specific number of columns

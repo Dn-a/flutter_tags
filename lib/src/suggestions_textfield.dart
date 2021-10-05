@@ -14,8 +14,7 @@ typedef OnSubmittedCallback = void Function(String string);
 class SuggestionsTextField extends StatefulWidget {
   SuggestionsTextField(
       {required this.tagsTextField, this.onSubmitted, Key? key})
-      : assert(tagsTextField != null),
-        super(key: key);
+      : super(key: key);
 
   final TagsTextField tagsTextField;
   final OnSubmittedCallback? onSubmitted;
