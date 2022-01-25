@@ -19,5 +19,5 @@ lib/generated_plugin_registrant.dart
 
 example/lib/main_back.dart
 example/android/local.properties
-example/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java
+example/android/app/src/main/java/*
 example/ios/Flutter/flutter_export_environment.sh
