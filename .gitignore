@@ -15,4 +15,9 @@ res/
 android/
 
 lib/selectable_tags_back.dart
+lib/generated_plugin_registrant.dart
+
 example/lib/main_back.dart
+example/android/local.properties
+example/android/app/src/main/java/*
+example/ios/Flutter/*
