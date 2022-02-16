@@ -280,6 +280,9 @@ class TabCompleteAction extends Action {
   Object invoke(covariant Intent intent) {
     if (intent is TabCompleteIntent && textComplete != '') {
       intent.textController.value = TextEditingValue(text: textComplete);
+      intent.textController.selection = TextSelection(
+          baseOffset: textComplete.length,
+          extentOffset: textComplete.length);
     } else if (intent is TabCompleteIntent) {
       intent.focusNode.nextFocus();
     }
