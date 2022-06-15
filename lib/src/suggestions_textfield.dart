@@ -25,7 +25,7 @@ class SuggestionsTextField extends StatefulWidget {
 }
 
 class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
-  final _controller = TextEditingController();
+  TextEditingController _controller = TextEditingController();
 
   List<String> _matches = List();
   String _helperText;
@@ -48,6 +48,9 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
     _constraintSuggestion = widget.tagsTextField.constraintSuggestion;
     _inputDecoration = widget.tagsTextField.inputDecoration;
     _fontSize = widget.tagsTextField.textStyle.fontSize;
+    _controller = widget.tagsTextField.controller == null
+        ? _controller
+        : widget.tagsTextField.controller;
 
     return Stack(
       alignment: Alignment.centerLeft,
@@ -195,7 +198,8 @@ class TagsTextField {
       this.maxLength,
       this.inputDecoration,
       this.onSubmitted,
-      this.onChanged});
+      this.onChanged,
+      this.controller});
 
   final double width;
   final EdgeInsets padding;
@@ -220,4 +224,5 @@ class TagsTextField {
   final int maxLength;
   final OnSubmittedCallback onSubmitted;
   final OnChangedCallback onChanged;
+  final controller;
 }
