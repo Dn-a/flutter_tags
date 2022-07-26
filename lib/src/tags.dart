@@ -93,7 +93,7 @@ class TagsState extends State<Tags> {
 
   //get the current width of the screen
   void _getWidthContext() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       final keyContext = _containerKey.currentContext;
       if (keyContext != null) {
         final RenderBox box = keyContext.findRenderObject() as RenderBox;
